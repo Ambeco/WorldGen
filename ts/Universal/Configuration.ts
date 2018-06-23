@@ -1,0 +1,1 @@
+﻿const DEFAULT_PEOPLE_PER_TIER:number = 15;

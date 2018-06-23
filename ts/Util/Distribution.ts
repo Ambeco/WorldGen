@@ -1,0 +1,26 @@
+﻿import { nonNaN } from "../nonNull";
+import { NumberRange } from "./NumberRange";
+
+
+export function getBiggestValue<T>(map: Map<T, number>): [T, number] {
+    if (map.size == 0) throw new Error("map is empty");
+    let maxKey: T = map.keys().next().value;
+    let maxRatio: number = nonNaN(map.get(maxKey), "could not find " + maxKey);
+    for (let curKey of map.keys()) {
+        const curRatio: number = nonNaN(map.get(curKey), "could not find " + curKey);
+        if (curRatio > maxRatio) {
+            maxKey = curKey;
+            maxRatio = curRatio;
+        }
+    }
+    return [maxKey, maxRatio];
+}
+
+export function getByCDF<T>(position: number, ranges: NumberRange[], values: T[]): T {
+    for (let i = 0; i < ranges.length; i++) {
+        const range = ranges[i];
+        if (position >= range.min && position < range.max)
+            return values[i];
+    }
+    throw new Error(position + " is out of range of " + ranges[0] + " to " + (ranges[ranges.length - 1].max));
+}

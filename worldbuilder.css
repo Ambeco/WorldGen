@@ -1,0 +1,58 @@
+﻿@font-face {
+    font-family: "stencil-std, sans-serif;";
+    src: url("//use.edgefonts.net/stencil-std.ttf");
+}
+
+div {
+    float: left;
+}
+table {
+    float: left;
+    border-spacing:0;
+}
+td {
+    padding:0;
+}
+input {
+    height: .15in;
+    line-height: .15in;
+}
+input[type=range] {
+    width:.5in;
+}
+th {
+    text-align:center;
+}
+h1, h2, h3 {
+    text-align: center;
+    margin: 0px;
+}
+
+
+@page {
+    size: 7in 9.25in;
+    margin: 1.06in 0.63in 1.06in 0.63in;
+}
+body {
+    background-color: lightgray;
+}
+#sheet {
+    width: 7in;
+    margin: auto;
+    background-color: white;
+    box-shadow: 0.02in 0.02in darkgrey;
+    margin-right:8in;
+}
+@media print {
+    @page {
+        size: 7in 9.25in;
+        margin: 0in 0in 0in 0in;
+    }
+    body {
+        background-color: white;
+    }
+    #sheet {
+        box-shadow: 0in 0in white;
+        margin-right:0in;
+    }
+}

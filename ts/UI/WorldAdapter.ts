@@ -37,7 +37,7 @@ function bindContinent(continent: World_Continent): HTMLDivElement {
     continentDiv.classList.add("worldContinentBlock");
     const nameDiv: HTMLHeadingElement = document.createElement("h3");
     continentDiv.appendChild(nameDiv);
-    nameDiv.innerText = "Continent: " + continent.name + ".";
+    nameDiv.innerText = "Continent: " + continent.name;
     continentDiv.appendChild(document.createTextNode(" "));
     const sizeSpan: HTMLSpanElement = document.createElement("span");
     continentDiv.appendChild(sizeSpan);

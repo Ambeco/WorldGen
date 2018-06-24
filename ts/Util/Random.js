@@ -24,6 +24,35 @@ export class Random {
         result /= 4294967296;
         return result + 0.5;
     }
+    nextBoundNormalRaw(min, max, skew) {
+        if (min >= max)
+            throw new Error("min=" + min + " must be less than max=" + max);
+        var u = 0, v = 0;
+        while (u === 0)
+            u = this.nextPercent();
+        while (v === 0)
+            v = this.nextPercent();
+        let num = Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2.0 * Math.PI * v);
+        num = num / 10.0 + 0.5;
+        if (num > 1 || num < 0)
+            num = this.nextBoundNormalRaw(min, max, skew);
+        num = Math.pow(num, skew);
+        num *= max - min;
+        num += min;
+        return num;
+    }
+    nextBoundNormal(min, max) {
+        return this.nextBoundNormalRaw(min, max, 1);
+    }
+    nextBoundNormalAround(min, max, around) {
+        if (min > around)
+            throw new Error("min=" + min + " must be less than around=" + around);
+        if (around > max)
+            throw new Error("around=" + around + " must be less than max=" + max);
+        const aroundPercent = (around - min) / (max - min);
+        const skew = 1 / aroundPercent - 1;
+        return this.nextBoundNormalRaw(min, max, skew);
+    }
     nextNumber(min, max) {
         return min + this.nextPercent() * (max - min);
     }
@@ -63,17 +92,7 @@ export class Random {
         return last;
     }
     nextPercentAroundNumber(aroundPercent) {
-        if (aroundPercent < 0 || aroundPercent > 1.0)
-            throw new Error("Invalid aroundPercent " + aroundPercent);
-        const raw = this.nextPercent();
-        if (raw <= 0.5) {
-            return raw * 2 * aroundPercent;
-        }
-        else {
-            const range = 1 - aroundPercent;
-            const percentInRange = (1 - raw) * 2;
-            return aroundPercent + range * percentInRange;
-        }
+        return this.nextBoundNormalAround(0, 1, aroundPercent);
     }
     nextPercentAroundRange(range) {
         if (range.min < 0 || range.max > 1.0)
@@ -102,7 +121,7 @@ export class Random {
         for (let i = 0; i < splitNWays - 1; i++) {
             const remainItemCount = splitNWays - i;
             const rangeRemains = range.max - curMin;
-            const thisMax = curMin + rangeRemains * this.nextPercentAroundNumber(1 / remainItemCount);
+            const thisMax = this.nextBoundNormalAround(curMin, range.max, rangeRemains / remainItemCount + curMin);
             result[i] = new NumberRange(curMin, thisMax);
             curMin = thisMax;
         }
@@ -116,7 +135,7 @@ export class Random {
         for (let i = 0; i < splitNWays; i++) {
             const remainItemCount = splitNWays - i;
             const rangeRemains = range.max - curMin;
-            const thisMax = curMin + rangeRemains * this.nextPercentAroundNumber(1 / remainItemCount);
+            const thisMax = this.nextBoundNormalAround(curMin, range.max, rangeRemains / remainItemCount + curMin);
             result[i] = new NumberRange(curMin, thisMax);
             curMin = thisMax;
         }
@@ -150,7 +169,7 @@ export class Random {
         }
         const newMap = new Map();
         for (let element of oldMap) {
-            const thisValue = Math.round(this.nextPercentAroundNumber(element[1] / total) * total);
+            const thisValue = Math.round(this.nextBoundNormalAround(0, total, element[1]));
             newMap.set(element[0], thisValue);
         }
         return newMap;

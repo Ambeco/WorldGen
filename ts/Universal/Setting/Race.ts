@@ -1,4 +1,4 @@
-﻿import { Random } from "../../Util/Random";
+﻿import { Random } from "../../Util/Random.js";
 
 export interface Race {
     readonly name: string; //This is 'America'

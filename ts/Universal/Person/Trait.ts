@@ -1,4 +1,4 @@
-﻿import { Random } from "../../Util/Random";
+﻿import { Random } from "../../Util/Random.js";
 
 // on a scale of 1 to 1000
 export enum Trait {

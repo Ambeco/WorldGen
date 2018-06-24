@@ -1,10 +1,10 @@
-﻿import { World_Continent } from "./World_Continent";
-import { Random } from "../../Util/Random";
-import { Setting } from "../../Universal/Setting/Setting";
-import { Race } from "../../Universal/Setting/Race";
-import { getBiggestValue, getByCDF } from "../../Util/Distribution";
-import { NumberRange } from "../../Util/NumberRange";
-import { BasePerson } from "../../Universal/Person/BasePerson";
+﻿import { World_Continent } from "./World_Continent.js";
+import { Random } from "../../Util/Random.js";
+import { Setting } from "../../Universal/Setting/Setting.js";
+import { Race } from "../../Universal/Setting/Race.js";
+import { getBiggestValue, getByCDF } from "../../Util/Distribution.js";
+import { NumberRange } from "../../Util/NumberRange.js";
+import { BasePerson } from "../../Universal/Person/BasePerson.js";
 
 export class World {
     public readonly name: string;

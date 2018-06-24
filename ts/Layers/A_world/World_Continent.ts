@@ -1,8 +1,8 @@
-﻿import { Random, RandomState } from "../../Util/Random";
-import { Race } from "../../Universal/Setting/Race";
-import { getBiggestValue } from "../../Util/Distribution";
-import { NumberRange } from "../../Util/NumberRange";
-import { BasePerson } from "../../Universal/Person/BasePerson";
+﻿import { Random, RandomState } from "../../Util/Random.js";
+import { Race } from "../../Universal/Setting/Race.js";
+import { getBiggestValue } from "../../Util/Distribution.js";
+import { NumberRange } from "../../Util/NumberRange.js";
+import { BasePerson } from "../../Universal/Person/BasePerson.js";
 
 export class World_Continent {
     public readonly randomState: RandomState;

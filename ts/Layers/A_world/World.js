@@ -1,6 +1,6 @@
-import { World_Continent } from "./World_Continent";
-import { getBiggestValue, getByCDF } from "../../Util/Distribution";
-import { BasePerson } from "../../Universal/Person/BasePerson";
+import { World_Continent } from "./World_Continent.js";
+import { getBiggestValue, getByCDF } from "../../Util/Distribution.js";
+import { BasePerson } from "../../Universal/Person/BasePerson.js";
 export class World {
     constructor(raceCounts, rng) {
         raceCounts = rng.rerandomMapValues(raceCounts);

@@ -1,4 +1,4 @@
-﻿import { NumberRange } from "./NumberRange";
+﻿import { NumberRange } from "./NumberRange.js";
 
 export interface RandomState {
     readonly m_w: number;

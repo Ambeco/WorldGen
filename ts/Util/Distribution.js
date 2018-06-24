@@ -1,4 +1,4 @@
-import { nonNaN } from "../nonNull";
+import { nonNaN } from "../nonNull.js";
 export function getBiggestValue(map) {
     if (map.size == 0)
         throw new Error("map is empty");

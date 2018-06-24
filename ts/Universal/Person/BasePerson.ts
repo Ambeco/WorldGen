@@ -1,7 +1,7 @@
-﻿import { Relationship } from "./Relationship";
-import { Random } from "../../Util/Random";
-import { Race } from "../Setting/Race";
-import { TraitsFromNothing } from "./Trait";
+﻿import { Relationship } from "./Relationship.js";
+import { Random } from "../../Util/Random.js";
+import { Race } from "../Setting/Race.js";
+import { TraitsFromNothing } from "./Trait.js";
 
 export class BasePerson {
     public readonly location: number; //0.0-1.0 

@@ -1,5 +1,5 @@
-﻿import { Race } from "./Race";
-import { nonNaN } from "../../nonNull";
+﻿import { Race } from "./Race.js";
+import { nonNaN } from "../../nonNull.js";
 
 export abstract class Setting {
     public readonly name: string;

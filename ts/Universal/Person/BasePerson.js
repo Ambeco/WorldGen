@@ -1,4 +1,4 @@
-import { TraitsFromNothing } from "./Trait";
+import { TraitsFromNothing } from "./Trait.js";
 export class BasePerson {
     constructor(location, race, rng) {
         this.location = location;

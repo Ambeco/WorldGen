@@ -1,7 +1,7 @@
-﻿import { Race, generateNameFn } from "../../Universal/Setting/Race";
-import { Setting } from "../../Universal/Setting/Setting";
-import { orcSyllables, orcSyllableDistribution } from "../NameGen/OrcNameGen";
-import { Random } from "../../Util/Random";
+﻿import { Race, generateNameFn } from "../../Universal/Setting/Race.js";
+import { Setting } from "../../Universal/Setting/Setting.js";
+import { orcSyllables, orcSyllableDistribution } from "../NameGen/OrcNameGen.js";
+import { Random } from "../../Util/Random.js";
 
 const dragonBorn: Race = {
     name: "Dragonborn",

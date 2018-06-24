@@ -1,5 +1,5 @@
-﻿import { BasePerson } from "./BasePerson";
-import { Random } from "../../Util/Random";
+﻿import { BasePerson } from "./BasePerson.js";
+import { Random } from "../../Util/Random.js";
 
 export class Relationship {
     public readonly fromPerson: BasePerson;

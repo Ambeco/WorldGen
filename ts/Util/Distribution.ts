@@ -1,5 +1,5 @@
-﻿import { nonNaN } from "../nonNull";
-import { NumberRange } from "./NumberRange";
+﻿import { nonNaN } from "../nonNull.js";
+import { NumberRange } from "./NumberRange.js";
 
 
 export function getBiggestValue<T>(map: Map<T, number>): [T, number] {

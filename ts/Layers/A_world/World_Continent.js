@@ -1,4 +1,4 @@
-import { getBiggestValue } from "../../Util/Distribution";
+import { getBiggestValue } from "../../Util/Distribution.js";
 export class World_Continent {
     constructor(location, raceCounts, rng) {
         const primaryRace = getBiggestValue(raceCounts);

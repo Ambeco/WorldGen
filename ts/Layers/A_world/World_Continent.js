@@ -1,7 +1,8 @@
 import { getBiggestValue, sumValues } from "../../Util/Distribution.js";
 export class World_Continent {
-    constructor(location, raceCounts, rng) {
+    constructor(setting, location, raceCounts, rng) {
         const primaryRace = getBiggestValue(raceCounts);
+        this.setting = setting;
         this.name = primaryRace[0].generateName(rng);
         this.location = location;
         this.people = [];

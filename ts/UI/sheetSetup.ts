@@ -10,6 +10,6 @@ const rng: Random = Random.fromString("1234567890");
 let setting: Setting = dnd5e;
 
 const zoom: Zoom = new Zoom();
-zoom.world = new World(setting.raceCounts, rng);
+zoom.world = new World(setting, rng);
 
 bindWorld(zoom.world);

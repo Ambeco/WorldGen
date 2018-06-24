@@ -3,23 +3,26 @@ import { getBiggestValue, getByCDF, sumValues } from "../../Util/Distribution.js
 import { NumberRange } from "../../Util/NumberRange.js";
 import { BasePerson } from "../../Universal/Person/BasePerson.js";
 import { DEFAULT_PEOPLE_PER_TIER } from "../../Universal/Configuration.js";
+import { generateFameForWorldHero } from "../../Universal/Person/fameGen.js";
 export class World {
-    constructor(raceCounts, rng) {
-        raceCounts = rng.rerandomMapValues(raceCounts);
+    constructor(setting, rng) {
+        this.setting = setting;
+        const raceCounts = rng.rerandomMapValues(setting.raceCounts);
         const primaryRace = getBiggestValue(raceCounts);
         this.name = primaryRace[0].generateName(rng);
         this.population = sumValues(raceCounts);
         this.raceCounts = raceCounts;
-        const continentCount = rng.nextInt(1, 4) + rng.nextInt(0, 3);
-        this.locationDistribution = rng.splitRange(new NumberRange(0, 1), continentCount);
-        this.continents = World.generateContinents(raceCounts, this.locationDistribution, rng);
+        const continentCount = rng.nextIntNear(setting.approxContinentCount) + 1;
+        this.locationDistribution = rng.randomizeAndSplitRange(new NumberRange(0, setting.approxWorldSize), continentCount);
+        this.location = new NumberRange(0, this.locationDistribution[continentCount - 1].max);
+        this.continents = World.generateContinents(setting, raceCounts, this.locationDistribution, rng);
         this.people = World.generateHeroes(this.locationDistribution, this.continents, this.population, rng);
     }
-    static generateContinents(raceCounts, locationDistribution, rng) {
+    static generateContinents(setting, raceCounts, locationDistribution, rng) {
         const raceDistributions = rng.splitMapIntegerValues(raceCounts, locationDistribution);
         const continents = [];
         for (let i = 0; i < locationDistribution.length; i++) {
-            continents[i] = new World_Continent(locationDistribution[i], raceDistributions[i], rng);
+            continents[i] = new World_Continent(setting, locationDistribution[i], raceDistributions[i], rng);
         }
         return continents;
     }
@@ -34,7 +37,8 @@ export class World {
         const location = rng.nextPercent();
         const continent = getByCDF(location, locationDistribution, continents);
         const race = rng.nextWeightedKey(continent.raceCounts);
-        return new BasePerson(location, race, rng);
+        const fame = generateFameForWorldHero(population, rng);
+        return new BasePerson(location, race, fame, rng);
     }
     continentByLocation(location) {
         const continent = getByCDF(location, this.locationDistribution, this.continents);

@@ -37,8 +37,4 @@ const basePopulationMap: Map<Race, number> = new Map<Race, number>([
     [dragonBorn, 1000000],
 ]);
 
-export const dnd5e: Setting = {
-    name: "Dnd 5e",
-    races: dnd5eraces,
-    raceCounts: basePopulationMap,
-}
+export const dnd5e: Setting = new Setting("Dnd 5e", dnd5eraces, basePopulationMap);

@@ -36,6 +36,9 @@ export class Random {
     nextIntFromRange(range) {
         return range.min + Math.floor(this.nextPercent() * (range.max - range.min));
     }
+    nextIntNear(target) {
+        return this.nextInt(0, target) + this.nextInt(0, target);
+    }
     nextElement(array) {
         return array[this.nextInt(0, array.length)];
     }
@@ -105,6 +108,18 @@ export class Random {
         }
         const lastIdx = splitNWays - 1;
         result[lastIdx] = new NumberRange(curMin, range.max);
+        return result;
+    }
+    randomizeAndSplitRange(range, splitNWays) {
+        const result = [];
+        let curMin = range.min;
+        for (let i = 0; i < splitNWays; i++) {
+            const remainItemCount = splitNWays - i;
+            const rangeRemains = range.max - curMin;
+            const thisMax = curMin + rangeRemains * this.nextPercentAroundNumber(1 / remainItemCount);
+            result[i] = new NumberRange(curMin, thisMax);
+            curMin = thisMax;
+        }
         return result;
     }
     splitMapIntegerValues(map, split) {

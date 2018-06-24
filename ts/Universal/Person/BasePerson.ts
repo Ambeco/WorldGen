@@ -12,13 +12,15 @@ export class BasePerson {
     public readonly race: Race;
     public readonly jobName: string;
     public readonly jobCategory: JobCategory;
+    public readonly fame: number; //0-100. Roughly: Home is 10+. Street is 20+. Neighborhood is 40+. City is 60+. Country is 80+. Continent is 90+. World is 100.
     readonly traits: number[]; //0-100, one for each OpinionCategory
 
-    constructor(location: number, race: Race, rng: Random) {
+    constructor(location: number, race: Race, fame: number, rng: Random) {
         this.location = location;
         this.firstName = race.generateName(rng);
         this.familyName = race.generateName(rng);
         this.race = race;
+        this.fame = fame;
         this.traits = TraitsFromNothing(rng);
         this.jobName = "Warrior";
         this.jobCategory = JobCategory.AdventurerMartial;

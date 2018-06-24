@@ -2,11 +2,12 @@ import { TraitsFromNothing, PersonalityTraits } from "./PersonalityTraits.js";
 import { JobCategory } from "../Setting/Job.js";
 import { getBiggestNIndexes, getSmallestNIndexes } from "../../Util/Distribution.js";
 export class BasePerson {
-    constructor(location, race, rng) {
+    constructor(location, race, fame, rng) {
         this.location = location;
         this.firstName = race.generateName(rng);
         this.familyName = race.generateName(rng);
         this.race = race;
+        this.fame = fame;
         this.traits = TraitsFromNothing(rng);
         this.jobName = "Warrior";
         this.jobCategory = JobCategory.AdventurerMartial;

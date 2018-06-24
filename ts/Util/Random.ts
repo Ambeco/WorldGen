@@ -54,6 +54,10 @@ export class Random {
         return range.min + Math.floor(this.nextPercent() * (range.max - range.min));
     }
 
+    nextIntNear(target: number): number {
+        return this.nextInt(0, target) + this.nextInt(0, target);
+    }
+
     nextElement<T>(array: T[]): T {
         return array[this.nextInt(0, array.length)];
     }
@@ -109,6 +113,7 @@ export class Random {
         return ratio * (outputRange.max - outputRange.min) + outputRange.min;
     }
 
+    // The split ranges will sum to the old total
     splitRange(range: NumberRange, splitNWays: number): NumberRange[] {
         const result: NumberRange[] = [];
         let curMin = range.min;
@@ -125,6 +130,21 @@ export class Random {
         return result;
     }
 
+    // The split ranges do NOT sum to the old total
+    randomizeAndSplitRange(range: NumberRange, splitNWays: number): NumberRange[] {
+        const result: NumberRange[] = [];
+        let curMin = range.min;
+        for (let i = 0; i < splitNWays; i++) {
+            const remainItemCount = splitNWays - i;
+            const rangeRemains = range.max - curMin;
+            const thisMax = curMin + rangeRemains * this.nextPercentAroundNumber(1 / remainItemCount);
+            result[i] = new NumberRange(curMin, thisMax);
+            curMin = thisMax;
+        }
+        return result;
+    }
+
+    // The split ranges will sum to the old total
     splitMapIntegerValues<T>(map: Map<T, number>, split: NumberRange[]): Map<T, number>[] {
         const remains = new Map<T, number>(map); //clone
         const totalRange = split[split.length - 1].max - split[0].min;

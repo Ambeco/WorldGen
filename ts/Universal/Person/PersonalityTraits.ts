@@ -10,14 +10,13 @@ export enum PersonalityTraits {
     Creative,
     Cultured,
     Empathetic,
-    Fame,
     Passionate, // Good and Bad
     Honorable, // to objective rules/law
     Knowledgable,
     Stubborn,
     Loyal, // to friends people
 }
-const TraitCount: number = 13;
+const TraitCount: number = 12;
 
 export function TraitsFromNothing(rng: Random): number[] {
     const result: number[] = [];

@@ -99,6 +99,7 @@
     <Folder Include="ts\Layers\I_Individual\" />
   </ItemGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="ts\Universal\Person\fameGen.ts" />
     <TypeScriptCompile Include="ts\Universal\Setting\Job.ts" />
     <TypeScriptCompile Include="ts\Util\casing.ts" />
     <TypeScriptCompile Include="ts\Util\clarifyError.ts" />

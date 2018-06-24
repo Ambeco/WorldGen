@@ -1,6 +1,8 @@
 import { World_Continent } from "./World_Continent.js";
 import { getBiggestValue, getByCDF } from "../../Util/Distribution.js";
+import { NumberRange } from "../../Util/NumberRange.js";
 import { BasePerson } from "../../Universal/Person/BasePerson.js";
+import { DEFAULT_PEOPLE_PER_TIER } from "../../Universal/Configuration.js";
 export class World {
     constructor(raceCounts, rng) {
         raceCounts = rng.rerandomMapValues(raceCounts);
@@ -8,7 +10,7 @@ export class World {
         this.name = primaryRace[0].generateName(rng);
         this.population = World.getPopulation(raceCounts);
         const continentCount = rng.nextInt(1, 4) + rng.nextInt(0, 3);
-        this.locationDistribution = rng.splitRange({ min: 0, max: 1 }, continentCount);
+        this.locationDistribution = rng.splitRange(new NumberRange(0, 1), continentCount);
         this.continents = World.generateContinents(raceCounts, this.locationDistribution, rng);
         this.people = World.generateHeroes(this.locationDistribution, this.continents, this.population, rng);
     }

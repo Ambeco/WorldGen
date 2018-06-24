@@ -92,14 +92,14 @@ export class Random {
 
     nextPercentAroundRange(range: NumberRange): number {
         if (range.min < 0 || range.max > 1.0) throw new Error("Invalid aroundPercent " + range);
-        const expanded: NumberRange = { min: range.min / 2, max: 1 - (1 - range.max) / 2 };
+        const expanded: NumberRange = new NumberRange(range.min / 2, 1 - (1 - range.max) / 2);
         const raw = this.nextPercent();
         if (raw <= expanded.min) {
-            return this.translateRange(raw, { min: 0.0, max: expanded.min }, { min: 0.0, max: range.min });
+            return this.translateRange(raw, new NumberRange(0.0, expanded.min), new NumberRange(0.0, range.min));
         } else if (raw < expanded.max) {
             return this.translateRange(raw, expanded, range);
         } else {
-            return this.translateRange(raw, { min: expanded.max, max: 1.0 }, { min: range.max, max: 1.0 })
+            return this.translateRange(raw, new NumberRange(expanded.max, 1.0), new NumberRange(range.max, 1.0));
         }
     }
 
@@ -116,12 +116,12 @@ export class Random {
             const remainItemCount = splitNWays - i;
             const rangeRemains = range.max - curMin;
             const thisMax = curMin + rangeRemains * this.nextPercentAroundNumber(1 / remainItemCount);
-            result[i] = { min: curMin, max: thisMax };
+            result[i] = new NumberRange(curMin, thisMax);
             curMin = thisMax;
         }
         // max out last item
         const lastIdx = splitNWays - 1;
-        result[lastIdx] = { min: curMin, max: range.max };
+        result[lastIdx] = new NumberRange(curMin, range.max);
         return result;
     }
 
@@ -142,6 +142,7 @@ export class Random {
         }
         // max out last item
         const lastIdx = split.length - 1;
+        result[lastIdx] = new Map<T, number>();
         for (let element of remains)
             result[lastIdx].set(element[0], element[1]);
         return result;

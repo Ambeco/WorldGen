@@ -5,6 +5,7 @@ export class World_Continent {
         this.name = primaryRace[0].generateName(rng);
         this.location = location;
         this.people = [];
+        this.raceCounts = raceCounts;
         this.randomState = rng.getState();
     }
 }

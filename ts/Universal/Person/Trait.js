@@ -1,3 +1,4 @@
+import { NumberRange } from "../../Util/NumberRange.js";
 export var Trait;
 (function (Trait) {
     Trait[Trait["Adventurious"] = 0] = "Adventurious";
@@ -30,7 +31,7 @@ export function TraitsFromTemplate(template, rng) {
 export function TraitsFromTemplates(template1, template2, rng) {
     const result = [];
     for (let i = 0; i < TraitCount; i++)
-        result[i] = rng.nextPercentAroundRange({ min: Math.min(template1[i], template2[i]), max: Math.max(template1[i], template2[i]) });
+        result[i] = rng.nextPercentAroundRange(new NumberRange(Math.min(template1[i], template2[i]), Math.max(template1[i], template2[i])));
     return result;
 }
 //# sourceMappingURL=Trait.js.map

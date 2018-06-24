@@ -1,20 +1,20 @@
 import { NumberRange } from "../../Util/NumberRange.js";
-export var Trait;
-(function (Trait) {
-    Trait[Trait["Adventurious"] = 0] = "Adventurious";
-    Trait[Trait["Attractive"] = 1] = "Attractive";
-    Trait[Trait["Bold"] = 2] = "Bold";
-    Trait[Trait["Clever"] = 3] = "Clever";
-    Trait[Trait["Creative"] = 4] = "Creative";
-    Trait[Trait["Cultured"] = 5] = "Cultured";
-    Trait[Trait["Empathetic"] = 6] = "Empathetic";
-    Trait[Trait["Fame"] = 7] = "Fame";
-    Trait[Trait["Passionate"] = 8] = "Passionate";
-    Trait[Trait["Honorable"] = 9] = "Honorable";
-    Trait[Trait["Knowledgable"] = 10] = "Knowledgable";
-    Trait[Trait["Stubborn"] = 11] = "Stubborn";
-    Trait[Trait["Loyal"] = 12] = "Loyal";
-})(Trait || (Trait = {}));
+export var PersonalityTraits;
+(function (PersonalityTraits) {
+    PersonalityTraits[PersonalityTraits["Adventurious"] = 0] = "Adventurious";
+    PersonalityTraits[PersonalityTraits["Attractive"] = 1] = "Attractive";
+    PersonalityTraits[PersonalityTraits["Bold"] = 2] = "Bold";
+    PersonalityTraits[PersonalityTraits["Clever"] = 3] = "Clever";
+    PersonalityTraits[PersonalityTraits["Creative"] = 4] = "Creative";
+    PersonalityTraits[PersonalityTraits["Cultured"] = 5] = "Cultured";
+    PersonalityTraits[PersonalityTraits["Empathetic"] = 6] = "Empathetic";
+    PersonalityTraits[PersonalityTraits["Fame"] = 7] = "Fame";
+    PersonalityTraits[PersonalityTraits["Passionate"] = 8] = "Passionate";
+    PersonalityTraits[PersonalityTraits["Honorable"] = 9] = "Honorable";
+    PersonalityTraits[PersonalityTraits["Knowledgable"] = 10] = "Knowledgable";
+    PersonalityTraits[PersonalityTraits["Stubborn"] = 11] = "Stubborn";
+    PersonalityTraits[PersonalityTraits["Loyal"] = 12] = "Loyal";
+})(PersonalityTraits || (PersonalityTraits = {}));
 const TraitCount = 13;
 export function TraitsFromNothing(rng) {
     const result = [];

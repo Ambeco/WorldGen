@@ -1,5 +1,5 @@
 import { World_Continent } from "./World_Continent.js";
-import { getBiggestValue, getByCDF } from "../../Util/Distribution.js";
+import { getBiggestValue, getByCDF, sumValues } from "../../Util/Distribution.js";
 import { NumberRange } from "../../Util/NumberRange.js";
 import { BasePerson } from "../../Universal/Person/BasePerson.js";
 import { DEFAULT_PEOPLE_PER_TIER } from "../../Universal/Configuration.js";
@@ -8,7 +8,8 @@ export class World {
         raceCounts = rng.rerandomMapValues(raceCounts);
         const primaryRace = getBiggestValue(raceCounts);
         this.name = primaryRace[0].generateName(rng);
-        this.population = World.getPopulation(raceCounts);
+        this.population = sumValues(raceCounts);
+        this.raceCounts = raceCounts;
         const continentCount = rng.nextInt(1, 4) + rng.nextInt(0, 3);
         this.locationDistribution = rng.splitRange(new NumberRange(0, 1), continentCount);
         this.continents = World.generateContinents(raceCounts, this.locationDistribution, rng);
@@ -29,18 +30,15 @@ export class World {
         }
         return result;
     }
-    static getPopulation(raceCounts) {
-        let result = 0;
-        for (let element of raceCounts) {
-            result += element[1];
-        }
-        return result;
-    }
     static generateHero(locationDistribution, continents, population, rng) {
         const location = rng.nextPercent();
         const continent = getByCDF(location, locationDistribution, continents);
         const race = rng.nextWeightedKey(continent.raceCounts);
         return new BasePerson(location, race, rng);
+    }
+    continentByLocation(location) {
+        const continent = getByCDF(location, this.locationDistribution, this.continents);
+        return continent;
     }
 }
 //# sourceMappingURL=World.js.map

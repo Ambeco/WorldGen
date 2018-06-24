@@ -1,12 +1,13 @@
 ﻿import { Random, RandomState } from "../../Util/Random.js";
 import { Race } from "../../Universal/Setting/Race.js";
-import { getBiggestValue } from "../../Util/Distribution.js";
+import { getBiggestValue, sumValues } from "../../Util/Distribution.js";
 import { NumberRange } from "../../Util/NumberRange.js";
 import { BasePerson } from "../../Universal/Person/BasePerson.js";
 
 export class World_Continent {
     public readonly randomState: RandomState;
     public readonly name: string;
+    public readonly population: number;
     public readonly location: NumberRange; //0.0-1.0 
     public readonly raceCounts: Map<Race, number>;
     readonly people: BasePerson[];
@@ -17,6 +18,7 @@ export class World_Continent {
         this.location = location;
         this.people = [];
         this.raceCounts = raceCounts;
+        this.population = sumValues(raceCounts);
         this.randomState = rng.getState();
     }
 }

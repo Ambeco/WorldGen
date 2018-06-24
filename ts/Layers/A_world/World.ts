@@ -2,7 +2,7 @@
 import { Random } from "../../Util/Random.js";
 import { Setting } from "../../Universal/Setting/Setting.js";
 import { Race } from "../../Universal/Setting/Race.js";
-import { getBiggestValue, getByCDF } from "../../Util/Distribution.js";
+import { getBiggestValue, getByCDF, sumValues } from "../../Util/Distribution.js";
 import { NumberRange } from "../../Util/NumberRange.js";
 import { BasePerson } from "../../Universal/Person/BasePerson.js";
 import { DEFAULT_PEOPLE_PER_TIER } from "../../Universal/Configuration.js";
@@ -19,7 +19,8 @@ export class World {
         raceCounts = rng.rerandomMapValues(raceCounts);
         const primaryRace: [Race, number] = getBiggestValue(raceCounts);
         this.name = primaryRace[0].generateName(rng);
-        this.population = World.getPopulation(raceCounts);
+        this.population = sumValues(raceCounts);
+        this.raceCounts = raceCounts;
         const continentCount = rng.nextInt(1, 4) + rng.nextInt(0, 3);
         this.locationDistribution = rng.splitRange(new NumberRange(0, 1), continentCount);
         this.continents = World.generateContinents(raceCounts, this.locationDistribution, rng);
@@ -43,18 +44,15 @@ export class World {
         return result;
     }
 
-    private static getPopulation(raceCounts: Map<Race, number>): number {
-        let result = 0;
-        for (let element of raceCounts) {
-            result += element[1];
-        }
-        return result;
-    }
-
     private static generateHero(locationDistribution: NumberRange[], continents: World_Continent[], population: number, rng: Random): BasePerson {
         const location: number = rng.nextPercent();
         const continent: World_Continent = getByCDF(location, locationDistribution, continents);
         const race = rng.nextWeightedKey(continent.raceCounts);
         return new BasePerson(location, race, rng);
+    }
+
+    public continentByLocation(location: number): World_Continent {
+        const continent: World_Continent = getByCDF(location, this.locationDistribution, this.continents);
+        return continent;
     }
 }

@@ -2,7 +2,7 @@
 import { NumberRange } from "../../Util/NumberRange.js";
 
 // on a scale of 1 to 1000
-export enum Trait {
+export enum PersonalityTraits {
     Adventurious,
     Attractive,
     Bold,
@@ -26,14 +26,14 @@ export function TraitsFromNothing(rng: Random): number[] {
     return result;
 }
 
-export function TraitsFromTemplate(template: Trait[], rng: Random): number[] {
+export function TraitsFromTemplate(template: PersonalityTraits[], rng: Random): number[] {
     const result: number[] = [];
     for (let i = 0; i < TraitCount; i++)
         result[i] = rng.nextPercentAroundNumber(template[i]);
     return result;
 }
 
-export function TraitsFromTemplates(template1: Trait[], template2: Trait[], rng: Random): number[] {
+export function TraitsFromTemplates(template1: PersonalityTraits[], template2: PersonalityTraits[], rng: Random): number[] {
     const result: number[] = [];
     for (let i = 0; i < TraitCount; i++)
         result[i] = rng.nextPercentAroundRange(new NumberRange(Math.min(template1[i], template2[i]),Math.max(template1[i], template2[i])));

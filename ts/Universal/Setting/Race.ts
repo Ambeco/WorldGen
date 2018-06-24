@@ -1,4 +1,5 @@
 ﻿import { Random } from "../../Util/Random.js";
+import { toTitleCase } from "../../Util/casing.js";
 
 export interface Race {
     readonly name: string; //This is 'America'
@@ -14,5 +15,5 @@ export function generateNameFn(syllables: String[], syllableDistribution: number
     let result = ""
     for (let i = 0; i < length; i++)
         result += rng.nextElement(syllables);
-    return result;
+    return toTitleCase(result);
 } 

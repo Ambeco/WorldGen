@@ -20,7 +20,7 @@ h4 {
     margin: 0.05in;
     padding: 0.05in;
     background-color: white;
-    display: inline-block;
+    float: left;
 }
 
 .childBlock {

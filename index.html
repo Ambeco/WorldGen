@@ -8,7 +8,108 @@
     <link rel="stylesheet" href="worldbuilder.css">
 </head>
 <body>
-    <script type="module" src="ts/UI/sheetSetup.js" async></script>
+    <script type="module" src="ts/UI/sheetSetup.js" async>
+    </script>
     <h1>EZDM World Builder</h1>
+    <div id="worldLayer" class="layer">
+        <div id="worldBlock" class="titleBlock">
+            <h2>World: <span id="worldName">Azaroth</span></h2>
+            <span id="populationBlock">Population: <span id="populationValue">1000000</span></span>
+            <div id="worldPop">
+                <span id="orcPopulation">Dragonborn: <span id="populationValue">596252</span></span>
+                <span id="orcPopulation">Orc: <span id="populationValue">403748</span></span>
+            </div>
+        </div>
+        <div id="worldContinents" class="childrenBlock">
+            <div id="continent1" class="childBlock worldContinentBlock">
+                <h3>Continent: <span id="worldName">Eastern Kingdoms</span></h3>
+                <span id="populationBlock">Population: <span id="populationValue">278479</span></span>
+                <div id="worldPop">
+                    <span id="orcPopulation">Dragonborn: <span id="populationValue">187805</span></span>
+                    <span id="orcPopulation">Orc: <span id="populationValue">90674</span></span>
+                </div>
+            </div>
+            <div id="continent2" class="childBlock worldContinentBlock">
+                <h3>Continent: <span id="worldName">Kalimdor</span></h3>
+                <span id="populationBlock">Population: <span id="populationValue">721521</span></span>
+                <div id="worldPop">
+                    <span id="orcPopulation">Dragonborn: <span id="populationValue">408447</span></span>
+                    <span id="orcPopulation">Orc: <span id="populationValue">313074</span></span>
+                </div>
+            </div>
+        </div>
+        <div id="worldHeroes" class="heroesBlock">
+            <div id="hero1" class="heroBlock">
+                <h4>Hero: <span id="worldName">Garrosh Hellscream</span></h4>
+                <div class="heroMetadata">
+                    <span class="heroRace">Orc</span>
+                    <span class="heroJob">Warrior</span>
+                    <span class="heroLocation">from the Eastern Kingdoms</span>
+                </div>
+                <span class="heroDescription">Garrosh is tall, strong, and red.</span>
+                <span class="heroPersonality">Garrosh is Adventurous, Bold, and Loyal. Garrosh is not very famous, or knowledgable.</span>
+            </div>
+            <div id="hero2" class="heroBlock">
+                <h4>Hero: <span id="worldName">Zul'tan Ailbhe</span></h4>
+                <div class="heroMetadata">
+                    <span class="heroRace">Dragonborn</span>
+                    <span class="heroJob">Chimneysweep</span>
+                    <span class="heroLocation">from the Eastern Kingdoms</span>
+                </div>
+                <span class="heroDescription">Zul'tan is tall, strong, and red.</span>
+                <span class="heroPersonality">Zul'tan is Adventurous, Bold, and Loyal. Garrosh is not very famous, or knowledgable.</span>
+            </div>
+        </div>
+    </div>
+    <div id="continentLayer" class="layer">
+        <div id="continentBlock" class="titleBlock">
+            <h2>Continent: <span id="worldName">Eastern Kingdoms</span></h2>
+            <span id="populationBlock">Population: <span id="populationValue">278479</span></span>
+            <div id="worldPop">
+                <span id="orcPopulation">Dragonborn: <span id="populationValue">187805</span></span>
+                <span id="orcPopulation">Orc: <span id="populationValue">90674</span></span>
+            </div>
+        </div>
+        <div id="continentCountries" class="childrenBlock">
+            <div id="coutnry1" class="childBlock continentBlock">
+                <h3>Country: <span id="worldName">USA</span></h3>
+                <span id="populationBlock">Population: <span id="populationValue">278479</span></span>
+                <div id="worldPop">
+                    <span id="orcPopulation">Dragonborn: <span id="populationValue">187805</span></span>
+                    <span id="orcPopulation">Orc: <span id="populationValue">90674</span></span>
+                </div>
+            </div>
+            <div id="coutnry2" class="childBlock continentBlock">
+                <h3>Country: <span id="worldName">France</span></h3>
+                <span id="populationBlock">Population: <span id="populationValue">721521</span></span>
+                <div id="worldPop">
+                    <span id="orcPopulation">Dragonborn: <span id="populationValue">408447</span></span>
+                    <span id="orcPopulation">Orc: <span id="populationValue">313074</span></span>
+                </div>
+            </div>
+        </div>
+        <div id="countryHeroes" class="heroesBlock">
+            <div id="hero1" class="heroBlock">
+                <h4>Hero: <span id="worldName">Garrosh Hellscream</span></h4>
+                <div class="heroMetadata">
+                    <span class="heroRace">Orc</span>
+                    <span class="heroJob">Warrior</span>
+                    <span class="heroLocation">from the Eastern Kingdoms</span>
+                </div>
+                <span class="heroDescription">Garrosh is tall, strong, and red.</span>
+                <span class="heroPersonality">Garrosh is Adventurous, Bold, and Loyal. Garrosh is not very famous, or knowledgable.</span>
+            </div>
+            <div id="hero2" class="heroBlock">
+                <h4>Hero: <span id="worldName">Zul'tan Ailbhe</span></h4>
+                <div class="heroMetadata">
+                    <span class="heroRace">Dragonborn</span>
+                    <span class="heroJob">Chimneysweep</span>
+                    <span class="heroLocation">from the Eastern Kingdoms</span>
+                </div>
+                <span class="heroDescription">Zul'tan is tall, strong, and red.</span>
+                <span class="heroPersonality">Zul'tan is Adventurous, Bold, and Loyal. Garrosh is not very famous, or knowledgable.</span>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

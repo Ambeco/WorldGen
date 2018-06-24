@@ -15,6 +15,7 @@ export class World {
     readonly people: BasePerson[];
 
     constructor(raceCounts: Map<Race, number>, rng: Random) {
+        raceCounts = rng.rerandomMapValues(raceCounts);
         const primaryRace: [Race, number] = getBiggestValue(raceCounts);
         this.name = primaryRace[0].generateName(rng);
         this.population = World.getPopulation(raceCounts);

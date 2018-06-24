@@ -1,6 +1,6 @@
 ﻿import { Random } from "../../Util/Random";
 
-// 
+// on a scale of 1 to 1000
 export enum Trait {
     Adventurious,
     Attractive,

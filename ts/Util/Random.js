@@ -23,14 +23,29 @@ export class Random {
         result /= 4294967296;
         return result + 0.5;
     }
-    nextNumber(minInclusive, maxExclusive) {
-        return minInclusive + this.nextPercent() * (minInclusive - maxExclusive);
+    nextNumber(min, max) {
+        return min + this.nextPercent() * (max - min);
     }
-    nextInt(minInclusive, maxExclusive) {
-        return minInclusive + Math.floor(this.nextPercent() * (minInclusive - maxExclusive));
+    nextNumberFromRange(range) {
+        return range.min + this.nextPercent() * (range.max - range.min);
+    }
+    nextInt(min, max) {
+        return min + Math.floor(this.nextPercent() * (max - min));
+    }
+    nextIntFromRange(range) {
+        return range.min + Math.floor(this.nextPercent() * (range.max - range.min));
     }
     nextElement(array) {
         return array[this.nextInt(0, array.length)];
+    }
+    nextWeightedIndex(array) {
+        let remains = this.nextNumber(0, 1);
+        for (let i = 0; i < array.length - 1; i++) {
+            remains -= array[i];
+            if (remains < 0)
+                return i;
+        }
+        return array.length - 1;
     }
     nextWeightedKey(map) {
         let remains = this.nextPercent();
@@ -43,7 +58,7 @@ export class Random {
         }
         return last;
     }
-    nextPercentAround(aroundPercent) {
+    nextPercentAroundNumber(aroundPercent) {
         if (aroundPercent < 0 || aroundPercent > 1.0)
             throw new Error("Invalid aroundPercent " + aroundPercent);
         const raw = this.nextPercent();
@@ -56,13 +71,34 @@ export class Random {
             return aroundPercent + range * percentInRange;
         }
     }
+    nextPercentAroundRange(range) {
+        if (range.min < 0 || range.max > 1.0)
+            throw new Error("Invalid aroundPercent " + range);
+        const expanded = { min: range.min / 2, max: 1 - (1 - range.max) / 2 };
+        const raw = this.nextPercent();
+        if (raw <= expanded.min) {
+            return this.translateRange(raw, { min: 0.0, max: expanded.min }, { min: 0.0, max: range.min });
+        }
+        else if (raw < expanded.max) {
+            return this.translateRange(raw, expanded, range);
+        }
+        else {
+            return this.translateRange(raw, { min: expanded.max, max: 1.0 }, { min: range.max, max: 1.0 });
+        }
+    }
+    translateRange(value, inputRange, outputRange) {
+        if (value < inputRange.min || value > inputRange.max)
+            throw new Error("Invalid value for inputRnage " + inputRange);
+        const ratio = (value - inputRange.min) / (inputRange.max - inputRange.min);
+        return ratio * (outputRange.max - outputRange.min) + outputRange.min;
+    }
     splitRange(range, splitNWays) {
         const result = [];
         let curMin = range.min;
         for (let i = 0; i < splitNWays - 1; i++) {
             const remainItemCount = splitNWays - i;
             const rangeRemains = range.max - curMin;
-            const thisMax = curMin + rangeRemains * this.nextPercentAround(1 / remainItemCount);
+            const thisMax = curMin + rangeRemains * this.nextPercentAroundNumber(1 / remainItemCount);
             result[i] = { min: curMin, max: thisMax };
             curMin = thisMax;
         }
@@ -80,7 +116,7 @@ export class Random {
             for (let element of remains) {
                 const initialValue = element[1];
                 const estimatedPercent = (split[i].max - split[i].min) / totalRange;
-                const thisValue = Math.round(initialValue * this.nextPercentAround(estimatedPercent));
+                const thisValue = Math.round(initialValue * this.nextPercentAroundNumber(estimatedPercent));
                 result[i].set(element[0], thisValue);
                 remains.set(element[0], initialValue - thisValue);
             }
@@ -89,6 +125,18 @@ export class Random {
         for (let element of remains)
             result[lastIdx].set(element[0], element[1]);
         return result;
+    }
+    rerandomMapValues(oldMap) {
+        let total = 0;
+        for (let element of oldMap) {
+            total += element[1];
+        }
+        const newMap = new Map();
+        for (let element of oldMap) {
+            const thisValue = Math.round(this.nextPercentAroundNumber(element[1] / total) * total);
+            newMap.set(element[0], thisValue);
+        }
+        return newMap;
     }
 }
 //# sourceMappingURL=Random.js.map

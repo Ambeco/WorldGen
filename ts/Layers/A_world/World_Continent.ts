@@ -1,7 +1,7 @@
 ﻿import { Random, RandomState } from "../../Util/Random";
 import { Race } from "../../Universal/Setting/Race";
 import { getBiggestValue } from "../../Util/Distribution";
-import { NumberRange } from "../../Util/PercentRange";
+import { NumberRange } from "../../Util/NumberRange";
 import { BasePerson } from "../../Universal/Person/BasePerson";
 
 export class World_Continent {

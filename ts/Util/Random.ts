@@ -1,4 +1,4 @@
-﻿import { NumberRange } from "./PercentRange";
+﻿import { NumberRange } from "./NumberRange";
 
 export interface RandomState {
     readonly m_w: number;
@@ -38,20 +38,33 @@ export class Random {
         return result + 0.5;
     }
 
-    nextNumber(range: NumberRange): number {
+    nextNumber(min: number, max: number): number {
+        return min + this.nextPercent() * (max - min);
+    }
+
+    nextNumberFromRange(range: NumberRange): number {
         return range.min + this.nextPercent() * (range.max - range.min);
+    }
+
+    nextInt(min: number, max: number): number {
+        return min + Math.floor(this.nextPercent() * (max - min));
     }
 
     nextIntFromRange(range: NumberRange): number {
         return range.min + Math.floor(this.nextPercent() * (range.max - range.min));
     }
 
-    nextInt(min: number, max:number): number {
-        return min + Math.floor(this.nextPercent() * (max - min));
-    }
-
     nextElement<T>(array: T[]): T {
         return array[this.nextInt(0, array.length)];
+    }
+
+    nextWeightedIndex(array: number[]): number {
+        let remains = this.nextNumber(0, 1);
+        for (let i = 0; i < array.length - 1; i++) {
+            remains -= array[i];
+            if (remains < 0) return i;
+        }
+        return array.length - 1;
     }
 
     nextWeightedKey<T>(map: Map<T, number>): T {
@@ -132,5 +145,18 @@ export class Random {
         for (let element of remains)
             result[lastIdx].set(element[0], element[1]);
         return result;
+    }
+
+    rerandomMapValues<T>(oldMap: Map<T, number>): Map<T, number> {
+        let total = 0;
+        for (let element of oldMap) {
+            total += element[1];
+        }
+        const newMap = new Map<T, number>();
+        for (let element of oldMap) {
+            const thisValue = Math.round(this.nextPercentAroundNumber(element[1] / total) * total);
+            newMap.set(element[0], thisValue);
+        }
+        return newMap;
     }
 }

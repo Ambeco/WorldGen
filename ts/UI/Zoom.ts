@@ -1,7 +1,6 @@
-﻿import { World_Continent } from "../../Layers/A_world/World_Continent";
+﻿import { NumberRange } from "../Util/NumberRange";
+import { World } from "../Layers/A_world/World";
 
 export class Zoom {
-    public readonly minLocation: number; //inclusive
-    public readonly maxLocation: number; //exclusive;
-    public readonly continent: World_Continent | null;
+    public world: World;
 }

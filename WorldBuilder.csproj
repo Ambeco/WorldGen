@@ -100,6 +100,7 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="ts\clarifyError.ts" />
+    <TypeScriptCompile Include="ts\Data\Settings\Dnd5e.ts" />
     <TypeScriptCompile Include="ts\Layers\A_world\World.ts" />
     <TypeScriptCompile Include="ts\Layers\A_world\World_Continent.ts" />
     <TypeScriptCompile Include="ts\nonNull.ts" />
@@ -107,7 +108,7 @@
     <TypeScriptCompile Include="ts\Universal\Configuration.ts" />
     <TypeScriptCompile Include="ts\Util\NumberRange.ts" />
     <TypeScriptCompile Include="ts\Universal\Setting\Race.ts" />
-    <TypeScriptCompile Include="ts\Data\OrcNameGen.ts" />
+    <TypeScriptCompile Include="ts\Data\NameGen\OrcNameGen.ts" />
     <TypeScriptCompile Include="ts\Universal\Person\BasePerson.ts" />
     <TypeScriptCompile Include="ts\Universal\Person\Trait.ts" />
     <TypeScriptCompile Include="ts\Universal\Person\Relationship.ts" />

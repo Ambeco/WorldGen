@@ -3,6 +3,7 @@ import { getBiggestValue, getByCDF } from "../../Util/Distribution";
 import { BasePerson } from "../../Universal/Person/BasePerson";
 export class World {
     constructor(raceCounts, rng) {
+        raceCounts = rng.rerandomMapValues(raceCounts);
         const primaryRace = getBiggestValue(raceCounts);
         this.name = primaryRace[0].generateName(rng);
         this.population = World.getPopulation(raceCounts);

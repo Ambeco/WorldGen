@@ -39,31 +39,33 @@ export class Random {
     }
 
     //from https://stackoverflow.com/a/49434653/845092
-    private nextBoundNormalRaw(min: number, max: number, skew: number): number {
+    private nextBoundNormalRaw(min: number, max: number, stddev: number, skew: number): number {
         if (min >= max) throw new Error("min=" + min + " must be less than max=" + max);
+        stddev = stddev / (max - min);
         var u = 0, v = 0;
         while (u === 0) u = this.nextPercent(); //Converting [0,1) to (0,1)
         while (v === 0) v = this.nextPercent();
         let num = Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2.0 * Math.PI * v);
 
-        num = num / 10.0 + 0.5; // Translate to 0 -> 1
-        if (num > 1 || num < 0) num = this.nextBoundNormalRaw(min, max, skew); // resample between 0 and 1 if out of range
+        num = num * stddev + 0.5; // Translate to 0 -> 1
+        if (num > 1 || num < 0)
+            num = this.nextBoundNormalRaw(min, max, stddev, skew); // resample between 0 and 1 if out of range
         num = Math.pow(num, skew); // Skew
         num *= max - min; // Stretch to fill range
         num += min; // offset to min
         return num;
     }
 
-    private nextBoundNormal(min: number, max: number): number {
-        return this.nextBoundNormalRaw(min, max, 1);
+    private nextBoundNormal(min: number, max: number, stddev: number): number {
+        return this.nextBoundNormalRaw(min, max, stddev, 1);
     }
 
-    private nextBoundNormalAround(min: number, max: number, around: number): number {
+    private nextBoundNormalAround(min: number, max: number, stddev: number, around: number): number {
         if (min > around) throw new Error("min=" + min + " must be less than around=" + around);
         if (around > max) throw new Error("around=" + around + " must be less than max=" + max);
         const aroundPercent = (around - min) / (max - min);
         const skew = 1 / aroundPercent - 1;
-        return this.nextBoundNormalRaw(min, max, skew);
+        return this.nextBoundNormalRaw(min, max, stddev, skew);
     }
 
     nextNumber(min: number, max: number): number {
@@ -110,8 +112,8 @@ export class Random {
         return last;
     }
 
-    nextPercentAroundNumber(aroundPercent: number): number {
-        return this.nextBoundNormalAround(0, 1, aroundPercent);
+    nextPercentAroundNumber(stddev: number, aroundPercent: number): number {
+        return this.nextBoundNormalAround(0, 1, stddev, aroundPercent);
     }
 
     nextPercentAroundRange(range: NumberRange): number {
@@ -134,13 +136,14 @@ export class Random {
     }
 
     // The split ranges will sum to the old total
-    splitRange(range: NumberRange, splitNWays: number): NumberRange[] {
+    splitRange(range: NumberRange, splitNWays: number, stddevRatio:number): NumberRange[] {
         const result: NumberRange[] = [];
         let curMin = range.min;
         for (let i = 0; i < splitNWays - 1; i++) {
             const remainItemCount = splitNWays - i;
             const rangeRemains = range.max - curMin;
-            const thisMax = this.nextBoundNormalAround(curMin, range.max, rangeRemains / remainItemCount + curMin)
+            const estimate = rangeRemains / remainItemCount + curMin;
+            const thisMax = this.nextBoundNormalAround(curMin, range.max, estimate * stddevRatio, estimate);
             result[i] = new NumberRange(curMin, thisMax);
             curMin = thisMax;
         }
@@ -151,13 +154,14 @@ export class Random {
     }
 
     // The split ranges do NOT sum to the old total
-    randomizeAndSplitRange(range: NumberRange, splitNWays: number): NumberRange[] {
+    randomizeAndSplitRange(range: NumberRange, splitNWays: number, stddevRatio: number): NumberRange[] {
         const result: NumberRange[] = [];
         let curMin = range.min;
         for (let i = 0; i < splitNWays; i++) {
             const remainItemCount = splitNWays - i;
             const rangeRemains = range.max - curMin;
-            const thisMax = this.nextBoundNormalAround(curMin, range.max, rangeRemains / remainItemCount + curMin)
+            const estimate = rangeRemains / remainItemCount + curMin;
+            const thisMax = this.nextBoundNormalAround(curMin, range.max, estimate * stddevRatio, estimate);
             result[i] = new NumberRange(curMin, thisMax);
             curMin = thisMax;
         }
@@ -165,7 +169,7 @@ export class Random {
     }
 
     // The split ranges will sum to the old total
-    splitMapIntegerValues<T>(map: Map<T, number>, split: NumberRange[]): Map<T, number>[] {
+    splitMapIntegerValues<T>(map: Map<T, number>, split: NumberRange[], stddevRatio: number): Map<T, number>[] {
         const remains = new Map<T, number>(map); //clone
         const totalRange = split[split.length - 1].max - split[0].min;
         const result: Map<T, number>[] = [];
@@ -175,7 +179,7 @@ export class Random {
             for (let element of remains) {
                 const initialValue: number = element[1];
                 const estimatedPercent = (split[i].max - split[i].min) / totalRange;
-                const thisValue = Math.round(initialValue * this.nextPercentAroundNumber(estimatedPercent));
+                const thisValue = Math.round(initialValue * this.nextPercentAroundNumber(estimatedPercent, estimatedPercent * stddevRatio));
                 result[i].set(element[0], thisValue);
                 remains.set(element[0], initialValue - thisValue);
             }
@@ -188,14 +192,14 @@ export class Random {
         return result;
     }
 
-    rerandomMapValues<T>(oldMap: Map<T, number>): Map<T, number> {
+    rerandomMapValues<T>(oldMap: Map<T, number>, stddevRatio: number): Map<T, number> {
         let total = 0;
         for (let element of oldMap) {
             total += element[1];
         }
         const newMap = new Map<T, number>();
         for (let element of oldMap) {
-            const thisValue = Math.round(this.nextBoundNormalAround(0, total, element[1]));
+            const thisValue = Math.round(this.nextBoundNormalAround(0, total, element[1] * stddevRatio, element[1]));
             newMap.set(element[0], thisValue);
         }
         return newMap;

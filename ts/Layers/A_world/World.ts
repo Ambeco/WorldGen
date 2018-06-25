@@ -5,7 +5,7 @@ import { Race } from "../../Universal/Setting/Race.js";
 import { getBiggestValue, getByCDF, sumValues } from "../../Util/Distribution.js";
 import { NumberRange } from "../../Util/NumberRange.js";
 import { BasePerson } from "../../Universal/Person/BasePerson.js";
-import { DEFAULT_PEOPLE_PER_TIER } from "../../Universal/Configuration.js";
+import { DEFAULT_PEOPLE_PER_TIER, WORLD_RACE_RERANDOM_STDDEV_RATIO, WORLD_SIZE_RERANDOM_STDDEV_RATIO } from "../../Universal/Configuration.js";
 import { generateFameForWorldHero } from "../../Universal/Person/fameGen.js";
 
 export class World {
@@ -20,20 +20,20 @@ export class World {
 
     constructor(setting: Setting, rng: Random) {
         this.setting = setting;
-        const raceCounts = rng.rerandomMapValues(setting.raceCounts);
+        const raceCounts = rng.rerandomMapValues(setting.raceCounts, WORLD_RACE_RERANDOM_STDDEV_RATIO);
         const primaryRace: [Race, number] = getBiggestValue(raceCounts);
         this.name = primaryRace[0].generateName(rng);
         this.population = sumValues(raceCounts);
         this.raceCounts = raceCounts;
         const continentCount = rng.nextIntNear(setting.approxContinentCount) + 1;
-        this.locationDistribution = rng.randomizeAndSplitRange(new NumberRange(0, setting.approxWorldSize), continentCount);
+        this.locationDistribution = rng.randomizeAndSplitRange(new NumberRange(0, setting.approxWorldSize), continentCount, WORLD_SIZE_RERANDOM_STDDEV_RATIO);
         this.location = new NumberRange(0, this.locationDistribution[continentCount - 1].max);
         this.continents = World.generateContinents(setting, raceCounts, this.locationDistribution, rng);
         this.people = World.generateHeroes(this.locationDistribution, this.continents, this.population, rng);
     }
 
     private static generateContinents(setting: Setting, raceCounts: Map<Race, number>, locationDistribution: NumberRange[], rng: Random): World_Continent[] {
-        const raceDistributions: Map<Race, number>[] = rng.splitMapIntegerValues(raceCounts, locationDistribution);
+        const raceDistributions: Map<Race, number>[] = rng.splitMapIntegerValues(raceCounts, locationDistribution, WORLD_RACE_RERANDOM_STDDEV_RATIO);
         const continents: World_Continent[] = [];
         for (let i = 0; i < locationDistribution.length; i++) {
             continents[i] = new World_Continent(setting, locationDistribution[i], raceDistributions[i], rng);

@@ -1,12 +1,13 @@
 ﻿import { Random } from "../../Util/Random.js";
 import { toTitleCase } from "../../Util/casing.js";
+import { PersonalityTraits } from "../Person/PersonalityTraits.js";
 
 export interface Race {
     readonly name: string; //This is 'America'
     readonly singleCitzenName: string; //I am an 'American'
     readonly pluralCitzensName: string; //We are 'Americans'
     readonly languageName: string; //We speak 'English'
-    readonly traits: number[]; //0-100, one for each OpinionCategory
+    readonly traits: PersonalityTraits; //0-100, one for each OpinionCategory
     readonly nationalism: number; //0.0-1.0, How likely to group togeather
     generateName(rng: Random): string; //My name is 'Steve'
 }

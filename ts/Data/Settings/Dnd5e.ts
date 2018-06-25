@@ -3,27 +3,26 @@ import { Setting } from "../../Universal/Setting/Setting.js";
 import { orcSyllables, orcSyllableDistribution } from "../NameGen/OrcNameGen.js";
 import { humanSyllables, humanSyllableDistribution } from "../NameGen/HumanNameGen.js";
 import { Random } from "../../Util/Random.js";
+import { PersonalityTraits } from "../../Universal/Person/PersonalityTraits.js";
 
 const human: Race = {
     name: "Human",
     singleCitzenName: "Human",
     pluralCitzensName: "Humans",
     languageName: "Common",
-    traits: [
-        800,
-        400,
-        900,
-        500,
-        500,
-        700,
-        400,
-        800,
-        800,
-        900,
-        600,
-        800,
-        500,
-    ],
+    traits: PersonalityTraits.fromTraitData({
+        adventurious: .7,
+        attractive: .4,
+        clever: .5,
+        creative: .5,
+        cultured: .6,
+        empathetic: .5,
+        lawful: .7,
+        loyal: .6,
+        knowledgable: .5,
+        passionate: .6,
+        stubborn: .7
+    }),
     nationalism: 0.1,
     generateName: function (rng: Random) {
         return generateNameFn(humanSyllables, humanSyllableDistribution, rng)
@@ -35,21 +34,19 @@ const orc: Race = {
     singleCitzenName: "Orc",
     pluralCitzensName: "Orcs",
     languageName: "Orcish",
-    traits: [
-        800,
-        400,
-        900,
-        500,
-        500,
-        700,
-        400,
-        800,
-        800,
-        900,
-        600,
-        800,
-        500,
-    ],
+    traits: PersonalityTraits.fromTraitData({
+        adventurious: .7,
+        attractive: .4,
+        clever: .5,
+        creative: .5,
+        cultured: .6,
+        empathetic: .5,
+        lawful: .7,
+        loyal: .6,
+        knowledgable: .5,
+        passionate: .6,
+        stubborn: .7
+    }),
     nationalism: 0.1,
     generateName: function (rng: Random) {
         return generateNameFn(orcSyllables, orcSyllableDistribution, rng)

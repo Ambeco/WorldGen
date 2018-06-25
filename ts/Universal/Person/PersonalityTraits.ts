@@ -1,40 +1,110 @@
 ﻿import { Random } from "../../Util/Random.js";
 import { NumberRange } from "../../Util/NumberRange.js";
 
-// on a scale of 1 to 1000
-export enum PersonalityTraits {
-    Adventurious,
-    Attractive,
-    Bold,
-    Clever,
-    Creative,
-    Cultured,
-    Empathetic,
-    Passionate, // Good and Bad
-    Honorable, // to objective rules/law
-    Knowledgable,
-    Stubborn,
-    Loyal, // to friends people
-}
-const TraitCount: number = 12;
-
-export function TraitsFromNothing(rng: Random): number[] {
-    const result: number[] = [];
-    for (let i = 0; i < TraitCount; i++) 
-        result[i] = rng.nextPercent();
-    return result;
+// on a scale of 0.0 to 1.0
+export interface TraitData {
+    readonly adventurious: number;
+    readonly attractive: number;
+    readonly clever: number;
+    readonly creative: number;
+    readonly cultured: number;
+    readonly empathetic: number;
+    readonly lawful: number;
+    readonly loyal: number;
+    readonly knowledgable: number;
+    readonly passionate: number;
+    readonly stubborn: number;
 }
 
-export function TraitsFromTemplate(template: PersonalityTraits[], rng: Random): number[] {
-    const result: number[] = [];
-    for (let i = 0; i < TraitCount; i++)
-        result[i] = rng.nextPercentAroundNumber(template[i]);
-    return result;
+export class PersonalityTraits implements TraitData {
+    public readonly adventurious: number;
+    public readonly attractive: number;
+    public readonly clever: number;
+    public readonly creative: number;
+    public readonly cultured: number;
+    public readonly empathetic: number;
+    public readonly lawful: number;
+    public readonly loyal: number;
+    public readonly knowledgable: number;
+    public readonly passionate: number;
+    public readonly stubborn: number;
+
+    constructor(adventurious: number, attractive: number, clever: number,
+        creative: number, cultured: number, empathetic: number,
+        lawful: number, loyal: number, knowledgable: number,
+        passionate: number, stubborn: number) {
+        this.adventurious = adventurious
+        this.attractive = attractive;
+        this.clever = clever;
+        this.creative = creative;
+        this.cultured = cultured;
+        this.empathetic = empathetic;
+        this.lawful = lawful;
+        this.loyal = loyal;
+        this.knowledgable = knowledgable;
+        this.passionate = passionate;
+        this.stubborn = stubborn;
+    }
+
+    static fromTraitData(data: TraitData): PersonalityTraits {
+        return new PersonalityTraits(data.adventurious, data.attractive,
+            data.clever, data.creative, data.cultured,
+            data.empathetic, data.lawful, data.loyal,
+            data.knowledgable, data.passionate, data.stubborn);
+    }
+
+    static fromRandom(rng: Random): PersonalityTraits {
+        return new PersonalityTraits(rng.nextPercent(), rng.nextPercent(),
+            rng.nextPercent(), rng.nextPercent(), rng.nextPercent(),
+            rng.nextPercent(), rng.nextPercent(), rng.nextPercent(),
+            rng.nextPercent(), rng.nextPercent(), rng.nextPercent());
+    }
+
+    static fromTemplate(template: PersonalityTraits, weight: number, rng: Random): PersonalityTraits {
+        return new PersonalityTraits(merge(template.adventurious, weight, rng),
+            merge(template.attractive, weight, rng),
+            merge(template.clever, weight, rng),
+            merge(template.creative, weight, rng),
+            merge(template.cultured, weight, rng),
+            merge(template.empathetic, weight, rng),
+            merge(template.lawful, weight, rng),
+            merge(template.loyal, weight, rng),
+            merge(template.knowledgable, weight, rng),
+            merge(template.passionate, weight, rng),
+            merge(template.stubborn, weight, rng));
+    }
+
+    getElements(): [string, number][] {
+        return [
+            ["Attractive", this.attractive],
+            ["Clever", this.clever],
+            ["Creative", this.creative],
+            ["Cultured", this.cultured],
+            ["Empathetic", this.empathetic],
+            ["Lawful", this.lawful],
+            ["Loyal", this.loyal],
+            ["Knowledgable", this.knowledgable],
+            ["Passionate", this.passionate],
+            ["Stubborn", this.stubborn],
+        ];
+    }
+
+    getHighTraits(count: number): [string, number][] {
+        const data = this.getElements();
+        data.sort((a, b) => b[1] - a[1]);
+        return data.splice(0, count);
+    }
+
+    getLowTraits(count: number): [string, number][] {
+        const data = this.getElements();
+        data.sort((a, b) => a[1] - b[1]);
+        return data.splice(0, count);
+    }
 }
 
-export function TraitsFromTemplates(template1: PersonalityTraits[], template2: PersonalityTraits[], rng: Random): number[] {
-    const result: number[] = [];
-    for (let i = 0; i < TraitCount; i++)
-        result[i] = rng.nextPercentAroundRange(new NumberRange(Math.min(template1[i], template2[i]),Math.max(template1[i], template2[i])));
-    return result;
+function merge(oldValue: number, weight: number, rng: Random): number {
+    if (weight <= 0) { return rng.nextPercent(); }
+    if (weight >= 1) { return oldValue; }
+    const newValue = rng.nextPercent();
+    return oldValue * weight + newValue * (1 - weight);
 }

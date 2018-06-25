@@ -32,30 +32,3 @@ export function sumValues<T>(map: Map<T, number>): number {
     }
     return result;
 }
-
-export function getSortedValueIdxArray(array: number[]): [number,number][] {
-    const result: [number, number][] = []
-    for (let i = 0; i < array.length; i++) {
-        result[i] = [array[i], i];
-    }
-    result.sort((a, b) => b[0] - a[0]);
-    return result;
-}
-
-export function getIndexesOfValueIdxArray(array: [number, number][]): number[] {
-    const result: number[] = []
-    for (let i = 0; i < array.length; i++) {
-        result[i] = array[i][1];
-    }
-    return result;
-}
-
-export function getBiggestNIndexes(array: number[], count: number): number[] {
-    const clone = getSortedValueIdxArray(array);
-    return getIndexesOfValueIdxArray(clone.slice(0, count));
-}
-
-export function getSmallestNIndexes(array: number[], count: number): number[] {
-    const clone = getSortedValueIdxArray(array);
-    return getIndexesOfValueIdxArray(clone.slice(clone.length - count, clone.length));
-}

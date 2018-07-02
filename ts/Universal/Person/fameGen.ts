@@ -1,4 +1,5 @@
 ﻿import { Random } from "../../Util/Random.js";
+import { logBase } from "../../Util/Distribution.js";
 
 
 /**
@@ -17,7 +18,7 @@
 **/
 
 export function generateFameForWorldHero(population: number, rng: Random): number {
-    const raw: number = 100 - log(rng.nextNumber(0, population / 666835), 0.8745);
+    const raw: number = 100 - logBase(rng.nextNumber(0, population / 666835), 0.8745);
     if (raw < 0) return 0;
     if (raw > 100) return 100;
     return raw;
@@ -25,7 +26,7 @@ export function generateFameForWorldHero(population: number, rng: Random): numbe
 
 // TODO THESE ARE GENERATING REALLY POOR VALUES
 export function generateFameForNeighborhoodHero(population: number, rng: Random): number {
-    const raw: number = 100 - log(rng.nextNumber(0, population / 213), 0.8745);
+    const raw: number = 100 - logBase(rng.nextNumber(0, population / 213), 0.8745);
     if (raw < 0) return 0;
     if (raw > 100) return 100;
     return raw;
@@ -68,7 +69,3 @@ const neighborhoodTests: number[] = [
     generateFameForNeighborhoodHero(213 * 15, testRng),
     generateFameForNeighborhoodHero(213 * 15, testRng),
 ];
-
-function log(value: number, base: number): number {
-    return Math.log(value) / Math.log(base);
-}

@@ -32,3 +32,7 @@ export function sumValues<T>(map: Map<T, number>): number {
     }
     return result;
 }
+
+export function logBase(value: number, base: number): number {
+    return Math.log(value) / Math.log(base);
+}

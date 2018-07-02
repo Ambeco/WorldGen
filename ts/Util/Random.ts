@@ -1,4 +1,5 @@
 ﻿import { NumberRange } from "./NumberRange.js";
+import { logBase } from "./Distribution.js";
 
 export interface RandomState {
     readonly m_w: number;
@@ -64,23 +65,27 @@ export class Random {
         if (min > around) throw new Error("min=" + min + " must be less than around=" + around);
         if (around > max) throw new Error("around=" + around + " must be less than max=" + max);
         const aroundPercent = (around - min) / (max - min);
-        const skew = 1 / aroundPercent - 1;
+        const skew = logBase(aroundPercent, 0.5);
         return this.nextBoundNormalRaw(min, max, stddev, skew);
     }
 
     nextNumber(min: number, max: number): number {
+        if (min >= max) throw new Error("min=" + min + " must be less than max=" + max);
         return min + this.nextPercent() * (max - min);
     }
 
     nextNumberFromRange(range: NumberRange): number {
+        if (range.min >= range.max) throw new Error("min=" + range.min + " must be less than max=" + range.max);
         return range.min + this.nextPercent() * (range.max - range.min);
     }
 
     nextInt(min: number, max: number): number {
+        if (min >= max) throw new Error("min=" + min + " must be less than max=" + max);
         return min + Math.floor(this.nextPercent() * (max - min));
     }
 
     nextIntFromRange(range: NumberRange): number {
+        if (range.min >= range.max) throw new Error("min=" + range.min + " must be less than max=" + range.max);
         return range.min + Math.floor(this.nextPercent() * (range.max - range.min));
     }
 

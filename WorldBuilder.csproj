@@ -91,7 +91,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
-    <Folder Include="ts\Layers\B_continent\" />
     <Folder Include="ts\Layers\C_country\" />
     <Folder Include="ts\Layers\D_region\" />
     <Folder Include="ts\Layers\E_city\" />
@@ -101,8 +100,11 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="ts\Data\NameGen\OrcNameGen.ts" />
+    <TypeScriptCompile Include="ts\Layers\B_continent\Continent.ts" />
+    <TypeScriptCompile Include="ts\Layers\B_continent\CountryStub.ts" />
     <TypeScriptCompile Include="ts\Layers\Layer.ts" />
     <TypeScriptCompile Include="ts\Layers\LayerBase.ts" />
+    <TypeScriptCompile Include="ts\Layers\LayerStubBase.ts" />
     <TypeScriptCompile Include="ts\Layers\LayerStub.ts" />
     <TypeScriptCompile Include="ts\Universal\Person\fameGen.ts" />
     <TypeScriptCompile Include="ts\Universal\Setting\Job.ts" />

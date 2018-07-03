@@ -17,6 +17,7 @@ import { logBase } from "../../Util/Distribution.js";
 * 1:666835 have a fame of 100 (world)
 **/
 
+// TODO THESE ARE GENERATING REALLY POOR VALUES
 export function generateFameForWorldHero(population: number, rng: Random): number {
     const raw: number = 100 - logBase(rng.nextNumber(0, population / 666835), 0.8745);
     if (raw < 0) return 0;
@@ -24,7 +25,13 @@ export function generateFameForWorldHero(population: number, rng: Random): numbe
     return raw;
 }
 
-// TODO THESE ARE GENERATING REALLY POOR VALUES
+export function generateFameForContinentHero(population: number, rng: Random): number {
+    const raw: number = 100 - logBase(rng.nextNumber(0, population / 174428), 0.8745);
+    if (raw < 0) return 0;
+    if (raw > 100) return 100;
+    return raw;
+}
+
 export function generateFameForNeighborhoodHero(population: number, rng: Random): number {
     const raw: number = 100 - logBase(rng.nextNumber(0, population / 213), 0.8745);
     if (raw < 0) return 0;

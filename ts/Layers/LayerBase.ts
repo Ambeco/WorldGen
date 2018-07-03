@@ -1,5 +1,5 @@
 ﻿import { LayerStub } from "./LayerStub.js";
-import { Random } from "../Util/Random.js";
+import { Random, RandomState } from "../Util/Random.js";
 import { Setting } from "../Universal/Setting/Setting.js";
 import { Race } from "../Universal/Setting/Race.js";
 import { getBiggestValue, getByCDF, sumValues } from "../Util/Distribution.js";
@@ -9,6 +9,7 @@ import { DEFAULT_PEOPLE_PER_TIER, LAYER_RACE_RERANDOM_STDDEV_RATIO, LAYER_SIZE_R
 import { Layer } from "./Layer.js";
 
 export abstract class LayerBase<StubType extends LayerStub> implements Layer {
+    readonly randomState: RandomState;
     readonly setting: Setting;
     readonly name: string;
     readonly location: NumberRange;
@@ -30,11 +31,16 @@ export abstract class LayerBase<StubType extends LayerStub> implements Layer {
         this.location = new NumberRange(0, this.subLayerLocations[subLayerCount - 1].max);
         this.subLayers = this.generateSubLayerStubs(rng);
         this.people = this.generateHeroes(this.subLayerLocations, this.subLayers, rng);
+        this.randomState = rng.getState();
     }
 
     protected abstract generateSubLayerStub(locationDistribution: NumberRange, raceDistributions: Map<Race, number>, rng: Random): StubType;
 
     protected abstract generateFameForHero(rng: Random): number;
+
+    generateFullData(): Layer {
+        return this;
+    }
 
     private generateSubLayerStubs(rng: Random): StubType[] {
         const raceDistributions: Map<Race, number>[] = rng.splitMapIntegerValues(this.raceCounts, this.subLayerLocations, LAYER_RACE_RERANDOM_STDDEV_RATIO);

@@ -8,6 +8,8 @@ import { LayerStub } from "./LayerStub.js";
 import { Layer } from "./Layer.js";
 
 export abstract class LayerStubBase implements LayerStub {
+    public readonly layerName: string; //"World", "City", etc
+
     public readonly randomState: RandomState;
     public readonly setting: Setting;
     public readonly name: string;

@@ -35,7 +35,7 @@ ul {
     z-index: 1;
 }
 
-#layers {
+#treeRoot {
     width: 3in;
     top: 4em;
     padding: 0.05in;

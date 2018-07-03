@@ -10,15 +10,24 @@
     <script type="module" src="ts/UI/sheetSetup.js" async>
     </script>
     <h1 class="pageHead">EZDM World Gen</h1>
-    <div id="layers" class="worldLayer">
-        <span id="worldToggle" class="toggle toggle-expanded"></span> <span id="worldTitle" class="layerName">World: Azaroth</span>
-        <ul id="treeRoot" class="tree">
+    <div id="treeRoot" class="worldLayer">
+        <span class="treeRow">
+            <span id="worldToggle" class="toggle toggle-expanded"></span>
+            <span id="worldTitle" class="layerName">World: Azaroth</span>
+        </span>
+        <ul class="tree">
             <li class="continentLayer">
-                <span class="toggle toggle-collapsed"></span> <span class="layerName">Continent: Eastern Kingdoms</span>
+                <span class="treeRow">
+                    <span class="toggle toggle-collapsed"></span>
+                    <span class="layerName">Continent: Eastern Kingdoms</span>
+                </span>
                 <ul></ul>
             </li>
             <li class="continentLayer">
-                <span class="toggle toggle-collapsed"></span> <span class="layerName">Continent: Kalimdor</span>
+                <span class="treeRow">
+                    <span class="toggle toggle-collapsed"></span>
+                    <span class="layerName">Continent: Kalimdor</span>
+                </span>
                 <ul></ul>
             </li>
         </ul>
@@ -29,10 +38,13 @@
             <tr><td colspan="2"><h4 id="byTheNumbersTitle">Azaroth</h4></td></tr>
             <tr><td>Area</td> <td>196,940,000 sq mi</td></tr>
             <tr><td>Population</td> <td>1000000</td></tr>
-            <tr><td>Races</td> <td>
-                <span class="btnListItem">596252 Human</span>
-                <span class="btnListItem">403748 Orc</span>
-            </td></tr>
+            <tr>
+                <td>Races</td>
+                <td>
+                    <span class="btnListItem">596252 Human</span>
+                    <span class="btnListItem">403748 Orc</span>
+                </td>
+            </tr>
         </table>
         <div id="summary">
             <p><b>Azaroth</b> is the third planet from the Sun, and the only astranomical object known to harbor life. According to radiometric dating and other sources of evidence, Azaroth formed over 4.5 billion years ago. Azaroth's gravity interacts with other objects in space, especially the Sun and its moon, Azaroth's only natural satellite. Azaroth revolves around the Sun in 365.26 days, a period known as an Azaroth year. During this time, Azaroth rotates about its axis about 366.26 times.</p>

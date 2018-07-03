@@ -36,3 +36,14 @@ export function castHTMLTableElement(element: HTMLElement | null | Element): HTM
         throw new Error(`Expected e to be an HTMLTableElement, was ${element && element.constructor && element.constructor.name || element}`);
     return <HTMLTableElement>element;
 }
+
+export function createHTMLElement<K extends keyof HTMLElementTagNameMap>(tag: K, classList: string[] = [], content: string | null = null): HTMLElementTagNameMap[K] {
+    const item = document.createElement(tag);
+    for (let clazz of classList) {
+        item.classList.add(clazz);
+    }
+    if (content != null) {
+        item.innerText = content;
+    }
+    return item;
+}

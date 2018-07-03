@@ -9,6 +9,8 @@ import { DEFAULT_PEOPLE_PER_TIER, LAYER_RACE_RERANDOM_STDDEV_RATIO, LAYER_SIZE_R
 import { Layer } from "./Layer.js";
 
 export abstract class LayerBase<StubType extends LayerStub> implements Layer {
+    readonly layerName: string; //"World", "City", etc
+
     readonly randomState: RandomState;
     readonly setting: Setting;
     readonly name: string;

@@ -4,6 +4,8 @@ import { Layer } from "../Layer.js";
 import { Random } from "../../Util/Random.js";
 
 export class ContinentStub extends LayerStubBase {
+    get layerName() { return "Continent"; }
+
     generateFullData(): Layer {
         return new Continent(this.setting, this.location, this.raceCounts, new Random(this.randomState));
     }

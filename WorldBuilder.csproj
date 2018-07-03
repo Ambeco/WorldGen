@@ -106,6 +106,9 @@
     <TypeScriptCompile Include="ts\Layers\LayerBase.ts" />
     <TypeScriptCompile Include="ts\Layers\LayerStubBase.ts" />
     <TypeScriptCompile Include="ts\Layers\LayerStub.ts" />
+    <TypeScriptCompile Include="ts\UI\TreeAdapter.ts" />
+    <TypeScriptCompile Include="ts\UI\DetailsAdapter.ts" />
+    <TypeScriptCompile Include="ts\UI\ContinentAdapter.ts" />
     <TypeScriptCompile Include="ts\Universal\Person\fameGen.ts" />
     <TypeScriptCompile Include="ts\Universal\Setting\Job.ts" />
     <TypeScriptCompile Include="ts\Util\casing.ts" />

@@ -7,6 +7,8 @@ import { Setting } from "../Universal/Setting/Setting.js";
 import { Layer } from "./Layer.js";
 
 export interface LayerStub {
+    readonly layerName: string; //"World", "City", etc
+
     readonly name: string;
     readonly randomState: RandomState;
     readonly setting: Setting;

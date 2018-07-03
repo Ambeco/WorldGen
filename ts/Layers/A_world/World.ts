@@ -8,6 +8,8 @@ import { generateFameForWorldHero } from "../../Universal/Person/fameGen.js";
 import { LayerBase } from "../LayerBase.js";
 
 export class World extends LayerBase<ContinentStub> {
+    get layerName() { return "World"; }
+
     constructor(setting: Setting, rng: Random) {
         const discardableResizer = rng.randomizeAndSplitRange(new NumberRange(0, setting.approxWorldSize), setting.approxContinentCount, LAYER_SIZE_RERANDOM_STDDEV_RATIO);
         const location = new NumberRange(0, discardableResizer[setting.approxContinentCount - 1].max);

@@ -7,6 +7,8 @@ import { LayerBase } from "../LayerBase.js";
 import { CountryStub } from "./CountryStub.js";
 
 export class Continent extends LayerBase<CountryStub> {
+    get layerName() { return "Continent"; }
+
     constructor(setting: Setting, location: NumberRange, raceCounts: Map<Race, number>, rng: Random) {
         super(setting, location, raceCounts, setting.approxCountryCount, rng);
     }

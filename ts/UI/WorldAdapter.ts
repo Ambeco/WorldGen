@@ -1,6 +1,6 @@
 ﻿import { World } from "../Layers/A_world/World.js";
 import { castHTMLSpanElement, castHTMLDivElement, castHTMLUListElement, castHTMLElement, castHTMLTableElement, castHTMLLIElement } from "../Util/HtmlCasts.js";
-import { World_Continent } from "../Layers/A_world/World_Continent.js";
+import { ContinentStub } from "../Layers/A_world/ContinentStub.js";
 import { BasePerson } from "../Universal/Person/BasePerson.js";
 import { toCamelCase, toTitleCase } from "../Util/casing.js";
 

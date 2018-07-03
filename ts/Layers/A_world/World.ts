@@ -1,4 +1,4 @@
-﻿import { World_Continent } from "./World_Continent.js";
+﻿import { ContinentStub } from "./ContinentStub.js";
 import { Random } from "../../Util/Random.js";
 import { Setting } from "../../Universal/Setting/Setting.js";
 import { Race } from "../../Universal/Setting/Race.js";
@@ -15,7 +15,7 @@ export class World {
     public readonly population: number;
     public readonly raceCounts: Map<Race, number>;
     readonly locationDistribution: NumberRange[];
-    readonly continents: World_Continent[];
+    readonly continents: ContinentStub[];
     readonly people: BasePerson[];
 
     constructor(setting: Setting, rng: Random) {
@@ -32,16 +32,16 @@ export class World {
         this.people = World.generateHeroes(this.locationDistribution, this.continents, this.population, rng);
     }
 
-    private static generateContinents(setting: Setting, raceCounts: Map<Race, number>, locationDistribution: NumberRange[], rng: Random): World_Continent[] {
+    private static generateContinents(setting: Setting, raceCounts: Map<Race, number>, locationDistribution: NumberRange[], rng: Random): ContinentStub[] {
         const raceDistributions: Map<Race, number>[] = rng.splitMapIntegerValues(raceCounts, locationDistribution, WORLD_RACE_RERANDOM_STDDEV_RATIO);
-        const continents: World_Continent[] = [];
+        const continents: ContinentStub[] = [];
         for (let i = 0; i < locationDistribution.length; i++) {
-            continents[i] = new World_Continent(setting, locationDistribution[i], raceDistributions[i], rng);
+            continents[i] = new ContinentStub(setting, locationDistribution[i], raceDistributions[i], rng);
         }
         return continents;
     }
 
-    private static generateHeroes(locationDistribution: NumberRange[], continents: World_Continent[], population: number, rng: Random): BasePerson[] {
+    private static generateHeroes(locationDistribution: NumberRange[], continents: ContinentStub[], population: number, rng: Random): BasePerson[] {
         const result: BasePerson[] = [];
         for (let i = 0; i < DEFAULT_PEOPLE_PER_TIER; i++) {
             result[i] = World.generateHero(locationDistribution, continents, population, rng);
@@ -49,16 +49,16 @@ export class World {
         return result;
     }
 
-    private static generateHero(locationDistribution: NumberRange[], continents: World_Continent[], population: number, rng: Random): BasePerson {
+    private static generateHero(locationDistribution: NumberRange[], continents: ContinentStub[], population: number, rng: Random): BasePerson {
         const location: number = rng.nextPercent();
-        const continent: World_Continent = getByCDF(location, locationDistribution, continents);
+        const continent: ContinentStub = getByCDF(location, locationDistribution, continents);
         const race = rng.nextWeightedKey(continent.raceCounts);
         const fame = generateFameForWorldHero(population, rng);
         return new BasePerson(location, race, fame, rng);
     }
 
-    public continentByLocation(location: number): World_Continent {
-        const continent: World_Continent = getByCDF(location, this.locationDistribution, this.continents);
+    public continentByLocation(location: number): ContinentStub {
+        const continent: ContinentStub = getByCDF(location, this.locationDistribution, this.continents);
         return continent;
     }
 }

@@ -5,7 +5,7 @@ import { NumberRange } from "../../Util/NumberRange.js";
 import { BasePerson } from "../../Universal/Person/BasePerson.js";
 import { Setting } from "../../Universal/Setting/Setting.js";
 
-export class World_Continent {
+export class ContinentStub {
     public readonly randomState: RandomState;
     public readonly setting: Setting;
     public readonly name: string;

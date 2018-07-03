@@ -79,6 +79,8 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="collapse.gif" />
+    <Content Include="expand.gif" />
     <Content Include="worldbuilder.css" />
     <Content Include="favicon.ico" />
     <Content Include="index.html" />

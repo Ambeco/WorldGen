@@ -14,33 +14,92 @@ h3 {
 h4 {
     margin: 0.1em;
 }
+ul {
+    margin: 0em;
+}
 
-.layer {
+.toggle {
+    height: 9px;
+    width: 9px;
+    display: inline-block;
+}
+.toggle-expanded {
+    background: url("collapse.gif");
+}
+.toggle-collapsed {
+    background: url("expand.gif");
+}
+
+.pageHead {
+    position: fixed;
+    z-index: 1;
+}
+
+#layers {
     width: 3in;
+    top: 4em;
+    padding: 0.05in;
+    background-color: white;
+    position: fixed;
+    z-index: 1;
+}
+ul.tree {
+    padding-left: 1em;
+}
+ul.tree li {
+    list-style-type: none;
+}
+
+
+#details {
+    max-width: 11in;
     margin: 0.05in;
+    margin-left: 3.25in;
     padding: 0.05in;
     background-color: white;
     float: left;
 }
 
-.childBlock {
-    margin: 0.05in;
-    padding: 0.05in;
-    background-color: lavender;
-    box-shadow: 0.02in 0.02in #888888;
-}
-.childBlock:hover {
-    cursor: pointer;
-}
-.childBlock:active {
-    cursor: pointer;
-    box-shadow: -0.02in -0.02in #888888;
-}
-.childBlock.selected {
-    background-color: palegreen;
+#title {
+    width:100%;
 }
 
-.heroBlock {
+#byTheNumbers {
+    float: right;
+    width: 3in;
     margin: 0.05in;
     padding: 0.05in;
+    border-width: 1px;
+    border-color: black;
+    border-style: solid;
+    background-color: lightgray;
+}
+#byTheNumbersTitle {
+    text-align:center;
+}
+#byTheNumbers td {
+    vertical-align:top;
+}
+.btnListItem {
+    display: block;
+}
+
+
+ul.tocList {
+    padding-left: 2em;
+}
+ul.tocList li {
+    list-style-type: none;
+}
+ul.tocList a {
+    text-decoration: none;
+}
+.tocnumber {
+    color: black;
+}
+.toc1 {
+    padding-left: 1em;
+}
+.toc2 {
+    padding-left: 2em;
 }

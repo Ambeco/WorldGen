@@ -1,5 +1,4 @@
 ﻿<!DOCTYPE html>
-<!--Demo at https://htmlpreview.github.io/?https://github.com/Ambeco/CaravanCharacterBuilder/blob/master/src/caravan.html-->
 <html>
 <head>
     <meta charset="utf-8" />
@@ -10,110 +9,58 @@
 <body>
     <script type="module" src="ts/UI/sheetSetup.js" async>
     </script>
-    <h1>EZDM World Generator</h1>
-    <div>
-        <div id="worldLayer" class="layer">
-            <div id="worldBlock" class="titleBlock">
-                <h2>World: <span id="worldName">Azaroth</span></h2>
-                <span id="worldSizeBlock">Size:1969 million sq.miles.</span>
-                <span id="worldPopulationBlock">Population:1000000.</span>
-                <div id="worldPop">
-                    <span>Dragonborn:596252.</span>
-                    <span>Orc:403748.</span>
-                </div>
-            </div>
-            <div id="worldContinents" class="childrenBlock">
-                <div id="continent1" class="childBlock worldContinentBlock">
-                    <h3>Continent: Eastern Kingdoms</h3>
-                    <span>Size:9.54 million sq.miles.</span>
-                    <span>Population:278479.</span>
-                    <div>
-                        <span>Dragonborn:187805.</span>
-                        <span>Orc:90674.</span>
-                    </div>
-                </div>
-                <div id="continent2" class="childBlock worldContinentBlock">
-                    <h3>Continent: Kalimdor</h3>
-                    <span>Population:721521</span>
-                    <div>
-                        <span>Dragonborn:408447.</span>
-                        <span>Orc:313074.</span>
-                    </div>
-                </div>
-            </div>
-            <div id="worldHeroes" class="heroesBlock">
-                <div class="heroBlock">
-                    <h4>Hero: Garrosh Hellscream</h4>
-                    <div class="heroMetadata">
-                        <span class="heroRace">Orc</span>
-                        <span class="heroJob">Warrior</span>
-                        <span class="heroLocation">from the Eastern Kingdoms</span>
-                    </div>
-                    <span class="heroDescription">Garrosh is tall, strong, and red.</span>
-                    <span class="heroPersonality">Garrosh is Adventurous, Bold, and Loyal. Garrosh is not very famous, or knowledgable.</span>
-                </div>
-                <div class="heroBlock">
-                    <h4>Hero: Zul'tan Ailbhe</h4>
-                    <div class="heroMetadata">
-                        <span class="heroRace">Dragonborn</span>
-                        <span class="heroJob">Chimneysweep</span>
-                        <span class="heroLocation">from the Eastern Kingdoms</span>
-                    </div>
-                    <span class="heroDescription">Zul'tan is tall, strong, and red.</span>
-                    <span class="heroPersonality">Zul'tan is Adventurous, Bold, and Loyal. Garrosh is not very famous, or knowledgable.</span>
-                </div>
-            </div>
-        </div>
-        <div id="continentLayer" class="layer">
-            <div id="continentBlock" class="titleBlock">
-                <h2>Continent: <span id="worldName">Eastern Kingdoms</span></h2>
-                <span id="populationBlock">Population: 278479</span></span>
-                <div id="worldPop">
-                    <span>Dragonborn: 187805</span></span>
-                    <span>Orc: 90674</span></span>
-                </div>
-            </div>
-            <div id="continentCountries" class="childrenBlock">
-                <div id="coutnry1" class="childBlock continentBlock">
-                    <h3>Country: <span id="worldName">USA</span></h3>
-                    <span id="populationBlock">Population: 278479</span></span>
-                    <div id="worldPop">
-                        <span>Dragonborn: 187805</span></span>
-                        <span>Orc: 90674</span></span>
-                    </div>
-                </div>
-                <div id="coutnry2" class="childBlock continentBlock">
-                    <h3>Country: <span id="worldName">France</span></h3>
-                    <span id="populationBlock">Population: 721521</span></span>
-                    <div id="worldPop">
-                        <span>Dragonborn: 408447</span></span>
-                        <span>Orc: 313074</span></span>
-                    </div>
-                </div>
-            </div>
-            <div id="countryHeroes" class="heroesBlock">
-                <div id="hero1" class="heroBlock">
-                    <h4>Hero: <span id="worldName">Garrosh Hellscream</span></h4>
-                    <div class="heroMetadata">
-                        <span class="heroRace">Orc</span>
-                        <span class="heroJob">Warrior</span>
-                        <span class="heroLocation">from the Eastern Kingdoms</span>
-                    </div>
-                    <span class="heroDescription">Garrosh is tall, strong, and red.</span>
-                    <span class="heroPersonality">Garrosh is Adventurous, Bold, and Loyal. Garrosh is not very famous, or knowledgable.</span>
-                </div>
-                <div id="hero2" class="heroBlock">
-                    <h4>Hero: <span id="worldName">Zul'tan Ailbhe</span></h4>
-                    <div class="heroMetadata">
-                        <span class="heroRace">Dragonborn</span>
-                        <span class="heroJob">Chimneysweep</span>
-                        <span class="heroLocation">from the Eastern Kingdoms</span>
-                    </div>
-                    <span class="heroDescription">Zul'tan is tall, strong, and red.</span>
-                    <span class="heroPersonality">Zul'tan is Adventurous, Bold, and Loyal. Garrosh is not very famous, or knowledgable.</span>
-                </div>
-            </div>
-        </div>
+    <h1 class="pageHead">EZDM World Gen</h1>
+    <div id="layers" class="worldLayer">
+        <span id="worldToggle" class="toggle toggle-expanded"></span> <span id="worldTitle" class="layerName">World: Azaroth</span>
+        <ul id="treeRoot" class="tree">
+            <li class="continentLayer">
+                <span class="toggle toggle-collapsed"></span> <span class="layerName">Continent: Eastern Kingdoms</span>
+                <ul></ul>
+            </li>
+            <li class="continentLayer">
+                <span class="toggle toggle-collapsed"></span> <span class="layerName">Continent: Kalimdor</span>
+                <ul></ul>
+            </li>
+        </ul>
     </div>
+    <div id="details">
+        <h2 id="title">World: Azaroth</h2>
+        <table id="byTheNumbers">
+            <tr><td colspan="2"><h4 id="byTheNumbersTitle">Azaroth</h4></td></tr>
+            <tr><td>Area</td> <td>196,940,000 sq mi</td></tr>
+            <tr><td>Population</td> <td>1000000</td></tr>
+            <tr><td>Races</td> <td>
+                <span class="btnListItem">596252 Human</span>
+                <span class="btnListItem">403748 Orc</span>
+            </td></tr>
+        </table>
+        <div id="summary">
+            <p><b>Azaroth</b> is the third planet from the Sun, and the only astranomical object known to harbor life. According to radiometric dating and other sources of evidence, Azaroth formed over 4.5 billion years ago. Azaroth's gravity interacts with other objects in space, especially the Sun and its moon, Azaroth's only natural satellite. Azaroth revolves around the Sun in 365.26 days, a period known as an Azaroth year. During this time, Azaroth rotates about its axis about 366.26 times.</p>
+            <p>Azaroth's axis of rotation is tilted with respect to its orbital plane, producing seasons on Azaroth. The gravitational interaction between Azaroth and its moon causes ocean tides, stabilizes Azaroth's orientation on its axis, and gradually slows its rotation. Azaroth is the densest planet in the Solar System and the largest of the four terrestrial planets.</p>
+            <p>Azaroth's lithosphere is divided into several rigid tectonic plates that migrate across the surface over periods of many millions of years. About 71% of Azaroth's surface is covered with water, mostly by oceans. The remaining 29% is land consisting of continents and islands that together have many lakes, rivers and other sources of water that contribute to the hydrosphere. The majority of Azaroth's polar regions are covered in ice, including the Antarctic ice sheet and the sea ice of the Arctic ice pack. Azaroth's interior remains active with a solid iron inner core, a liquid outer core that generates the Azaroth's magnetic field, and a convecting mantle that drives plate tectonics.</p>
+            <p>Within the first billion years of Azaroth's history, life appeared in the oceans and began to affect the Azaroth's atmosphere and surface, leading to the proliferation of aerobic and anaerobic organisms. Some geological evidence indicates that life may have arisen as much as 4.1 billion years ago. Since then, the combination of Azaroth's distance from the Sun, physical properties, and geological history have allowed life to evolve and thrive. In the history of the Azaroth, biodiversity has gone through long periods of expansion, occasionally punctuated by mass extinction events. Over 99% of all species that ever lived on Azaroth are extinct. Estimates of the number of species on Azaroth today vary widely; most species have not been described. Over 7.6 billion humans live on Azaroth and depend on its biosphere and natural resources for their survival. Humans have developed diverse societies and cultures; politically, the world has about 200 sovereign states.</p>
+        </div>
+        <div id="toc">
+            <h3>Contents</h3>
+            <ul class="tocList">
+                <li class="toc0"><a href="#Geography"><span class="tocnumber">1</span><span class="toctext"> Geography</span></a></li>
+                <li class="toc0"><a href="#People"><span class="tocnumber">2</span><span class="toctext"> People</span></a></li>
+                <li class="toc1"><a href="#Heroes"><span class="tocnumber">2.1</span><span class="toctext"> Heroes</span></a></li>
+                <li class="toc0"><a href="#Orbit"><span class="tocnumber">3</span><span class="toctext"> Orbit</span></a></li>
+                <li class="toc0"><a href="#Satellites"><span class="tocnumber">4</span><span class="toctext"> Satellites</span></a></li>
+            </ul>
+        </div>
+        <h3 id="Geography">Geography</h3>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        <h3 id="People">People</h3>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        <h4 id="People">Heroes</h4>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        <h3 id="Orbit">Orbit</h3>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        <h3 id="Satellites">Satellites</h3>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    </div>
+
 </body>
 </html>

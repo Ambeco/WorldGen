@@ -3,17 +3,18 @@ import { castHTMLSpanElement, castHTMLDivElement, castHTMLUListElement, castHTML
 import { ContinentStub } from "../Layers/A_world/ContinentStub.js";
 import { BasePerson } from "../Universal/Person/BasePerson.js";
 import { toCamelCase, toTitleCase } from "../Util/casing.js";
+import { Layer } from "../Layers/Layer";
 
-export function bindWorldToTree(world: World, ): void {
+export function bindWorldToTree(world: World): void {
     const name: HTMLElement = castHTMLElement(document.getElementById("worldTitle"));
     name.innerText = "World: " + world.name;
     const layerUI: HTMLUListElement = castHTMLUListElement(document.getElementById("treeRoot"));
     bindLayerToTree(world, layerUI, "continent");
 }
 
-export function bindLayerToTree(world: World, parentList: HTMLUListElement, type: string): void {
+export function bindLayerToTree(layer: Layer, parentList: HTMLUListElement, type: string): void {
     parentList.innerText = "";
-    for (let continent of world.continents) {
+    for (let continent of layer.genericSubLayers) {
         const layerItem = createHTMLElement("li", [type + "Layer"]);
         layerItem.appendChild(createHTMLElement("span", ["toggle", "toggle-collapsed"]));
         layerItem.appendChild(createHTMLElement("span", ["layerName"], " " + toTitleCase(type) + ": " + continent.name));
@@ -25,18 +26,18 @@ export function bindLayerToTree(world: World, parentList: HTMLUListElement, type
 export function bindWorldToDetails(world: World): void {
     const worldName: HTMLElement = castHTMLElement(document.getElementById("title"));
     worldName.innerText = "World: " + world.name;
-    bindWorldToByTheNumbers(world);
+    bindLayerToByTheNumbers(world);
     bindWorldSummary(world);
 }
 
-function bindWorldToByTheNumbers(world: World): void {
+function bindLayerToByTheNumbers(layer: Layer): void {
     const numbersTable: HTMLTableElement = castHTMLTableElement(document.getElementById("byTheNumbers"));
     numbersTable.innerText = "";
-    numbersTable.appendChild(createByTheNumbersHeader(world));
-    const areaValue = (world.location.max - world.location.min) + " sq mi";
+    numbersTable.appendChild(createByTheNumbersHeader(layer));
+    const areaValue = (layer.location.max - layer.location.min) + " sq mi";
     numbersTable.appendChild(createByTheNumbersTextRow("Area", areaValue));
-    numbersTable.appendChild(createByTheNumbersTextRow("Population", world.population.toString()));
-    numbersTable.appendChild(createByTheNumbersListRow("Races", createPopulationList(world)));
+    numbersTable.appendChild(createByTheNumbersTextRow("Population", layer.population.toString()));
+    numbersTable.appendChild(createByTheNumbersListRow("Races", createPopulationList(layer)));
 }
 
 function bindWorldSummary(world: World): void {
@@ -47,9 +48,9 @@ function bindWorldSummary(world: World): void {
         + "<p>Within the first billion years of Azaroth's history, life appeared in the oceans and began to affect the Azaroth's atmosphere and surface, leading to the proliferation of aerobic and anaerobic organisms.Some geological evidence indicates that life may have arisen as much as 4.1 billion years ago.Since then, the combination of Azaroth's distance from the Sun, physical properties, and geological history have allowed life to evolve and thrive. In the history of the Azaroth, biodiversity has gone through long periods of expansion, occasionally punctuated by mass extinction events. Over 99% of all species that ever lived on Azaroth are extinct. Estimates of the number of species on Azaroth today vary widely; most species have not been described. Over 7.6 billion humans live on Azaroth and depend on its biosphere and natural resources for their survival. Humans have developed diverse societies and cultures; politically, the world has about 200 sovereign states.</p>"
 }
 
-function createPopulationList(world: World): string[] {
+function createPopulationList(layer: Layer): string[] {
     const result: string[] = [];
-    for (let item of world.raceCounts.entries()) {
+    for (let item of layer.raceCounts.entries()) {
         result.push(item[1] + " " + item[0].name);
     }
     return result;
@@ -66,11 +67,11 @@ function createHTMLElement(tag: string, classList: string[] = [], content: strin
     return item;
 }
 
-function createByTheNumbersHeader(world: World): HTMLElement {
+function createByTheNumbersHeader(layer: Layer): HTMLElement {
     const row = document.createElement("tr");
     const data = document.createElement("td");
     data.colSpan = 2;
-    data.appendChild(createHTMLElement("h4", [], world.name));
+    data.appendChild(createHTMLElement("h4", [], layer.name));
     row.appendChild(data);
     return row;
 }

@@ -9,7 +9,7 @@ export abstract class DetailsAdapter {
         numbersTable.innerText = "";
         numbersTable.appendChild(this.createByTheNumbersHeader(layer));
         numbersTable.appendChild(this.createByTheNumbersTextRow("Area", this.getAreaString(layer)));
-        numbersTable.appendChild(this.createByTheNumbersTextRow("Population", layer.population.toString()));
+        numbersTable.appendChild(this.createByTheNumbersTextRow("Population", layer.population.toLocaleString()));
         numbersTable.appendChild(this.createByTheNumbersListRow("Races", this.createPopulationList(layer)));
     }
 
@@ -27,10 +27,12 @@ export abstract class DetailsAdapter {
         }
     }
 
+
+
     protected createPopulationList(layer: Layer): string[] {
         const result: string[] = [];
         for (let item of layer.raceCounts.entries()) {
-            result.push(item[1] + " " + item[0].name);
+            result.push(item[1].toLocaleString() + " " + item[0].name);
         }
         return result;
     }

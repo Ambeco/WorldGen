@@ -8,10 +8,23 @@ export abstract class DetailsAdapter {
         const numbersTable: HTMLTableElement = castHTMLTableElement(document.getElementById("byTheNumbers"));
         numbersTable.innerText = "";
         numbersTable.appendChild(this.createByTheNumbersHeader(layer));
-        const areaValue = (layer.location.max - layer.location.min) + " sq mi";
-        numbersTable.appendChild(this.createByTheNumbersTextRow("Area", areaValue));
+        numbersTable.appendChild(this.createByTheNumbersTextRow("Area", this.getAreaString(layer)));
         numbersTable.appendChild(this.createByTheNumbersTextRow("Population", layer.population.toString()));
         numbersTable.appendChild(this.createByTheNumbersListRow("Races", this.createPopulationList(layer)));
+    }
+
+    getAreaString(layer: Layer): string {
+        const areaMiles = (layer.location.max - layer.location.min);
+        const areaFeet = areaMiles / 3.58701e-8;
+        if (areaMiles > 1000) {
+            return Math.round(areaMiles).toLocaleString() + " sq mi";
+        } else if (areaMiles > 1) {
+            return areaMiles.toFixed() + " sq mi";
+        } else if (areaFeet > 1000) {
+            return Math.round(areaFeet).toLocaleString() + " sq ft";
+        } else {
+            return areaFeet.toFixed() + " sq ft";
+        }
     }
 
     protected createPopulationList(layer: Layer): string[] {

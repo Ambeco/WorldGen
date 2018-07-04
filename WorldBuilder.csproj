@@ -106,6 +106,7 @@
     <TypeScriptCompile Include="ts\Layers\LayerBase.ts" />
     <TypeScriptCompile Include="ts\Layers\LayerStubBase.ts" />
     <TypeScriptCompile Include="ts\Layers\LayerStub.ts" />
+    <TypeScriptCompile Include="ts\UI\PageParams.ts" />
     <TypeScriptCompile Include="ts\UI\TreeAdapter.ts" />
     <TypeScriptCompile Include="ts\UI\DetailsAdapter.ts" />
     <TypeScriptCompile Include="ts\UI\ContinentAdapter.ts" />

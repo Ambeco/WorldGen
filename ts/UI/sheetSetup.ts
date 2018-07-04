@@ -6,9 +6,10 @@ import { Zoom } from "../Universal/Zoom.js";
 import { WorldTreeAdapter } from "./WorldAdapter.js";
 import { castHTMLSpanElement, castHTMLElement } from "../Util/HtmlCasts.js";
 import { TreeAdapter } from "./TreeAdapter.js";
+import { PageParams } from "./PageParams.js";
 
-const rng: Random = Random.fromString("1234567890");
-
+const pageParams = new PageParams();
+const rng: Random = Random.fromString(pageParams.getSeed());
 let setting: Setting = dnd5e;
 
 const zoom: Zoom = new Zoom();

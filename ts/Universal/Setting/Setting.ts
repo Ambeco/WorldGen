@@ -27,4 +27,6 @@ export class Setting {
         this.races = races;
         this.raceCounts = raceCounts;
     }
+
+    toString(): string { return name; }
 }

@@ -40,17 +40,18 @@ export class Random {
     }
 
     //from https://stackoverflow.com/a/49434653/845092
-    private nextBoundNormalRaw(min: number, max: number, stddev: number, skew: number): number {
+    private nextBoundNormalRaw(min: number, max: number, skew: number, stddev: number): number {
         if (min >= max) throw new Error("min=" + min + " must be less than max=" + max);
-        stddev = stddev / (max - min);
+        if (skew < 0) throw new Error("skew=" + skew + " must be non-negative");
+        const stddevPercent = stddev / (max - min);
         var u = 0, v = 0;
         while (u === 0) u = this.nextPercent(); //Converting [0,1) to (0,1)
         while (v === 0) v = this.nextPercent();
         let num = Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2.0 * Math.PI * v);
 
-        num = num * stddev + 0.5; // Translate to 0 -> 1
+        num = num * stddevPercent + 0.5; // Translate to 0 -> 1
         if (num > 1 || num < 0)
-            num = this.nextBoundNormalRaw(min, max, stddev, skew); // resample between 0 and 1 if out of range
+            return this.nextBoundNormalRaw(min, max, skew, stddev * .75); // resample between 0 and 1 if out of range. Trim stddev to reduce likelihodd of deep recursion
         num = Math.pow(num, skew); // Skew
         num *= max - min; // Stretch to fill range
         num += min; // offset to min
@@ -58,15 +59,15 @@ export class Random {
     }
 
     private nextBoundNormal(min: number, max: number, stddev: number): number {
-        return this.nextBoundNormalRaw(min, max, stddev, 1);
+        return this.nextBoundNormalRaw(min, max, 1, stddev);
     }
 
-    private nextBoundNormalAround(min: number, max: number, stddev: number, around: number): number {
+    private nextBoundNormalAround(min: number, max: number, around: number, stddev: number): number {
         if (min > around) throw new Error("min=" + min + " must be less than around=" + around);
         if (around > max) throw new Error("around=" + around + " must be less than max=" + max);
         const aroundPercent = (around - min) / (max - min);
         const skew = logBase(aroundPercent, 0.5);
-        return this.nextBoundNormalRaw(min, max, stddev, skew);
+        return this.nextBoundNormalRaw(min, max, skew, stddev);
     }
 
     nextNumber(min: number, max: number): number {
@@ -117,8 +118,8 @@ export class Random {
         return last;
     }
 
-    nextPercentAroundNumber(stddev: number, aroundPercent: number): number {
-        return this.nextBoundNormalAround(0, 1, stddev, aroundPercent);
+    nextPercentAroundNumber(aroundPercent: number, stddev: number): number {
+        return this.nextBoundNormalAround(0, 1, aroundPercent, stddev);
     }
 
     nextPercentAroundRange(range: NumberRange): number {
@@ -148,7 +149,7 @@ export class Random {
             const remainItemCount = splitNWays - i;
             const rangeRemains = range.max - curMin;
             const estimate = rangeRemains / remainItemCount + curMin;
-            const thisMax = this.nextBoundNormalAround(curMin, range.max, estimate * stddevRatio, estimate);
+            const thisMax = this.nextBoundNormalAround(curMin, range.max, estimate, rangeRemains * stddevRatio);
             result[i] = new NumberRange(curMin, thisMax);
             curMin = thisMax;
         }
@@ -166,7 +167,7 @@ export class Random {
             const remainItemCount = splitNWays - i;
             const rangeRemains = range.max - curMin;
             const estimate = rangeRemains / remainItemCount + curMin;
-            const thisMax = this.nextBoundNormalAround(curMin, range.max, estimate * stddevRatio, estimate);
+            const thisMax = this.nextBoundNormalAround(curMin, range.max, estimate, rangeRemains * stddevRatio);
             result[i] = new NumberRange(curMin, thisMax);
             curMin = thisMax;
         }
@@ -183,7 +184,8 @@ export class Random {
             result[i] = new Map<T, number>();
             for (let element of remains) {
                 const initialValue: number = element[1];
-                const estimatedPercent = (split[i].max - split[i].min) / totalRange;
+                const range = (split[i].max - split[i].min);
+                const estimatedPercent = range / totalRange;
                 const thisValue = Math.round(initialValue * this.nextPercentAroundNumber(estimatedPercent, estimatedPercent * stddevRatio));
                 result[i].set(element[0], thisValue);
                 remains.set(element[0], initialValue - thisValue);
@@ -204,7 +206,7 @@ export class Random {
         }
         const newMap = new Map<T, number>();
         for (let element of oldMap) {
-            const thisValue = Math.round(this.nextBoundNormalAround(0, total, element[1] * stddevRatio, element[1]));
+            const thisValue = Math.round(this.nextBoundNormalAround(0, total, element[1], element[1] * stddevRatio));
             newMap.set(element[0], thisValue);
         }
         return newMap;

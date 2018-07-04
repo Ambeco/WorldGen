@@ -10,6 +10,7 @@ export interface Race {
     readonly traits: PersonalityTraits; //0-100, one for each OpinionCategory
     readonly nationalism: number; //0.0-1.0, How likely to group togeather
     generateName(rng: Random): string; //My name is 'Steve'
+    toString(): string; // America
 }
 export function generateNameFn(syllables: String[], syllableDistribution: number[], rng: Random): string {
     const length = rng.nextWeightedIndex(syllableDistribution);

@@ -38,4 +38,6 @@ export class BasePerson {
             + lowTraits[1][0] + ".";
         return result;
     }
+
+    toString(): string { return "Person: " + this.firstName; }
 }

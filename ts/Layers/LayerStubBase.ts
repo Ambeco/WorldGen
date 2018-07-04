@@ -30,4 +30,7 @@ export abstract class LayerStubBase implements LayerStub {
     }
 
     abstract generateFullData(): Layer;
+
+
+    toString(): string { return this.layerName + "Stub: " + this.name; }
 }

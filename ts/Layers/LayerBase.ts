@@ -73,4 +73,6 @@ export abstract class LayerBase<StubType extends LayerStub> implements Layer {
         const sublayer: StubType = getByCDF(location, this.subLayerLocations, this.subLayers);
         return sublayer;
     }
+
+    toString(): string { return this.layerName + ": " + this.name; }
 }

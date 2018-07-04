@@ -26,7 +26,8 @@ const human: Race = {
     nationalism: 0.1,
     generateName: function (rng: Random) {
         return generateNameFn(humanSyllables, humanSyllableDistribution, rng)
-    }
+    },
+    toString(): string { return "Human"; },
 };
 
 const orc: Race = {
@@ -50,7 +51,8 @@ const orc: Race = {
     nationalism: 0.1,
     generateName: function (rng: Random) {
         return generateNameFn(orcSyllables, orcSyllableDistribution, rng)
-    }
+    },
+    toString(): string { return "Orc"; },
 };
 
 const dnd5eraces: Race[] = [

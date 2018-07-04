@@ -8,7 +8,7 @@ export class PageParams {
         var url = new URL(window.location.href);
         var seed: string | null = url.searchParams.get("s");
         if (seed == null) {
-            this.seed = Math.round(Math.random() * 10000000000000000).toString();
+            this.seed = Math.round(Math.random() * 10000000000000000).toString(36);
             this.onChange();
         } else {
             this.seed = seed;

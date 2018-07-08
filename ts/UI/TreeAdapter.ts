@@ -1,83 +1,75 @@
-﻿import { castHTMLSpanElement, castHTMLDivElement, castHTMLUListElement, castHTMLElement, castHTMLTableElement, castHTMLLIElement, createHTMLElement } from "../Util/HtmlCasts.js";
-import { BasePerson } from "../Universal/Person/BasePerson.js";
-import { toCamelCase, toTitleCase } from "../Util/casing.js";
-import { Layer } from "../Layers/Layer.js";
-import { LayerStub } from "../Layers/LayerStub.js";
-import { DetailsAdapter } from "./DetailsAdapter.js";
+﻿import { castHTMLSpanElement, castHTMLUListElement, castHTMLElement, createHTMLElement } from "../Util/HtmlCasts.js";
 
-export abstract class TreeAdapter {
+export abstract class TreeAdapter<SelfStubType, SelfDataType> {
     readonly listItemElement: HTMLElement;
-    readonly layerRow: HTMLSpanElement;
+    readonly uiRow: HTMLSpanElement;
     readonly toggleIcon: HTMLSpanElement;
     readonly name: HTMLSpanElement;
     readonly subList: HTMLUListElement;
 
-    readonly layerStub: LayerStub;
-    readonly subLayerBinder: SubLayerBinder;
-    readonly detailsAdapter: DetailsAdapter;
+    readonly stub: SelfStubType;
 
-    expandedWithLayer: Layer | null;
+    protected expandedWithData: SelfDataType | null;
+    protected children: SelfStubType[] | null;
 
-    constructor(listItemElement: HTMLLIElement | HTMLDivElement, layerStub: LayerStub, subLayerBinder: SubLayerBinder, detailsAdapter: DetailsAdapter) {
+    constructor(listItemElement: HTMLLIElement | HTMLDivElement, stub: SelfStubType) {
         this.listItemElement = listItemElement;
-        this.layerRow = castHTMLElement(listItemElement.children[0]);
-        this.toggleIcon = castHTMLSpanElement(this.layerRow.children[0]);
-        this.name = castHTMLSpanElement(this.layerRow.children[1]);
+        this.uiRow = castHTMLElement(listItemElement.children[0]);
+        this.toggleIcon = castHTMLSpanElement(this.uiRow.children[0]);
+        this.name = castHTMLSpanElement(this.uiRow.children[1]);
         this.subList = castHTMLUListElement(this.listItemElement.children[1]);
-        this.layerStub = layerStub;
-        this.subLayerBinder = subLayerBinder;
-        this.detailsAdapter = detailsAdapter;
+
+        this.stub = stub;
 
         this.toggleIcon.onclick = () => { this.onTreeToggleClick(); };
         this.name.onclick = () => { this.onNameClick(); };
-        this.name.innerText = toTitleCase(layerStub.layerName) + ": " + layerStub.name;
         this.collapse();
     }
 
     collapse(): void {
-        this.expandedWithLayer = null;
+        this.expandedWithData = null;
         this.toggleIcon.classList.remove("toggle-expanded");
         this.toggleIcon.classList.add("toggle-collapsed");
         this.subList.innerText = "";
     }
 
-    expand(parent: Layer): void {
-        this.subList.innerText = "";
-        for (let child of parent.genericSubLayers) {
-            const layerItem = createHTMLElement("li", [toCamelCase(child.layerName) + "Layer"]);
-            const nameRow = createHTMLElement("span", ["treeRow"]);
-            layerItem.appendChild(nameRow);
-            nameRow.appendChild(createHTMLElement("span", ["toggle", "toggle-collapsed"]));
-            nameRow.appendChild(createHTMLElement("span", ["layerName"], " " + toTitleCase(child.layerName) + ": " + child.name));
-            layerItem.appendChild(createHTMLElement("ul", ["tree"]));
-            this.subLayerBinder(layerItem, child);
-            this.subList.appendChild(layerItem);
-        }
+    expand(data: SelfDataType): void {
         this.toggleIcon.classList.remove("toggle-collapsed");
         this.toggleIcon.classList.add("toggle-expanded");
-        this.expandedWithLayer = parent;
+        this.expandedWithData = data;
+    } 
+
+    protected appendChildRow(layerName: string, hasChildren: boolean): HTMLLIElement {
+        const layerItem = createHTMLElement("li", [layerName + "Layer"]);
+        const nameRow = createHTMLElement("span", ["treeRow"]);
+        layerItem.appendChild(nameRow);
+        nameRow.appendChild(createHTMLElement("span", ["toggle", hasChildren ? "toggle-collapsed" : "toggle-hidden"]));
+        nameRow.appendChild(createHTMLElement("span", ["layerName"]));
+        layerItem.appendChild(createHTMLElement("ul", ["tree"]));
+        this.subList.appendChild(layerItem);
+        return layerItem;
     }
 
-    onTreeToggleClick() {
-        if (this.expandedWithLayer == null) {
-            this.expand(this.layerStub.generateFullData());
-        } else {
-            this.collapse();
-        }
-    }
+    protected abstract generateFullData(stub: SelfStubType): SelfDataType;
 
-    onNameClick() {
-        if (this.expandedWithLayer == null) {
-            const newLayer: Layer = this.layerStub.generateFullData();
-            this.expand(newLayer);
-        }
-        if (this.expandedWithLayer == null) throw new Error("Expanding should have set expandedWithLayer");
-        this.detailsAdapter.bind(this.expandedWithLayer);
+    onTreeToggleClick(): void {
+        if (this.expandedWithData == null) {
+        this.expand(this.generateFullData(this.stub));
+    } else {
+        this.collapse();
     }
 }
 
-export interface SubLayerBinder {
-    (listItemElement: HTMLLIElement, layerStub: LayerStub): TreeAdapter;
+    protected onNameClick(): void {
+        if (this.expandedWithData == null) {
+            const newData: SelfDataType = this.generateFullData(this.stub);
+            this.expand(newData);
+        }
+    }
+}
+
+export interface SubLayerBinder<StubType, DataType> {
+    (listItemElement: HTMLLIElement, layerStub: StubType): TreeAdapter<StubType, DataType>;
 }
 
 

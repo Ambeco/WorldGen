@@ -7,6 +7,6 @@ export class ContinentStub extends LayerStubBase {
     get layerName() { return "Continent"; }
 
     generateFullData(): Layer {
-        return new Continent(this.setting, this.location, this.raceCounts, new Random(this.randomState));
+        return new Continent(this, new Random(this.randomState));
     }
 }

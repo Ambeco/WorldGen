@@ -22,15 +22,15 @@ export abstract class LayerBase<StubType extends LayerStub> implements Layer {
     readonly subLayers: StubType[];
     get genericSubLayers(): LayerStub[] { return this.subLayers; }
 
-    constructor(setting: Setting, location: NumberRange, raceCounts: Map<Race, number>, approxSubLayerCount: number, rng: Random) {
-        this.setting = setting;
-        const primaryRace: [Race, number] = getBiggestValue(raceCounts);
-        this.name = primaryRace[0].generateName(rng);
-        this.population = sumValues(raceCounts);
-        this.raceCounts = raceCounts;
-        const subLayerCount = rng.nextIntNear(approxSubLayerCount) + 1;
-        this.subLayerLocations = rng.splitRange(location, subLayerCount, LAYER_SIZE_RERANDOM_STDDEV_RATIO);
-        this.location = new NumberRange(0, this.subLayerLocations[subLayerCount - 1].max);
+    constructor(stub: LayerStub, approxSubLayerCount: number, rng: Random) {
+        this.setting = stub.setting;
+        this.name = stub.name;
+        this.population = sumValues(stub.raceCounts);
+        this.raceCounts = stub.raceCounts;
+        this.location = stub.location;
+        
+        const subLayerCount = approxSubLayerCount > 0 ? rng.nextIntNear(approxSubLayerCount) + 1 : 0;
+        this.subLayerLocations = rng.splitRange(stub.location, subLayerCount, LAYER_SIZE_RERANDOM_STDDEV_RATIO);
         this.subLayers = this.generateSubLayerStubs(rng);
         this.people = this.generateHeroes(this.subLayerLocations, this.subLayers, rng);
         this.randomState = rng.getState();
@@ -61,8 +61,8 @@ export abstract class LayerBase<StubType extends LayerStub> implements Layer {
         return result;
     }
 
-    private generateHero<StubType extends LayerStub>(locationDistribution: NumberRange[], subLayers: StubType[], rng: Random): BasePerson {
-        const location: number = rng.nextPercent();
+    protected generateHero<StubType extends LayerStub>(locationDistribution: NumberRange[], subLayers: StubType[], rng: Random): BasePerson {
+        const location: number = rng.nextNumber(this.location.min, this.location.max);
         const subLayer: StubType = getByCDF(location, locationDistribution, subLayers);
         const race = rng.nextWeightedKey(subLayer.raceCounts);
         const fame = this.generateFameForHero(rng);

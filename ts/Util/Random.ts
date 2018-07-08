@@ -142,8 +142,9 @@ export class Random {
     }
 
     // The split ranges will sum to the old total
-    splitRange(range: NumberRange, splitNWays: number, stddevRatio:number): NumberRange[] {
+    splitRange(range: NumberRange, splitNWays: number, stddevRatio: number): NumberRange[] {
         const result: NumberRange[] = [];
+        if (splitNWays == 0) return result;
         let curMin = range.min;
         for (let i = 0; i < splitNWays - 1; i++) {
             const remainItemCount = splitNWays - i;
@@ -176,6 +177,7 @@ export class Random {
 
     // The split ranges will sum to the old total
     splitMapIntegerValues<T>(map: Map<T, number>, split: NumberRange[], stddevRatio: number): Map<T, number>[] {
+        if (split.length == 0) return [];
         const remains = new Map<T, number>(map); //clone
         const totalRange = split[split.length - 1].max - split[0].min;
         const result: Map<T, number>[] = [];

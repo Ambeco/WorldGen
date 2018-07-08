@@ -10,10 +10,10 @@ export class Setting {
     public get approxCityCount() { return 10; }
     public get approxNeighborhoodCount() { return 7; }
     public get approxStreetCount() { return 7; }
-    public get approxResidenceCount() { return 15; }
+    public get approxBuildingCount() { return 15; }
     public get approxIndividualCount() { return 3; }
     public get approxPopulationCount(): number { // default is 1'984'500
-        return this.approxIndividualCount * this.approxResidenceCount * this.approxStreetCount * this.approxNeighborhoodCount * this.approxCityCount * this.approxRegionCount * this.approxCountryCount * this.approxContinentCount;
+        return this.approxIndividualCount * this.approxBuildingCount * this.approxStreetCount * this.approxNeighborhoodCount * this.approxCityCount * this.approxRegionCount * this.approxCountryCount * this.approxContinentCount;
     }
 
     //other layers will fill 100% of parent.  There is no part of a continent with no country, no part of country with no region, no part of neighborhood with no street, etc.

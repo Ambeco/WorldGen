@@ -36,12 +36,14 @@ ul {
 }
 
 #treeRoot {
-    width: 3in;
+    width: 4in;
+    height: 90%;
     top: 4em;
     padding: 0.05in;
     background-color: white;
     position: fixed;
     z-index: 1;
+    overflow: auto;
 }
 ul.tree {
     padding-left: 1em;
@@ -54,7 +56,7 @@ ul.tree li {
 #details {
     max-width: 11in;
     margin: 0.05in;
-    margin-left: 3.25in;
+    margin-left: 4.25in;
     padding: 0.05in;
     background-color: white;
     float: left;

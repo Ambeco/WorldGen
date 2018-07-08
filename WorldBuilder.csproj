@@ -91,25 +91,40 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
-    <Folder Include="ts\Layers\C_country\" />
-    <Folder Include="ts\Layers\D_region\" />
-    <Folder Include="ts\Layers\E_city\" />
-    <Folder Include="ts\Layers\F_neighborhood\" />
-    <Folder Include="ts\Layers\G_street\" />
-    <Folder Include="ts\Layers\H_residence\" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="ts\Data\NameGen\OrcNameGen.ts" />
     <TypeScriptCompile Include="ts\Layers\B_continent\Continent.ts" />
     <TypeScriptCompile Include="ts\Layers\B_continent\CountryStub.ts" />
+    <TypeScriptCompile Include="ts\Layers\C_country\Country.ts" />
+    <TypeScriptCompile Include="ts\Layers\C_country\RegionStub.ts" />
+    <TypeScriptCompile Include="ts\Layers\D_region\Region.ts" />
+    <TypeScriptCompile Include="ts\Layers\D_region\CityStub.ts" />
+    <TypeScriptCompile Include="ts\Layers\E_city\NeighborhoodStub.ts" />
+    <TypeScriptCompile Include="ts\Layers\E_city\City.ts" />
+    <TypeScriptCompile Include="ts\Layers\F_neighborhood\Neighborhood.ts" />
+    <TypeScriptCompile Include="ts\Layers\F_neighborhood\StreetStub.ts" />
+    <TypeScriptCompile Include="ts\Layers\G_street\Street.ts" />
+    <TypeScriptCompile Include="ts\Layers\G_street\BuildingStub.ts" />
+    <TypeScriptCompile Include="ts\Layers\H_building\Building.ts" />
+    <TypeScriptCompile Include="ts\Layers\H_building\NoStub.ts" />
     <TypeScriptCompile Include="ts\Layers\Layer.ts" />
     <TypeScriptCompile Include="ts\Layers\LayerBase.ts" />
     <TypeScriptCompile Include="ts\Layers\LayerStubBase.ts" />
     <TypeScriptCompile Include="ts\Layers\LayerStub.ts" />
+    <TypeScriptCompile Include="ts\UI\PersonDetailsAdapter.ts" />
+    <TypeScriptCompile Include="ts\UI\PersonAdapter.ts" />
+    <TypeScriptCompile Include="ts\UI\BuildingAdapter.ts" />
+    <TypeScriptCompile Include="ts\UI\StreetAdapter.ts" />
+    <TypeScriptCompile Include="ts\UI\NeighborhoodAdapter.ts" />
+    <TypeScriptCompile Include="ts\UI\CityAdapter.ts" />
+    <TypeScriptCompile Include="ts\UI\RegionAdapter.ts" />
+    <TypeScriptCompile Include="ts\UI\CountryAdapter.ts" />
+    <TypeScriptCompile Include="ts\UI\ContinentAdapter.ts" />
     <TypeScriptCompile Include="ts\UI\PageParams.ts" />
+    <TypeScriptCompile Include="ts\UI\LayerAdapter.ts" />
     <TypeScriptCompile Include="ts\UI\TreeAdapter.ts" />
     <TypeScriptCompile Include="ts\UI\DetailsAdapter.ts" />
-    <TypeScriptCompile Include="ts\UI\ContinentAdapter.ts" />
     <TypeScriptCompile Include="ts\Universal\Person\fameGen.ts" />
     <TypeScriptCompile Include="ts\Universal\Setting\Job.ts" />
     <TypeScriptCompile Include="ts\Util\casing.ts" />

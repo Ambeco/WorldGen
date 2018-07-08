@@ -5,12 +5,13 @@ import { NumberRange } from "../../Util/NumberRange.js";
 import { generateFameForContinentHero } from "../../Universal/Person/fameGen.js";
 import { LayerBase } from "../LayerBase.js";
 import { CountryStub } from "./CountryStub.js";
+import { ContinentStub } from "../A_world/ContinentStub.js";
 
 export class Continent extends LayerBase<CountryStub> {
     get layerName() { return "Continent"; }
 
-    constructor(setting: Setting, location: NumberRange, raceCounts: Map<Race, number>, rng: Random) {
-        super(setting, location, raceCounts, setting.approxCountryCount, rng);
+    constructor(stub: ContinentStub, rng: Random) {
+        super(stub, stub.setting.approxCountryCount, rng);
     }
 
     protected generateSubLayerStub(locationDistribution: NumberRange, raceDistributions: Map<Race, number>, rng: Random): CountryStub {

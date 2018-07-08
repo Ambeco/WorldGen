@@ -32,9 +32,9 @@ export class BasePerson {
     public getPersonality(): string {
         const highTraits: [string,number][] = this.traits.getHighTraits(3);
         const lowTraits: [string, number][] = this.traits.getLowTraits(2);
-        const result = this.familyName + " is " + highTraits[0][0] + ", "
+        const result = this.firstName + " is " + highTraits[0][0] + ", "
             + highTraits[1][0] + ", and " + highTraits[2][0] + ". "
-            + this.familyName + " is not very " + lowTraits[0][0] + " or "
+            + this.firstName + " is not very " + lowTraits[0][0] + " or "
             + lowTraits[1][0] + ".";
         return result;
     }

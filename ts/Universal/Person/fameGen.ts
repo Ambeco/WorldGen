@@ -11,7 +11,7 @@ import { logBase } from "../../Util/Distribution.js";
 * 1:213 have a fame of 40+ (neighborhood) (0.47%)
 * 1:816 have a fame of 50+ (0.12%)
 * 1:3121 have a fame of 60+ (city) (0.03%)
-* 1:11934 have a fame of 70+
+* 1:11934 have a fame of 70+ (region)
 * 1:45626 have a fame of 80+ (country)
 * 1:174428 have a fame of 90+ (continent)
 * 1:666835 have a fame of 100 (world)
@@ -32,8 +32,43 @@ export function generateFameForContinentHero(population: number, rng: Random): n
     return raw;
 }
 
+export function generateFameForCountryHero(population: number, rng: Random): number {
+    const raw: number = 100 - logBase(rng.nextNumber(0, population / 45626), 0.8745);
+    if (raw < 0) return 0;
+    if (raw > 100) return 100;
+    return raw;
+}
+
+export function generateFameForRegionHero(population: number, rng: Random): number {
+    const raw: number = 100 - logBase(rng.nextNumber(0, population / 11934), 0.8745);
+    if (raw < 0) return 0;
+    if (raw > 100) return 100;
+    return raw;
+}
+
+export function generateFameForCityHero(population: number, rng: Random): number {
+    const raw: number = 100 - logBase(rng.nextNumber(0, population / 3121), 0.8745);
+    if (raw < 0) return 0;
+    if (raw > 100) return 100;
+    return raw;
+}
+
 export function generateFameForNeighborhoodHero(population: number, rng: Random): number {
     const raw: number = 100 - logBase(rng.nextNumber(0, population / 213), 0.8745);
+    if (raw < 0) return 0;
+    if (raw > 100) return 100;
+    return raw;
+}
+
+export function generateFameForStreetHero(population: number, rng: Random): number {
+    const raw: number = 100 - logBase(rng.nextNumber(0, population / 14.6), 0.8745);
+    if (raw < 0) return 0;
+    if (raw > 100) return 100;
+    return raw;
+}
+
+export function generateFameForBuildingHero(population: number, rng: Random): number {
+    const raw: number = 100 - logBase(rng.nextNumber(0, population), 0.8745);
     if (raw < 0) return 0;
     if (raw > 100) return 100;
     return raw;

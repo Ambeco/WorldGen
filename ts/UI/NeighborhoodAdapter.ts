@@ -1,29 +1,25 @@
-﻿import { World } from "../Layers/A_world/World.js";
+﻿import { Continent } from "../Layers/B_continent/Continent.js";
 import { castHTMLSpanElement, castHTMLDivElement, castHTMLUListElement, castHTMLElement, castHTMLTableElement, castHTMLLIElement } from "../Util/HtmlCasts.js";
-import { ContinentStub } from "../Layers/A_world/ContinentStub.js";
 import { BasePerson } from "../Universal/Person/BasePerson.js";
 import { toCamelCase, toTitleCase } from "../Util/casing.js";
 import { DetailsAdapter } from "./DetailsAdapter.js";
-import { ContinentTreeAdapter } from "./ContinentAdapter.js";
+import { LayerAdapter } from "./LayerAdapter.js";
 import { LayerStub } from "../Layers/LayerStub.js";
 import { Layer } from "../Layers/Layer.js";
-import { LayerAdapter } from "./LayerAdapter.js";
+import { StreetTreeAdapter } from "./StreetAdapter.js";
 
-export class WorldTreeAdapter extends LayerAdapter {
-    readonly world: World; //world ALWAYS keeps its data
-
-    constructor(world: World) {
-        const listItemElement: HTMLDivElement = castHTMLDivElement(document.getElementById("treeRoot"));
-        super(listItemElement, world, WorldTreeAdapter.subBinder, new WorldDetailsAdapter());
+export class NeighborhoodTreeAdapter extends LayerAdapter {
+    constructor(listItemElement: HTMLLIElement, layerStub: LayerStub) {
+        super(listItemElement, layerStub, NeighborhoodTreeAdapter.subBinder, new NeighborhoodDetailsAdapter());
     }
 
     static subBinder(listItemElement: HTMLLIElement, layerStub: LayerStub): LayerAdapter {
-        return new ContinentTreeAdapter(listItemElement, layerStub);
+        return new StreetTreeAdapter(listItemElement, layerStub);
     }
 }
 
-export class WorldDetailsAdapter extends DetailsAdapter {
-
+export class NeighborhoodDetailsAdapter extends DetailsAdapter {
+    
     bind(layer: Layer): void {
         const nName: HTMLElement = castHTMLElement(document.getElementById("title"));
         nName.innerText = toTitleCase(layer.layerName) + ": " + layer.name;

@@ -20,7 +20,7 @@ export class World extends LayerBase<ContinentStub> {
     private static generateWorldStub(setting: Setting, rng: Random): LayerStub {
         const primaryRace: [Race, number] = getBiggestValue(setting.raceCounts);
         const discardableResizer = rng.randomizeAndSplitRange(new NumberRange(0, setting.approxWorldSize), setting.approxContinentCount, LAYER_SIZE_RERANDOM_STDDEV_RATIO);
-        const counts = rng.rerandomMapValues(setting.raceCounts, LAYER_RACE_RERANDOM_STDDEV_RATIO);
+        const counts = rng.rerandomMapValues(setting.raceCounts, setting.approxWorldPopulation, LAYER_RACE_RERANDOM_STDDEV_RATIO);
         const result: LayerStub = {
             layerName: "World",
             name: primaryRace[0].generateName(rng),

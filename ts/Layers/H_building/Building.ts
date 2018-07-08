@@ -20,11 +20,13 @@ export class Building extends LayerBase<NoStub> {
         return new NoStub(this.setting, locationDistribution, raceDistributions, rng);
     }
 
-    protected generateHero<StubType extends LayerStub>(locationDistribution: NumberRange[], subLayers: StubType[], rng: Random): BasePerson {
+    protected addPerson(races: Map<Race, number>, rng: Random): BasePerson {
         const location: number = rng.nextNumber(this.location.min, this.location.max);
-        const race = rng.nextWeightedKey(this.raceCounts);
+        const race = rng.nextWeightedKey(races);
         const fame = this.generateFameForHero(rng);
-        return new BasePerson(location, race, fame, rng);
+        const person = new BasePerson(location, race, fame, rng);
+        this.people.push(person);
+        return person;
     }
 
     protected generateFameForHero(rng: Random): number {

@@ -7,6 +7,7 @@ import { NumberRange } from "../Util/NumberRange.js";
 import { BasePerson } from "../Universal/Person/BasePerson.js";
 import { DEFAULT_PEOPLE_PER_TIER, LAYER_RACE_RERANDOM_STDDEV_RATIO, LAYER_SIZE_RERANDOM_STDDEV_RATIO } from "../Universal/Configuration.js";
 import { Layer } from "./Layer.js";
+import { nonNull } from "../Util/nonNull.js";
 
 export abstract class LayerBase<StubType extends LayerStub> implements Layer {
     readonly layerName: string; //"World", "City", etc
@@ -28,11 +29,12 @@ export abstract class LayerBase<StubType extends LayerStub> implements Layer {
         this.population = sumValues(stub.raceCounts);
         this.raceCounts = stub.raceCounts;
         this.location = stub.location;
+        this.people = stub.people;
         
         const subLayerCount = approxSubLayerCount > 0 ? rng.nextIntNear(approxSubLayerCount) + 1 : 0;
         this.subLayerLocations = rng.splitRange(stub.location, subLayerCount, LAYER_SIZE_RERANDOM_STDDEV_RATIO);
         this.subLayers = this.generateSubLayerStubs(rng);
-        this.people = this.generateHeroes(this.subLayerLocations, this.subLayers, rng);
+        this.addMissingPeople(rng);
         this.randomState = rng.getState();
     }
 
@@ -53,20 +55,24 @@ export abstract class LayerBase<StubType extends LayerStub> implements Layer {
         return subLayers;
     }
 
-    private generateHeroes<StubType extends LayerStub>(locationDistribution: NumberRange[], subLayers: StubType[], rng: Random): BasePerson[] {
-        const result: BasePerson[] = [];
-        for (let i = 0; i < DEFAULT_PEOPLE_PER_TIER; i++) {
-            result[i] = this.generateHero(locationDistribution, subLayers, rng);
+    protected addMissingPeople(rng: Random) {
+        const remaining = new Map<Race, number>(this.raceCounts);
+        while (this.people.length < DEFAULT_PEOPLE_PER_TIER && this.people.length < this.population) {
+            const person = this.addPerson(remaining, rng);
+            const prevRaceCount = nonNull(remaining.get(person.race), "cannot find race " + person.race);
+            remaining.set(person.race, prevRaceCount - 1);
         }
-        return result;
     }
 
-    protected generateHero<StubType extends LayerStub>(locationDistribution: NumberRange[], subLayers: StubType[], rng: Random): BasePerson {
+    protected addPerson(races: Map<Race, number>, rng: Random): BasePerson {
         const location: number = rng.nextNumber(this.location.min, this.location.max);
-        const subLayer: StubType = getByCDF(location, locationDistribution, subLayers);
-        const race = rng.nextWeightedKey(subLayer.raceCounts);
+        const subLayer: LayerStub = getByCDF(location, this.subLayerLocations, this.subLayers);
+        const race = rng.nextWeightedKey(races);
         const fame = this.generateFameForHero(rng);
-        return new BasePerson(location, race, fame, rng);
+        const person = new BasePerson(location, race, fame, rng);
+        subLayer.people.push(person);
+        this.people.push(person);
+        return person;
     }
 
     public subLayerByLocation(location: number): StubType {

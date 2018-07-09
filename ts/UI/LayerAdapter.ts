@@ -2,14 +2,14 @@
 import { toCamelCase, toTitleCase } from "../Util/casing.js";
 import { Layer } from "../Layers/Layer.js";
 import { LayerStub } from "../Layers/LayerStub.js";
-import { DetailsAdapter } from "./DetailsAdapter.js";
+import { LayerDetailsAdapter } from "./DetailsAdapter.js";
 import { SubLayerBinder, TreeAdapter } from "./TreeAdapter.js";
 
 export abstract class LayerAdapter extends TreeAdapter<LayerStub, Layer> {
-    readonly detailsAdapter: DetailsAdapter;
+    readonly detailsAdapter: LayerDetailsAdapter;
     readonly subLayerBinder: SubLayerBinder<LayerStub, Layer>;
 
-    constructor(listItemElement: HTMLLIElement | HTMLDivElement, layerStub: LayerStub, subLayerBinder: SubLayerBinder<LayerStub, Layer>, detailsAdapter: DetailsAdapter) {
+    constructor(listItemElement: HTMLLIElement | HTMLDivElement, layerStub: LayerStub, subLayerBinder: SubLayerBinder<LayerStub, Layer>, detailsAdapter: LayerDetailsAdapter) {
         super(listItemElement, layerStub, layerStub.population > 0);
         this.detailsAdapter = detailsAdapter;
         this.subLayerBinder = subLayerBinder;

@@ -219,16 +219,16 @@ export class Random {
     }
 
     rerandomMapValues<T>(oldMap: Map<T, number>, desiredEstimatedTotal: number, stddevRatio: number): Map<T, number> {
-        let initTotal = 0;
+        let oldTotal = 0;
         for (let element of oldMap) {
-            initTotal += element[1];
+            oldTotal += element[1];
         }
-        const scaleRatio = desiredEstimatedTotal / initTotal;
+        const scaleRatio = desiredEstimatedTotal / oldTotal;
         const newMap = new Map<T, number>();
         for (let element of oldMap) {
             const aroundValue = element[1] * scaleRatio;
-            const stddev = aroundValue * stddevRatio / initTotal;
-            const thisValue = Math.round(this.nextBoundNormalAround(0, initTotal, aroundValue, stddev));
+            const stddev = aroundValue * stddevRatio / desiredEstimatedTotal;
+            const thisValue = Math.round(this.nextBoundNormalAround(0, desiredEstimatedTotal, aroundValue, stddev));
             newMap.set(element[0], thisValue);
         }
         return newMap;

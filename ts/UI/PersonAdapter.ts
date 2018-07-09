@@ -2,7 +2,7 @@
 import { castHTMLSpanElement, castHTMLDivElement, castHTMLUListElement, castHTMLElement, castHTMLTableElement, castHTMLLIElement } from "../Util/HtmlCasts.js";
 import { BasePerson } from "../Universal/Person/BasePerson.js";
 import { toCamelCase, toTitleCase } from "../Util/casing.js";
-import { DetailsAdapter } from "./DetailsAdapter.js";
+import { LayerDetailsAdapter } from "./DetailsAdapter.js";
 import { TreeAdapter } from "./TreeAdapter.js";
 import { LayerStub } from "../Layers/LayerStub.js";
 import { Layer } from "../Layers/Layer.js";

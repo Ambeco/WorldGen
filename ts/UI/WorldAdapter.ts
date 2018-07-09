@@ -3,7 +3,7 @@ import { castHTMLSpanElement, castHTMLDivElement, castHTMLUListElement, castHTML
 import { ContinentStub } from "../Layers/A_world/ContinentStub.js";
 import { BasePerson } from "../Universal/Person/BasePerson.js";
 import { toCamelCase, toTitleCase } from "../Util/casing.js";
-import { DetailsAdapter } from "./DetailsAdapter.js";
+import { LayerDetailsAdapter } from "./DetailsAdapter.js";
 import { ContinentTreeAdapter } from "./ContinentAdapter.js";
 import { LayerStub } from "../Layers/LayerStub.js";
 import { Layer } from "../Layers/Layer.js";
@@ -22,7 +22,7 @@ export class WorldTreeAdapter extends LayerAdapter {
     }
 }
 
-export class WorldDetailsAdapter extends DetailsAdapter {
+export class WorldDetailsAdapter extends LayerDetailsAdapter {
 
     bind(layer: Layer): void {
         const nName: HTMLElement = castHTMLElement(document.getElementById("title"));

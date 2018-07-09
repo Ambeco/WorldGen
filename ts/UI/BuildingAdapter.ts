@@ -1,6 +1,6 @@
 ﻿import { createHTMLElement, castHTMLElement } from "../Util/HtmlCasts.js";
 import { BasePerson } from "../Universal/Person/BasePerson.js";
-import { DetailsAdapter } from "./DetailsAdapter.js";
+import { LayerDetailsAdapter } from "./DetailsAdapter.js";
 import { TreeAdapter, SubLayerBinder } from "./TreeAdapter.js";
 import { LayerStub } from "../Layers/LayerStub.js";
 import { Layer } from "../Layers/Layer.js";
@@ -9,7 +9,7 @@ import { PersonDetailsAdapter } from "./PersonDetailsAdapter.js";
 import { toTitleCase } from "../Util/casing.js";
 
 export class BuildingTreeAdapter extends TreeAdapter<LayerStub, Layer> {
-    readonly detailsAdapter: DetailsAdapter;
+    readonly detailsAdapter: LayerDetailsAdapter;
     readonly subLayerBinder: SubLayerBinder<BasePerson, BasePerson>;
 
     constructor(listItemElement: HTMLLIElement, layerStub: LayerStub) {
@@ -45,7 +45,7 @@ export class BuildingTreeAdapter extends TreeAdapter<LayerStub, Layer> {
     }
 }
 
-export class BuildingDetailsAdapter extends DetailsAdapter {
+export class BuildingDetailsAdapter extends LayerDetailsAdapter {
     
     bind(layer: Layer): void {
         const nName: HTMLElement = castHTMLElement(document.getElementById("title"));

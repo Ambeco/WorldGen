@@ -13,7 +13,7 @@ export class Setting {
     public get approxStreetCount() { return 7; }
     public get approxBuildingCount() { return 15; }
 
-    public get approxWorldPopulation(): number { return this.approxContinentPopulation * this.approxContinentCount; } // default is 1'984'500
+    public get approxWorldPopulation(): number { return this.approxContinentPopulation * this.approxContinentCount; } // default is 1'228'500
     public get approxContinentPopulation(): number { return this.approxCountryPopulation * this.approxCountryCount; }
     public get approxCountryPopulation(): number { return this.approxRegionPopulation * this.approxRegionCount; }
     public get approxRegionPopulation(): number { return this.approxCityPopulation * this.approxCityCount; }
@@ -22,7 +22,7 @@ export class Setting {
     public get approxStreetPopulation(): number { return this.approxBuildingPopulation * this.approxBuildingCount; }
     public get approxBuildingPopulation(): number { return 3; }
 
-    //other layers will fill 100% of parent.  There is no part of a continent with no country, no part of country with no region, no part of neighborhood with no street, etc.
+    // sublayers may not fill 100% of parent. Namely, continents don't cover the whole world. There's also Oceans.
     public get approxWorldSize() { return 1969000000; } //earth in miles
     public get approxContinentSize() { return 9540000; } //north america in sq mi
     public get approxCountrySize() { return this.approxCountryPopulation / this.approxContinentPopulation * this.approxContinentSize; } //default is 954'000 sq mi

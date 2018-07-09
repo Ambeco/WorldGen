@@ -1,7 +1,8 @@
 ﻿import { castHTMLTableElement, createHTMLElement, castHTMLElement } from "../Util/HtmlCasts.js";
 import { Layer } from "../Layers/Layer.js";
+import { Race } from "../Universal/Setting/Race";
 
-export abstract class DetailsAdapter {
+export abstract class LayerDetailsAdapter {
     abstract bind(layer: Layer): void;
 
     bindLayerToByTheNumbers(layer: Layer): void {
@@ -32,9 +33,14 @@ export abstract class DetailsAdapter {
     protected createPopulationList(layer: Layer): string[] {
         const result: string[] = [];
         for (let item of layer.raceCounts.entries()) {
-            result.push(item[1].toLocaleString() + " " + item[0].name);
+            if (item[1] > 0)
+                result.push(item[1].toLocaleString() + " " + this.getRaceName(item[0], item[1]));
         }
         return result;
+    }
+
+    protected getRaceName(race: Race, number: number): string {
+        return number == 1 ? race.singleCitzenName : race.pluralCitzensName;
     }
 
     protected createByTheNumbersHeader(layer: Layer): HTMLElement {

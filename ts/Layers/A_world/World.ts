@@ -6,12 +6,12 @@ import { NumberRange } from "../../Util/NumberRange.js";
 import { LAYER_RACE_RERANDOM_STDDEV_RATIO, LAYER_SIZE_RERANDOM_STDDEV_RATIO } from "../../Universal/Configuration.js";
 import { generateFameForWorldHero } from "../../Universal/Person/fameGen.js";
 import { LayerBase } from "../LayerBase.js";
-import { LayerStub } from "../LayerStub.js";
+import { LayerStub, LayerEnum } from "../LayerStub.js";
 import { getBiggestValue, sumValues } from "../../Util/Distribution.js";
 import { Layer } from "../Layer.js";
 
 export class World extends LayerBase<ContinentStub> {
-    get layerName() { return "World"; }
+    get layer() { return LayerEnum.World; }
 
     constructor(setting: Setting, rng: Random) {
         super(World.generateWorldStub(setting, rng), setting.approxContinentPopulation, rng);
@@ -22,7 +22,7 @@ export class World extends LayerBase<ContinentStub> {
         const discardableResizer = rng.randomizeAndSplitRange(new NumberRange(0, setting.approxWorldSize), setting.approxContinentCount, LAYER_SIZE_RERANDOM_STDDEV_RATIO);
         const counts = rng.rerandomMapValues(setting.raceCounts, setting.approxWorldPopulation, LAYER_RACE_RERANDOM_STDDEV_RATIO);
         const result: LayerStub = {
-            layerName: "World",
+            layer: LayerEnum.World,
             name: primaryRace[0].generateName(rng),
             randomState: rng.getState(),
             setting: setting,

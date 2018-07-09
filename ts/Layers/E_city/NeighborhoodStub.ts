@@ -2,9 +2,10 @@
 import { Layer } from "../Layer.js";
 import { Neighborhood } from "../F_neighborhood/Neighborhood.js";
 import { Random } from "../../Util/Random.js";
+import { LayerEnum } from "../LayerStub.js";
 
 export class NeighborhoodStub extends LayerStubBase {
-    get layerName() { return "Neighborhood"; }
+    get layer() { return LayerEnum.Neighborhood; }
 
     generateFullData(): Layer {
         return new Neighborhood(this, new Random(this.randomState));

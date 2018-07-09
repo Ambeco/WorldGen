@@ -2,7 +2,7 @@
 import { BasePerson } from "../Universal/Person/BasePerson.js";
 import { LayerDetailsAdapter } from "./DetailsAdapter.js";
 import { TreeAdapter, SubLayerBinder } from "./TreeAdapter.js";
-import { LayerStub } from "../Layers/LayerStub.js";
+import { LayerStub, LayerEnum } from "../Layers/LayerStub.js";
 import { Layer } from "../Layers/Layer.js";
 import { PersonTreeAdapter } from "./PersonAdapter.js";
 import { PersonDetailsAdapter } from "./PersonDetailsAdapter.js";
@@ -49,7 +49,7 @@ export class BuildingDetailsAdapter extends LayerDetailsAdapter {
     
     bind(layer: Layer): void {
         const nName: HTMLElement = castHTMLElement(document.getElementById("title"));
-        nName.innerText = toTitleCase(layer.layerName) + ": " + layer.name;
+        nName.innerText = toTitleCase(LayerEnum[layer.layer]) + ": " + layer.name;
         this.bindLayerToByTheNumbers(layer);
         this.bindSummary(layer);
     }

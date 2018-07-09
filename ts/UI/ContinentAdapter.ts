@@ -4,7 +4,7 @@ import { BasePerson } from "../Universal/Person/BasePerson.js";
 import { toCamelCase, toTitleCase } from "../Util/casing.js";
 import { LayerDetailsAdapter } from "./DetailsAdapter.js";
 import { LayerAdapter } from "./LayerAdapter.js";
-import { LayerStub } from "../Layers/LayerStub.js";
+import { LayerStub, LayerEnum } from "../Layers/LayerStub.js";
 import { Layer } from "../Layers/Layer.js";
 import { CountryTreeAdapter } from "./CountryAdapter.js";
 
@@ -22,7 +22,7 @@ export class ContinentDetailsAdapter extends LayerDetailsAdapter {
     
     bind(layer: Layer): void {
         const nName: HTMLElement = castHTMLElement(document.getElementById("title"));
-        nName.innerText = toTitleCase(layer.layerName) + ": " + layer.name;
+        nName.innerText = toTitleCase(LayerEnum[layer.layer]) + ": " + layer.name;
         this.bindLayerToByTheNumbers(layer);
         this.bindSummary(layer);
     }

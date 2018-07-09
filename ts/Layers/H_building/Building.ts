@@ -7,10 +7,10 @@ import { LayerBase } from "../LayerBase.js";
 import { NoStub } from "./NoStub.js";
 import { BuildingStub } from "../G_street/BuildingStub.js";
 import { BasePerson } from "../../Universal/Person/BasePerson.js";
-import { LayerStub } from "../LayerStub.js";
+import { LayerStub, LayerEnum } from "../LayerStub.js";
 
 export class Building extends LayerBase<NoStub> {
-    get layerName() { return "Street"; }
+    get layer() { return LayerEnum.Building; }
 
     constructor(stub: BuildingStub, rng: Random) {
         super(stub, stub.setting.approxWorldPopulation, rng);

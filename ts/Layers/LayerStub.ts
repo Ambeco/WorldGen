@@ -6,8 +6,19 @@ import { BasePerson } from "../Universal/Person/BasePerson.js";
 import { Setting } from "../Universal/Setting/Setting.js";
 import { Layer } from "./Layer.js";
 
+export enum LayerEnum {
+    World,
+    Continent,
+    Country,
+    Region,
+    City,
+    Neighborhood,
+    Street,
+    Building,
+};
+
 export interface LayerStub {
-    readonly layerName: string; //"World", "City", etc
+    readonly layer: LayerEnum;
 
     readonly name: string;
     readonly randomState: RandomState;

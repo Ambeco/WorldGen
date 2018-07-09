@@ -6,9 +6,10 @@ import { generateFameForNeighborhoodHero } from "../../Universal/Person/fameGen.
 import { LayerBase } from "../LayerBase.js";
 import { StreetStub } from "./StreetStub.js";
 import { NeighborhoodStub } from "../E_city/NeighborhoodStub.js";
+import { LayerEnum } from "../LayerStub.js";
 
 export class Neighborhood extends LayerBase<StreetStub> {
-    get layerName() { return "Neighborhood"; }
+    get layer() { return LayerEnum.Neighborhood; }
 
     constructor(stub: NeighborhoodStub, rng: Random) {
         super(stub, stub.setting.approxStreetPopulation, rng);

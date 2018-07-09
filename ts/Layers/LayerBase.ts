@@ -1,4 +1,4 @@
-﻿import { LayerStub } from "./LayerStub.js";
+﻿import { LayerStub, LayerEnum } from "./LayerStub.js";
 import { Random, RandomState } from "../Util/Random.js";
 import { Setting } from "../Universal/Setting/Setting.js";
 import { Race } from "../Universal/Setting/Race.js";
@@ -10,7 +10,7 @@ import { Layer } from "./Layer.js";
 import { nonNull } from "../Util/nonNull.js";
 
 export abstract class LayerBase<StubType extends LayerStub> implements Layer {
-    readonly layerName: string; //"World", "City", etc
+    readonly layer: LayerEnum;
 
     readonly randomState: RandomState;
     readonly setting: Setting;
@@ -86,5 +86,5 @@ export abstract class LayerBase<StubType extends LayerStub> implements Layer {
         return sublayer;
     }
 
-    toString(): string { return this.layerName + ": " + this.name; }
+    toString(): string { return LayerEnum[this.layer] + ": " + this.name; }
 }

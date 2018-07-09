@@ -4,18 +4,18 @@ import { getBiggestValue, sumValues } from "../Util/Distribution.js";
 import { NumberRange } from "../Util/NumberRange.js";
 import { BasePerson } from "../Universal/Person/BasePerson.js";
 import { Setting } from "../Universal/Setting/Setting.js";
-import { LayerStub } from "./LayerStub.js";
+import { LayerStub, LayerEnum } from "./LayerStub.js";
 import { Layer } from "./Layer.js";
 
 export abstract class LayerStubBase implements LayerStub {
-    public readonly layerName: string; //"World", "City", etc
+    readonly layer: LayerEnum;
 
-    public readonly randomState: RandomState;
-    public readonly setting: Setting;
-    public readonly name: string;
-    public readonly location: NumberRange;
-    public readonly population: number;
-    public readonly raceCounts: Map<Race, number>;
+    readonly randomState: RandomState;
+    readonly setting: Setting;
+    readonly name: string;
+    readonly location: NumberRange;
+    readonly population: number;
+    readonly raceCounts: Map<Race, number>;
     readonly people: BasePerson[];
 
     constructor(setting: Setting, location: NumberRange, raceCounts: Map<Race, number>, rng: Random) {
@@ -32,5 +32,5 @@ export abstract class LayerStubBase implements LayerStub {
     abstract generateFullData(): Layer;
 
 
-    toString(): string { return this.layerName + "Stub: " + this.name; }
+    toString(): string { return LayerEnum[this.layer] + "Stub: " + this.name; }
 }

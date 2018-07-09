@@ -6,9 +6,10 @@ import { generateFameForContinentHero } from "../../Universal/Person/fameGen.js"
 import { LayerBase } from "../LayerBase.js";
 import { CountryStub } from "./CountryStub.js";
 import { ContinentStub } from "../A_world/ContinentStub.js";
+import { LayerEnum } from "../LayerStub.js";
 
 export class Continent extends LayerBase<CountryStub> {
-    get layerName() { return "Continent"; }
+    get layer() { return LayerEnum.Continent; }
 
     constructor(stub: ContinentStub, rng: Random) {
         super(stub, stub.setting.approxCountryPopulation, rng);

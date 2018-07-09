@@ -14,7 +14,7 @@ export class World extends LayerBase<ContinentStub> {
     get layerName() { return "World"; }
 
     constructor(setting: Setting, rng: Random) {
-        super(World.generateWorldStub(setting, rng), setting.approxContinentCount, rng);
+        super(World.generateWorldStub(setting, rng), setting.approxContinentPopulation, rng);
     }
 
     private static generateWorldStub(setting: Setting, rng: Random): LayerStub {

@@ -8,11 +8,12 @@ export abstract class TreeAdapter<SelfStubType, SelfDataType> {
     readonly subList: HTMLUListElement;
 
     readonly stub: SelfStubType;
+    readonly hasChildren: boolean;
 
     protected expandedWithData: SelfDataType | null;
     protected children: SelfStubType[] | null;
 
-    constructor(listItemElement: HTMLLIElement | HTMLDivElement, stub: SelfStubType) {
+    constructor(listItemElement: HTMLLIElement | HTMLDivElement, stub: SelfStubType, hasChildren: boolean) {
         this.listItemElement = listItemElement;
         this.uiRow = castHTMLElement(listItemElement.children[0]);
         this.toggleIcon = castHTMLSpanElement(this.uiRow.children[0]);
@@ -20,6 +21,7 @@ export abstract class TreeAdapter<SelfStubType, SelfDataType> {
         this.subList = castHTMLUListElement(this.listItemElement.children[1]);
 
         this.stub = stub;
+        this.hasChildren = hasChildren;
 
         this.toggleIcon.onclick = () => { this.onTreeToggleClick(); };
         this.name.onclick = () => { this.onNameClick(); };
@@ -29,13 +31,13 @@ export abstract class TreeAdapter<SelfStubType, SelfDataType> {
     collapse(): void {
         this.expandedWithData = null;
         this.toggleIcon.classList.remove("toggle-expanded");
-        this.toggleIcon.classList.add("toggle-collapsed");
+        this.toggleIcon.classList.add(this.hasChildren ? "toggle-collapsed" : "toggle-hidden");
         this.subList.innerText = "";
     }
 
     expand(data: SelfDataType): void {
         this.toggleIcon.classList.remove("toggle-collapsed");
-        this.toggleIcon.classList.add("toggle-expanded");
+        this.toggleIcon.classList.add(this.hasChildren ? "toggle-expanded" : "toggle-hidden");
         this.expandedWithData = data;
     } 
 
@@ -54,17 +56,16 @@ export abstract class TreeAdapter<SelfStubType, SelfDataType> {
 
     onTreeToggleClick(): void {
         if (this.expandedWithData == null) {
-        this.expand(this.generateFullData(this.stub));
-    } else {
-        this.collapse();
-    }
-}
-
-    protected onNameClick(): void {
-        if (this.expandedWithData == null) {
-            const newData: SelfDataType = this.generateFullData(this.stub);
-            this.expand(newData);
+            this.expand(this.generateFullData(this.stub));
+        } else {
+            this.collapse();
         }
+    }
+
+    protected onNameClick(): SelfDataType {
+        const data = this.expandedWithData || this.generateFullData(this.stub);
+        this.expand(data);
+        return data;
     }
 }
 

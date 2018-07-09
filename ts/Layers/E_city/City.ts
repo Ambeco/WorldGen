@@ -11,7 +11,7 @@ export class City extends LayerBase<NeighborhoodStub> {
     get layerName() { return "City"; }
 
     constructor(stub: CityStub, rng: Random) {
-        super(stub, stub.setting.approxNeighborhoodCount, rng);
+        super(stub, stub.setting.approxNeighborhoodPopulation, rng);
     }
 
     protected generateSubLayerStub(locationDistribution: NumberRange, raceDistributions: Map<Race, number>, rng: Random): NeighborhoodStub {

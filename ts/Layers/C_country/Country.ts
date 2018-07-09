@@ -11,7 +11,7 @@ export class Country extends LayerBase<RegionStub> {
     get layerName() { return "Country"; }
 
     constructor(stub: CountryStub, rng: Random) {
-        super(stub, stub.setting.approxRegionCount, rng);
+        super(stub, stub.setting.approxRegionPopulation, rng);
     }
 
     protected generateSubLayerStub(locationDistribution: NumberRange, raceDistributions: Map<Race, number>, rng: Random): RegionStub {

@@ -22,7 +22,7 @@ export function getByCDF<T>(position: number, ranges: NumberRange[], values: T[]
         if (position >= range.min && position < range.max)
             return values[i];
     }
-    throw new Error(position + " is out of range of " + ranges[0] + " to " + (ranges[ranges.length - 1].max));
+    throw new Error(position + " is out of range of " + ranges[0].min + " to " + (ranges[ranges.length - 1].max));
 }
 
 export function sumValues<T>(map: Map<T, number>): number {

@@ -5,7 +5,7 @@ import { Race } from "../Universal/Setting/Race.js";
 import { getBiggestValue, getByCDF, sumValues } from "../Util/Distribution.js";
 import { NumberRange } from "../Util/NumberRange.js";
 import { BasePerson } from "../Universal/Person/BasePerson.js";
-import { DEFAULT_PEOPLE_PER_TIER, LAYER_RACE_RERANDOM_STDDEV_RATIO, LAYER_SIZE_RERANDOM_STDDEV_RATIO } from "../Universal/Configuration.js";
+import { DEFAULT_PEOPLE_PER_TIER, LAYER_RACE_RERANDOM_STDDEV_RATIO, LAYER_SIZE_RERANDOM_STDDEV_RATIO, SUBLAYER_COUNT_RANDOM_STDDEV_RATIO } from "../Universal/Configuration.js";
 import { Layer } from "./Layer.js";
 import { nonNull } from "../Util/nonNull.js";
 
@@ -23,16 +23,14 @@ export abstract class LayerBase<StubType extends LayerStub> implements Layer {
     readonly subLayers: StubType[];
     get genericSubLayers(): LayerStub[] { return this.subLayers; }
 
-    constructor(stub: LayerStub, approxSubLayerCount: number, rng: Random) {
+    constructor(stub: LayerStub, approxSubLayerPopulation: number, rng: Random) {
         this.setting = stub.setting;
         this.name = stub.name;
         this.population = sumValues(stub.raceCounts);
         this.raceCounts = stub.raceCounts;
         this.location = stub.location;
         this.people = stub.people;
-        
-        const subLayerCount = approxSubLayerCount > 0 ? rng.nextIntNear(approxSubLayerCount) + 1 : 0;
-        this.subLayerLocations = rng.splitRange(stub.location, subLayerCount, LAYER_SIZE_RERANDOM_STDDEV_RATIO);
+        this.subLayerLocations = this.generateSubLayers(stub, approxSubLayerPopulation, rng);
         this.subLayers = this.generateSubLayerStubs(rng);
         this.addMissingPeople(rng);
         this.randomState = rng.getState();
@@ -44,6 +42,14 @@ export abstract class LayerBase<StubType extends LayerStub> implements Layer {
 
     generateFullData(): Layer {
         return this;
+    }
+
+    protected generateSubLayers(stub: LayerStub, approxSubLayerPopulation: number, rng: Random): NumberRange[] {
+        const subLayerMax = Math.max(this.population, 1);
+        const subLayerEst = Math.max(this.population / approxSubLayerPopulation, 1);
+        const subLayerMin = Math.max(subLayerEst / 2, 1);
+        const subLayerCount = rng.nextIntFromRangeNear(subLayerMin, subLayerMax, subLayerEst, SUBLAYER_COUNT_RANDOM_STDDEV_RATIO);
+        return rng.splitRange(stub.location, subLayerCount, LAYER_SIZE_RERANDOM_STDDEV_RATIO);
     }
 
     private generateSubLayerStubs(rng: Random): StubType[] {

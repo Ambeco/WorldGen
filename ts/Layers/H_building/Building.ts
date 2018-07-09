@@ -13,7 +13,11 @@ export class Building extends LayerBase<NoStub> {
     get layerName() { return "Street"; }
 
     constructor(stub: BuildingStub, rng: Random) {
-        super(stub, 0, rng);
+        super(stub, stub.setting.approxWorldPopulation, rng);
+    }
+
+    protected generateSubLayers(stub: LayerStub, approxSubLayerPopulation: number, rng: Random): NumberRange[] {
+        return [];
     }
 
     protected generateSubLayerStub(locationDistribution: NumberRange, raceDistributions: Map<Race, number>, rng: Random): NoStub {

@@ -12,7 +12,7 @@ export class PersonTreeAdapter extends TreeAdapter<BasePerson, BasePerson> {
     readonly detailsAdapter: PersonDetailsAdapter;
 
     constructor(listItemElement: HTMLLIElement, stub: BasePerson) {
-        super(listItemElement, stub);
+        super(listItemElement, stub, false);
         this.detailsAdapter = new PersonDetailsAdapter();
         this.name.innerText = "Person: " + stub.firstName + " " + stub.familyName;
     }
@@ -37,8 +37,9 @@ export class PersonTreeAdapter extends TreeAdapter<BasePerson, BasePerson> {
         this.collapse();
     }
 
-    onNameClick() {
-        this.expandedWithData = this.stub;
-        this.detailsAdapter.bind(this.stub);
+    onNameClick(): BasePerson {
+        const person = super.onNameClick();
+        this.detailsAdapter.bind(person);
+        return person;
     }
 }

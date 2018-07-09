@@ -82,12 +82,24 @@ export class Random {
 
     nextInt(min: number, max: number): number {
         if (min >= max) throw new Error("min=" + min + " must be less than max=" + max);
-        return min + Math.floor(this.nextPercent() * (max - min));
+        return this.roundToBoundInt(min, max, min + this.nextPercent() * (max - min));
     }
 
     nextIntFromRange(range: NumberRange): number {
         if (range.min >= range.max) throw new Error("min=" + range.min + " must be less than max=" + range.max);
-        return range.min + Math.floor(this.nextPercent() * (range.max - range.min));
+        return this.roundToBoundInt(range.min, range.max, range.min + this.nextPercent() * (range.max - range.min));
+    }
+
+    nextIntFromRangeNear(min: number, max: number, near: number, stddevRatio: number): number {
+        if (min > near) throw new Error("min=" + min + " must be less than near=" + near);
+        if (min > max) throw new Error("near=" + near + " must be less than max=" + max);
+        const nearPercent = (near - min) / (max - min);
+        const rawPercent = this.nextPercentAroundNumber(nearPercent, nearPercent * stddevRatio);
+        return this.roundToBoundInt(min, max, rawPercent * (max - min) + min);
+    }
+
+    private roundToBoundInt(min: number, max: number, result: number): number {
+        return Math.max(min, Math.min(max - 1, Math.round(result)));
     }
 
     nextIntNear(target: number): number {
@@ -150,7 +162,8 @@ export class Random {
             const remainItemCount = splitNWays - i;
             const rangeRemains = range.max - curMin;
             const estimate = rangeRemains / remainItemCount + curMin;
-            const thisMax = this.nextBoundNormalAround(curMin, range.max, estimate, rangeRemains * stddevRatio);
+            const stddev = stddevRatio / remainItemCount;
+            const thisMax = this.nextBoundNormalAround(curMin, range.max, estimate, stddev);
             result[i] = new NumberRange(curMin, thisMax);
             curMin = thisMax;
         }
@@ -168,7 +181,8 @@ export class Random {
             const remainItemCount = splitNWays - i;
             const rangeRemains = range.max - curMin;
             const estimate = rangeRemains / remainItemCount + curMin;
-            const thisMax = this.nextBoundNormalAround(curMin, range.max, estimate, rangeRemains * stddevRatio);
+            const stddev = stddevRatio / remainItemCount;
+            const thisMax = this.nextBoundNormalAround(curMin, range.max, estimate, stddev);
             result[i] = new NumberRange(curMin, thisMax);
             curMin = thisMax;
         }
@@ -178,25 +192,28 @@ export class Random {
     // The split ranges will sum to the old total
     splitMapIntegerValues<T>(map: Map<T, number>, split: NumberRange[], stddevRatio: number): Map<T, number>[] {
         if (split.length == 0) return [];
-        const remains = new Map<T, number>(map); //clone
-        const totalRange = split[split.length - 1].max - split[0].min;
+        const remainingValues = new Map<T, number>(map); //clone
+        const maxPosition = split[split.length - 1].max;
+        let curPosition = split[0].min;
         const result: Map<T, number>[] = [];
         for (let i = 0; i < split.length - 1; i++) {
             const remainMapCount = split.length - i;
             result[i] = new Map<T, number>();
-            for (let element of remains) {
+            for (let element of remainingValues) {
                 const initialValue: number = element[1];
-                const range = (split[i].max - split[i].min);
-                const estimatedPercent = range / totalRange;
+                const thisRange = (split[i].max - split[i].min);
+                const remainingRange = maxPosition - curPosition;
+                const estimatedPercent = thisRange / remainingRange;
                 const thisValue = Math.round(initialValue * this.nextPercentAroundNumber(estimatedPercent, estimatedPercent * stddevRatio));
                 result[i].set(element[0], thisValue);
-                remains.set(element[0], initialValue - thisValue);
+                remainingValues.set(element[0], initialValue - thisValue);
             }
+            curPosition = split[i].max;
         }
         // max out last item
         const lastIdx = split.length - 1;
         result[lastIdx] = new Map<T, number>();
-        for (let element of remains)
+        for (let element of remainingValues)
             result[lastIdx].set(element[0], element[1]);
         return result;
     }
@@ -210,7 +227,8 @@ export class Random {
         const newMap = new Map<T, number>();
         for (let element of oldMap) {
             const aroundValue = element[1] * scaleRatio;
-            const thisValue = Math.round(this.nextBoundNormalAround(0, initTotal, aroundValue, aroundValue * stddevRatio));
+            const stddev = aroundValue * stddevRatio / initTotal;
+            const thisValue = Math.round(this.nextBoundNormalAround(0, initTotal, aroundValue, stddev));
             newMap.set(element[0], thisValue);
         }
         return newMap;

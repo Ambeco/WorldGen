@@ -13,7 +13,7 @@ export class BuildingTreeAdapter extends TreeAdapter<LayerStub, Layer> {
     readonly subLayerBinder: SubLayerBinder<BasePerson, BasePerson>;
 
     constructor(listItemElement: HTMLLIElement, layerStub: LayerStub) {
-        super(listItemElement, layerStub);
+        super(listItemElement, layerStub, layerStub.population > 0);
         this.detailsAdapter = new BuildingDetailsAdapter();
         this.subLayerBinder = BuildingTreeAdapter.subBinder;
         this.name.innerText = "Building: " + layerStub.name;
@@ -24,22 +24,24 @@ export class BuildingTreeAdapter extends TreeAdapter<LayerStub, Layer> {
     }
 
     expand(parent: Layer): void {
-        this.subList.innerText = "";
-        for (let child of parent.people) {
-            const layerItem = this.appendChildRow("person", false);
-            this.subLayerBinder(layerItem, child);
+        if (parent != this.expandedWithData) {
+            this.subList.innerText = "";
+            for (let child of parent.people) {
+                const layerItem = this.appendChildRow("person", false);
+                this.subLayerBinder(layerItem, child);
+            }
+            super.expand(parent);
         }
-        super.expand(parent);
     }
 
     protected generateFullData(stub: LayerStub): Layer {
         return stub.generateFullData();
     }
 
-    onNameClick() {
-        super.onNameClick();
-        if (this.expandedWithData == null) throw new Error("Expanding should have set expandedWithData");
-        this.detailsAdapter.bind(this.expandedWithData);
+    onNameClick(): Layer {
+        const layer = super.onNameClick();
+        this.detailsAdapter.bind(layer);
+        return layer;
     }
 }
 

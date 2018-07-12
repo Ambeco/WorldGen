@@ -2,7 +2,7 @@
 import { Race } from "../Universal/Setting/Race.js";
 import { getBiggestValue, sumValues } from "../Util/Distribution.js";
 import { NumberRange } from "../Util/NumberRange.js";
-import { BasePerson } from "../Universal/Person/BasePerson.js";
+import { PersonStub } from "../Universal/Person/PersonStub.js";
 import { Setting } from "../Universal/Setting/Setting.js";
 import { Layer } from "./Layer.js";
 
@@ -26,7 +26,7 @@ export interface LayerStub {
     readonly location: NumberRange;
     readonly population: number;
     readonly raceCounts: Map<Race, number>;
-    readonly people: BasePerson[];
+    readonly people: PersonStub[];
 
     generateFullData(): Layer;
 }

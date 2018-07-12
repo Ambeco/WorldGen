@@ -1,13 +1,13 @@
-﻿import { BasePerson } from "./BasePerson.js";
+﻿import { PersonStub } from "./PersonStub.js";
 import { Random } from "../../Util/Random.js";
 
 export class Relationship {
-    public readonly fromPerson: BasePerson;
-    public readonly toPerson: BasePerson;
+    public readonly fromPerson: PersonStub;
+    public readonly toPerson: PersonStub;
     public readonly depth: number;
     public readonly traits: number[]; //0-10, one for each OpinionCategory
 
-    constructor(fromPerson: BasePerson, toPerson: BasePerson, rng: Random) {
+    constructor(fromPerson: PersonStub, toPerson: PersonStub, rng: Random) {
         this.fromPerson = fromPerson;
         this.toPerson = toPerson;
     }

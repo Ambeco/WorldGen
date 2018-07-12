@@ -4,7 +4,7 @@ import { Setting } from "../Universal/Setting/Setting.js";
 import { Race } from "../Universal/Setting/Race.js";
 import { getBiggestValue, getByCDF, sumValues } from "../Util/Distribution.js";
 import { NumberRange } from "../Util/NumberRange.js";
-import { BasePerson } from "../Universal/Person/BasePerson.js";
+import { PersonStub } from "../Universal/Person/PersonStub.js";
 import { DEFAULT_PEOPLE_PER_TIER, LAYER_RACE_RERANDOM_STDDEV_RATIO, LAYER_SIZE_RERANDOM_STDDEV_RATIO, SUBLAYER_COUNT_RANDOM_STDDEV_RATIO } from "../Universal/Configuration.js";
 import { Layer } from "./Layer.js";
 import { nonNull } from "../Util/nonNull.js";
@@ -19,7 +19,7 @@ export abstract class LayerBase<StubType extends LayerStub> implements Layer {
     readonly population: number;
     readonly raceCounts: Map<Race, number>;
     readonly subLayerLocations: NumberRange[];
-    readonly people: BasePerson[];
+    readonly people: PersonStub[];
     readonly subLayers: StubType[];
     get genericSubLayers(): LayerStub[] { return this.subLayers; }
 
@@ -70,12 +70,12 @@ export abstract class LayerBase<StubType extends LayerStub> implements Layer {
         }
     }
 
-    protected addPerson(races: Map<Race, number>, rng: Random): BasePerson {
+    protected addPerson(races: Map<Race, number>, rng: Random): PersonStub {
         const location: number = rng.nextNumber(this.location.min, this.location.max);
         const subLayer: LayerStub = getByCDF(location, this.subLayerLocations, this.subLayers);
         const race = rng.nextWeightedKey(races);
         const fame = this.generateFameForHero(rng);
-        const person = new BasePerson(location, race, fame, rng);
+        const person = new PersonStub(location, race, fame, rng);
         subLayer.people.push(person);
         this.people.push(person);
         return person;

@@ -39,6 +39,30 @@ export class Random {
         return result + 0.5;
     }
 
+    nextNumber(min: number, max: number): number {
+        if (min >= max) throw new Error("min=" + min + " must be less than max=" + max);
+        return min + this.nextPercent() * (max - min);
+    }
+
+    nextNumberFromRange(range: NumberRange): number {
+        if (range.min >= range.max) throw new Error("min=" + range.min + " must be less than max=" + range.max);
+        return range.min + this.nextPercent() * (range.max - range.min);
+    }
+
+    nextInt(min: number, max: number): number {
+        if (min >= max) throw new Error("min=" + min + " must be less than max=" + max);
+        return this.roundToBoundInt(min, max, min + this.nextPercent() * (max - min));
+    }
+
+    nextIntFromRange(range: NumberRange): number {
+        if (range.min >= range.max) throw new Error("min=" + range.min + " must be less than max=" + range.max);
+        return this.roundToBoundInt(range.min, range.max, range.min + this.nextPercent() * (range.max - range.min));
+    }
+
+    nextIntNear(target: number): number {
+        return this.nextInt(0, target) + this.nextInt(0, target);
+    }
+
     //from https://stackoverflow.com/a/49434653/845092
     private nextBoundNormalRaw(min: number, max: number, skew: number, stddev: number): number {
         if (min >= max) throw new Error("min=" + min + " must be less than max=" + max);
@@ -70,26 +94,6 @@ export class Random {
         return this.nextBoundNormalRaw(min, max, skew, stddev);
     }
 
-    nextNumber(min: number, max: number): number {
-        if (min >= max) throw new Error("min=" + min + " must be less than max=" + max);
-        return min + this.nextPercent() * (max - min);
-    }
-
-    nextNumberFromRange(range: NumberRange): number {
-        if (range.min >= range.max) throw new Error("min=" + range.min + " must be less than max=" + range.max);
-        return range.min + this.nextPercent() * (range.max - range.min);
-    }
-
-    nextInt(min: number, max: number): number {
-        if (min >= max) throw new Error("min=" + min + " must be less than max=" + max);
-        return this.roundToBoundInt(min, max, min + this.nextPercent() * (max - min));
-    }
-
-    nextIntFromRange(range: NumberRange): number {
-        if (range.min >= range.max) throw new Error("min=" + range.min + " must be less than max=" + range.max);
-        return this.roundToBoundInt(range.min, range.max, range.min + this.nextPercent() * (range.max - range.min));
-    }
-
     nextIntFromRangeNear(min: number, max: number, near: number, stddevRatio: number): number {
         if (min > near) throw new Error("min=" + min + " must be less than near=" + near);
         if (min > max) throw new Error("near=" + near + " must be less than max=" + max);
@@ -98,12 +102,28 @@ export class Random {
         return this.roundToBoundInt(min, max, rawPercent * (max - min) + min);
     }
 
-    private roundToBoundInt(min: number, max: number, result: number): number {
-        return Math.max(min, Math.min(max - 1, Math.round(result)));
+    /**
+     * Exponential random number generator
+     * you can use it to simulate when an event is going to happen next, given its average rate:
+     * Buses arrive every 30 minutes on average, so that's an average rate of 2 per hour.
+     * I arrive at the bus station, I can use this to generate the next bus ETA:
+     * nextExponential(2); // => 0.3213031016466269 hours, i.e. 19 minutes
+     **/
+    nextExponential(rate: number) {
+        return -Math.log(this.nextPercent()) / rate;
     }
 
-    nextIntNear(target: number): number {
-        return this.nextInt(0, target) + this.nextInt(0, target);
+    /**
+     * Geometric random number generator
+     * Number of failures before the first success, supported on the set {0, 1, 2, 3, ...}
+     **/
+    nextGeometric(successProbability: number) {
+        const rate = -Math.log(1 - successProbability);
+        return Math.floor(this.nextExponential(rate));
+    }
+
+    private roundToBoundInt(min: number, max: number, result: number): number {
+        return Math.max(min, Math.min(max - 1, Math.round(result)));
     }
 
     nextElement<T>(array: T[]): T {

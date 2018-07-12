@@ -6,7 +6,7 @@ import { generateFameForBuildingHero } from "../../Universal/Person/fameGen.js";
 import { LayerBase } from "../LayerBase.js";
 import { NoStub } from "./NoStub.js";
 import { BuildingStub } from "../G_street/BuildingStub.js";
-import { BasePerson } from "../../Universal/Person/BasePerson.js";
+import { PersonStub } from "../../Universal/Person/PersonStub.js";
 import { LayerStub, LayerEnum } from "../LayerStub.js";
 
 export class Building extends LayerBase<NoStub> {
@@ -24,11 +24,11 @@ export class Building extends LayerBase<NoStub> {
         return new NoStub(this.setting, locationDistribution, raceDistributions, rng);
     }
 
-    protected addPerson(races: Map<Race, number>, rng: Random): BasePerson {
+    protected addPerson(races: Map<Race, number>, rng: Random): PersonStub {
         const location: number = rng.nextNumber(this.location.min, this.location.max);
         const race = rng.nextWeightedKey(races);
         const fame = this.generateFameForHero(rng);
-        const person = new BasePerson(location, race, fame, rng);
+        const person = new PersonStub(location, race, fame, rng);
         this.people.push(person);
         return person;
     }

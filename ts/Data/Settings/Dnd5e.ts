@@ -1,9 +1,10 @@
-﻿import { Race, generateNameFn } from "../../Universal/Setting/Race.js";
+﻿import { Race, generateNameFn, generateAgeFn, getAgeCategoryFn } from "../../Universal/Setting/Race.js";
 import { Setting } from "../../Universal/Setting/Setting.js";
 import { orcSyllables, orcSyllableDistribution } from "../NameGen/OrcNameGen.js";
 import { humanSyllables, humanSyllableDistribution } from "../NameGen/HumanNameGen.js";
 import { Random } from "../../Util/Random.js";
 import { PersonalityTraits } from "../../Universal/Person/PersonalityTraits.js";
+import { AgeCategory } from "../../Universal/Person/PersonStub.js";
 
 
 const dragonborn: Race = {
@@ -25,9 +26,10 @@ const dragonborn: Race = {
         stubborn: .7
     }),
     nationalism: 0.1,
-    generateName: function (rng: Random) {
-        return generateNameFn(orcSyllables, orcSyllableDistribution, rng)
-    },
+    generateName: function (rng: Random) { return generateNameFn(orcSyllables, orcSyllableDistribution, rng); },
+    ageCategoryMaximums: { baby: 1, toddler: 4, child: 12, teenager: 17, youngAdult: 24, adult: 39, middleAge: 59, senior: 79, elder: 105 },
+    generateAge: function (fame: number, rng: Random) { return generateAgeFn(105, fame, rng); },
+    getAgeCategory: function (age: number) { return getAgeCategoryFn(age, this.ageCategoryMaximums); },
     toString(): string { return "Dragonborn"; },
 };
 
@@ -50,9 +52,10 @@ const dwarf: Race = {
         stubborn: .7
     }),
     nationalism: 0.1,
-    generateName: function (rng: Random) {
-        return generateNameFn(orcSyllables, orcSyllableDistribution, rng)
-    },
+    generateName: function (rng: Random) { return generateNameFn(orcSyllables, orcSyllableDistribution, rng); },
+    ageCategoryMaximums: { baby: 1, toddler: 4, child: 12, teenager: 17, youngAdult: 24, adult: 39, middleAge: 59, senior: 79, elder: 105 },
+    generateAge: function (fame: number, rng: Random) { return generateAgeFn(105, fame, rng); },
+    getAgeCategory: function (age: number) { return getAgeCategoryFn(age, this.ageCategoryMaximums); },
     toString(): string { return "Dwarf"; },
 };
 
@@ -75,9 +78,10 @@ const elf: Race = {
         stubborn: .7
     }),
     nationalism: 0.1,
-    generateName: function (rng: Random) {
-        return generateNameFn(humanSyllables, humanSyllableDistribution, rng)
-    },
+    generateName: function (rng: Random) { return generateNameFn(humanSyllables, humanSyllableDistribution, rng); },
+    ageCategoryMaximums: { baby: 1, toddler: 4, child: 12, teenager: 17, youngAdult: 24, adult: 39, middleAge: 59, senior: 79, elder: 105 },
+    generateAge: function (fame: number, rng: Random) { return generateAgeFn(105, fame, rng); },
+    getAgeCategory: function (age: number) { return getAgeCategoryFn(age, this.ageCategoryMaximums); },
     toString(): string { return "Elf"; },
 };
 
@@ -100,9 +104,10 @@ const gnome: Race = {
         stubborn: .7
     }),
     nationalism: 0.1,
-    generateName: function (rng: Random) {
-        return generateNameFn(humanSyllables, humanSyllableDistribution, rng)
-    },
+    generateName: function (rng: Random) { return generateNameFn(humanSyllables, humanSyllableDistribution, rng); },
+    ageCategoryMaximums: { baby: 1, toddler: 4, child: 12, teenager: 17, youngAdult: 24, adult: 39, middleAge: 59, senior: 79, elder: 105 },
+    generateAge: function (fame: number, rng: Random) { return generateAgeFn(105, fame, rng); },
+    getAgeCategory: function (age: number) { return getAgeCategoryFn(age, this.ageCategoryMaximums); },
     toString(): string { return "Gnome"; },
 };
 
@@ -125,9 +130,10 @@ const halfElf: Race = {
         stubborn: .7
     }),
     nationalism: 0.1,
-    generateName: function (rng: Random) {
-        return generateNameFn(humanSyllables, humanSyllableDistribution, rng)
-    },
+    generateName: function (rng: Random) { return generateNameFn(humanSyllables, humanSyllableDistribution, rng); },
+    ageCategoryMaximums: { baby: 1, toddler: 4, child: 12, teenager: 17, youngAdult: 24, adult: 39, middleAge: 59, senior: 79, elder: 105 },
+    generateAge: function (fame: number, rng: Random) { return generateAgeFn(105, fame, rng); },
+    getAgeCategory: function (age: number) { return getAgeCategoryFn(age, this.ageCategoryMaximums); },
     toString(): string { return "Half-Elf"; },
 };
 
@@ -150,9 +156,10 @@ const halfOrc: Race = {
         stubborn: .7
     }),
     nationalism: 0.1,
-    generateName: function (rng: Random) {
-        return generateNameFn(orcSyllables, orcSyllableDistribution, rng)
-    },
+    generateName: function (rng: Random) { return generateNameFn(orcSyllables, orcSyllableDistribution, rng); },
+    ageCategoryMaximums: { baby: 1, toddler: 4, child: 12, teenager: 17, youngAdult: 24, adult: 39, middleAge: 59, senior: 79, elder: 105 },
+    generateAge: function (fame: number, rng: Random) { return generateAgeFn(105, fame, rng); },
+    getAgeCategory: function (age: number) { return getAgeCategoryFn(age, this.ageCategoryMaximums); },
     toString(): string { return "Half-Orc"; },
 };
 
@@ -175,9 +182,10 @@ const halfling: Race = {
         stubborn: .7
     }),
     nationalism: 0.1,
-    generateName: function (rng: Random) {
-        return generateNameFn(humanSyllables, humanSyllableDistribution, rng)
-    },
+    generateName: function (rng: Random) { return generateNameFn(humanSyllables, humanSyllableDistribution, rng); },
+    ageCategoryMaximums: { baby: 1, toddler: 4, child: 12, teenager: 17, youngAdult: 24, adult: 39, middleAge: 59, senior: 79, elder: 105 },
+    generateAge: function (fame: number, rng: Random) { return generateAgeFn(105, fame, rng); },
+    getAgeCategory: function (age: number) { return getAgeCategoryFn(age, this.ageCategoryMaximums); },
     toString(): string { return "Halfling"; },
 };
 
@@ -200,9 +208,10 @@ const human: Race = {
         stubborn: .7
     }),
     nationalism: 0.1,
-    generateName: function (rng: Random) {
-        return generateNameFn(humanSyllables, humanSyllableDistribution, rng)
-    },
+    generateName: function (rng: Random) { return generateNameFn(humanSyllables, humanSyllableDistribution, rng); },
+    ageCategoryMaximums: { baby: 1, toddler: 4, child: 12, teenager: 17, youngAdult: 24, adult: 39, middleAge: 59, senior: 79, elder: 105 },
+    generateAge: function (fame: number, rng: Random) { return generateAgeFn(105, fame, rng); },
+    getAgeCategory: function (age: number) { return getAgeCategoryFn(age, this.ageCategoryMaximums); },
     toString(): string { return "Human"; },
 };
 
@@ -225,9 +234,10 @@ const tiefling: Race = {
         stubborn: .7
     }),
     nationalism: 0.1,
-    generateName: function (rng: Random) {
-        return generateNameFn(orcSyllables, orcSyllableDistribution, rng)
-    },
+    generateName: function (rng: Random) { return generateNameFn(orcSyllables, orcSyllableDistribution, rng); },
+    ageCategoryMaximums: { baby: 1, toddler: 4, child: 12, teenager: 17, youngAdult: 24, adult: 39, middleAge: 59, senior: 79, elder: 105 },
+    generateAge: function (fame: number, rng: Random) { return generateAgeFn(105, fame, rng); },
+    getAgeCategory: function (age: number) { return getAgeCategoryFn(age, this.ageCategoryMaximums); },
     toString(): string { return "Tiefling"; },
 };
 

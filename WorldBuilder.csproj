@@ -135,6 +135,7 @@
     <TypeScriptCompile Include="ts\UI\TreeAdapter.ts" />
     <TypeScriptCompile Include="ts\UI\DetailsAdapter.ts" />
     <TypeScriptCompile Include="ts\Universal\Person\fameGen.ts" />
+    <TypeScriptCompile Include="ts\Universal\Person\Gender.ts" />
     <TypeScriptCompile Include="ts\Universal\Setting\Job.ts" />
     <TypeScriptCompile Include="ts\Util\casing.ts" />
     <TypeScriptCompile Include="ts\Util\clarifyError.ts" />
@@ -149,7 +150,7 @@
     <TypeScriptCompile Include="ts\Util\NumberRange.ts" />
     <TypeScriptCompile Include="ts\Universal\Setting\Race.ts" />
     <TypeScriptCompile Include="ts\Data\NameGen\HumanNameGen.ts" />
-    <TypeScriptCompile Include="ts\Universal\Person\BasePerson.ts" />
+    <TypeScriptCompile Include="ts\Universal\Person\PersonStub.ts" />
     <TypeScriptCompile Include="ts\Universal\Person\PersonalityTraits.ts" />
     <TypeScriptCompile Include="ts\Universal\Person\Relationship.ts" />
     <TypeScriptCompile Include="ts\Universal\Zoom.ts" />

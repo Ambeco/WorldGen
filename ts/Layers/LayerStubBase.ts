@@ -2,7 +2,7 @@
 import { Race } from "../Universal/Setting/Race.js";
 import { getBiggestValue, sumValues } from "../Util/Distribution.js";
 import { NumberRange } from "../Util/NumberRange.js";
-import { BasePerson } from "../Universal/Person/BasePerson.js";
+import { PersonStub } from "../Universal/Person/PersonStub.js";
 import { Setting } from "../Universal/Setting/Setting.js";
 import { LayerStub, LayerEnum } from "./LayerStub.js";
 import { Layer } from "./Layer.js";
@@ -16,7 +16,7 @@ export abstract class LayerStubBase implements LayerStub {
     readonly location: NumberRange;
     readonly population: number;
     readonly raceCounts: Map<Race, number>;
-    readonly people: BasePerson[];
+    readonly people: PersonStub[];
 
     constructor(setting: Setting, location: NumberRange, raceCounts: Map<Race, number>, rng: Random) {
         const primaryRace: [Race, number] = getBiggestValue(raceCounts);

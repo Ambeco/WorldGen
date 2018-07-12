@@ -1,6 +1,6 @@
 ﻿import { Continent } from "../Layers/B_continent/Continent.js";
 import { castHTMLSpanElement, castHTMLDivElement, castHTMLUListElement, castHTMLElement, castHTMLTableElement, castHTMLLIElement } from "../Util/HtmlCasts.js";
-import { BasePerson } from "../Universal/Person/BasePerson.js";
+import { PersonStub } from "../Universal/Person/PersonStub.js";
 import { toCamelCase, toTitleCase } from "../Util/casing.js";
 import { LayerDetailsAdapter } from "./DetailsAdapter.js";
 import { TreeAdapter } from "./TreeAdapter.js";
@@ -8,16 +8,16 @@ import { LayerStub } from "../Layers/LayerStub.js";
 import { Layer } from "../Layers/Layer.js";
 import { PersonDetailsAdapter } from "./PersonDetailsAdapter.js";
 
-export class PersonTreeAdapter extends TreeAdapter<BasePerson, BasePerson> {
+export class PersonTreeAdapter extends TreeAdapter<PersonStub, PersonStub> {
     readonly detailsAdapter: PersonDetailsAdapter;
 
-    constructor(listItemElement: HTMLLIElement, stub: BasePerson) {
+    constructor(listItemElement: HTMLLIElement, stub: PersonStub) {
         super(listItemElement, stub, false);
         this.detailsAdapter = new PersonDetailsAdapter();
         this.name.innerText = "Person: " + stub.firstName + " " + stub.familyName;
     }
 
-    expand(parent: BasePerson): void {
+    expand(parent: PersonStub): void {
         this.collapse();
     }
 
@@ -29,7 +29,7 @@ export class PersonTreeAdapter extends TreeAdapter<BasePerson, BasePerson> {
         this.subList.innerText = "";
     }
 
-    protected generateFullData(stub: BasePerson): BasePerson {
+    protected generateFullData(stub: PersonStub): PersonStub {
         return stub;
     }
 
@@ -37,7 +37,7 @@ export class PersonTreeAdapter extends TreeAdapter<BasePerson, BasePerson> {
         this.collapse();
     }
 
-    onNameClick(): BasePerson {
+    onNameClick(): PersonStub {
         const person = super.onNameClick();
         this.detailsAdapter.bind(person);
         return person;

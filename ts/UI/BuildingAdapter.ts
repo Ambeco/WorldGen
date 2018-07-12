@@ -1,5 +1,5 @@
 ﻿import { createHTMLElement, castHTMLElement } from "../Util/HtmlCasts.js";
-import { BasePerson } from "../Universal/Person/BasePerson.js";
+import { PersonStub } from "../Universal/Person/PersonStub.js";
 import { LayerDetailsAdapter } from "./DetailsAdapter.js";
 import { TreeAdapter, SubLayerBinder } from "./TreeAdapter.js";
 import { LayerStub, LayerEnum } from "../Layers/LayerStub.js";
@@ -10,7 +10,7 @@ import { toTitleCase } from "../Util/casing.js";
 
 export class BuildingTreeAdapter extends TreeAdapter<LayerStub, Layer> {
     readonly detailsAdapter: LayerDetailsAdapter;
-    readonly subLayerBinder: SubLayerBinder<BasePerson, BasePerson>;
+    readonly subLayerBinder: SubLayerBinder<PersonStub, PersonStub>;
 
     constructor(listItemElement: HTMLLIElement, layerStub: LayerStub) {
         super(listItemElement, layerStub, layerStub.population > 0);
@@ -19,7 +19,7 @@ export class BuildingTreeAdapter extends TreeAdapter<LayerStub, Layer> {
         this.name.innerText = "Building: " + layerStub.name;
     }
 
-    static subBinder(listItemElement: HTMLLIElement, person: BasePerson): PersonTreeAdapter {
+    static subBinder(listItemElement: HTMLLIElement, person: PersonStub): PersonTreeAdapter {
         return new PersonTreeAdapter(listItemElement, person);
     }
 

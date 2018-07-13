@@ -38,10 +38,16 @@ export function generateNameFn(syllables: String[], syllableDistribution: number
     return toTitleCase(result);
 } 
 
-export function generateAgeFn(elderAge: number, fame: LayerEnum, rng: Random): number {
-    const deathRate = 1.5 / elderAge;
+export function generateAgeFn(ageCategoryMaximums: AgeMaximums, fame: LayerEnum, rng: Random): number {
+    const deathRate = 1.5 / ageCategoryMaximums.elder;
     const rawAge = rng.nextGeometric(deathRate);
-    return rawAge % elderAge;
+    if (fame == LayerEnum.World || fame == LayerEnum.Continent) {
+        return rawAge % (ageCategoryMaximums.elder - ageCategoryMaximums.adult) + ageCategoryMaximums.adult;
+    } else if (fame != LayerEnum.Building) {
+        return rawAge % (ageCategoryMaximums.elder - ageCategoryMaximums.teenager) + ageCategoryMaximums.teenager;
+    } else {
+        return rawAge % ageCategoryMaximums.elder;
+    }
 }
 
 export function getAgeCategoryFn(age: number, ageCategoryMaximums: AgeMaximums): AgeCategory {

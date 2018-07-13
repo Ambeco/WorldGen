@@ -4,7 +4,6 @@ import { Setting } from "../../Universal/Setting/Setting.js";
 import { Race } from "../../Universal/Setting/Race.js";
 import { NumberRange } from "../../Util/NumberRange.js";
 import { LAYER_RACE_RERANDOM_STDDEV_RATIO, LAYER_SIZE_RERANDOM_STDDEV_RATIO } from "../../Universal/Configuration.js";
-import { generateFameForWorldHero } from "../../Universal/Person/fameGen.js";
 import { LayerBase } from "../LayerBase.js";
 import { LayerStub, LayerEnum } from "../LayerStub.js";
 import { getBiggestValue, sumValues } from "../../Util/Distribution.js";
@@ -37,9 +36,5 @@ export class World extends LayerBase<ContinentStub> {
 
     protected generateSubLayerStub(locationDistribution: NumberRange, raceDistributions: Map<Race, number>, rng: Random): ContinentStub {
         return new ContinentStub(this.setting, locationDistribution, raceDistributions, rng);
-    }
-
-    protected generateFameForHero(rng: Random): number {
-        return generateFameForWorldHero(this.population, rng);
     }
 }

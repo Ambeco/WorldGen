@@ -134,7 +134,6 @@
     <TypeScriptCompile Include="ts\UI\LayerAdapter.ts" />
     <TypeScriptCompile Include="ts\UI\TreeAdapter.ts" />
     <TypeScriptCompile Include="ts\UI\DetailsAdapter.ts" />
-    <TypeScriptCompile Include="ts\Universal\Person\fameGen.ts" />
     <TypeScriptCompile Include="ts\Universal\Person\Gender.ts" />
     <TypeScriptCompile Include="ts\Universal\Setting\Job.ts" />
     <TypeScriptCompile Include="ts\Util\casing.ts" />

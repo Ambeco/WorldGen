@@ -38,8 +38,6 @@ export abstract class LayerBase<StubType extends LayerStub> implements Layer {
 
     protected abstract generateSubLayerStub(locationDistribution: NumberRange, raceDistributions: Map<Race, number>, rng: Random): StubType;
 
-    protected abstract generateFameForHero(rng: Random): number;
-
     generateFullData(): Layer {
         return this;
     }
@@ -74,7 +72,7 @@ export abstract class LayerBase<StubType extends LayerStub> implements Layer {
         const location: number = rng.nextNumber(this.location.min, this.location.max);
         const subLayer: LayerStub = getByCDF(location, this.subLayerLocations, this.subLayers);
         const race = rng.nextWeightedKey(races);
-        const fame = this.generateFameForHero(rng);
+        const fame = this.layer;
         const person = new PersonStub(location, race, fame, rng);
         subLayer.people.push(person);
         this.people.push(person);

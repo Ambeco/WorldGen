@@ -2,6 +2,7 @@
 import { toTitleCase } from "../../Util/casing.js";
 import { PersonalityTraits } from "../Person/PersonalityTraits.js";
 import { AgeCategory } from "../Person/PersonStub.js";
+import { LayerEnum } from "../../Layers/LayerStub.js";
 
 export interface AgeMaximums {
     baby: number;
@@ -25,7 +26,7 @@ export interface Race {
     readonly ageCategoryMaximums: AgeMaximums;
 
     generateName(rng: Random): string; //My name is 'Steve'
-    generateAge(fame: number, rng: Random): number; 
+    generateAge(fame: LayerEnum, rng: Random): number; 
     getAgeCategory(age: number): AgeCategory;
     toString(): string; // America
 }
@@ -37,7 +38,7 @@ export function generateNameFn(syllables: String[], syllableDistribution: number
     return toTitleCase(result);
 } 
 
-export function generateAgeFn(elderAge: number, fame: number, rng: Random): number {
+export function generateAgeFn(elderAge: number, fame: LayerEnum, rng: Random): number {
     const deathRate = 1.5 / elderAge;
     const rawAge = rng.nextGeometric(deathRate);
     return rawAge % elderAge;

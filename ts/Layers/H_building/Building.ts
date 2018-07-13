@@ -2,7 +2,6 @@
 import { Setting } from "../../Universal/Setting/Setting.js";
 import { Race } from "../../Universal/Setting/Race.js";
 import { NumberRange } from "../../Util/NumberRange.js";
-import { generateFameForBuildingHero } from "../../Universal/Person/fameGen.js";
 import { LayerBase } from "../LayerBase.js";
 import { NoStub } from "./NoStub.js";
 import { BuildingStub } from "../G_street/BuildingStub.js";
@@ -27,13 +26,8 @@ export class Building extends LayerBase<NoStub> {
     protected addPerson(races: Map<Race, number>, rng: Random): PersonStub {
         const location: number = rng.nextNumber(this.location.min, this.location.max);
         const race = rng.nextWeightedKey(races);
-        const fame = this.generateFameForHero(rng);
-        const person = new PersonStub(location, race, fame, rng);
+        const person = new PersonStub(location, race, LayerEnum.Building, rng);
         this.people.push(person);
         return person;
-    }
-
-    protected generateFameForHero(rng: Random): number {
-        return generateFameForBuildingHero(this.population, rng);
     }
 }

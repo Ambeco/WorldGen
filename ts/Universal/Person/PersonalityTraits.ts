@@ -2,6 +2,7 @@
 import { NumberRange } from "../../Util/NumberRange.js";
 
 // on a scale of 0.0 to 1.0
+//TODO: Switch to MixxBryers. It's dumb, but simple.
 export interface TraitData {
     readonly adventurious: number;
     readonly attractive: number;
@@ -17,17 +18,17 @@ export interface TraitData {
 }
 
 export class PersonalityTraits implements TraitData {
-    public readonly adventurious: number;
-    public readonly attractive: number;
-    public readonly clever: number;
-    public readonly creative: number;
-    public readonly cultured: number;
-    public readonly empathetic: number;
-    public readonly lawful: number;
-    public readonly loyal: number;
-    public readonly knowledgable: number;
-    public readonly passionate: number;
-    public readonly stubborn: number;
+    readonly adventurious: number;
+    readonly attractive: number;
+    readonly clever: number;
+    readonly creative: number;
+    readonly cultured: number;
+    readonly empathetic: number;
+    readonly lawful: number;
+    readonly loyal: number;
+    readonly knowledgable: number;
+    readonly passionate: number;
+    readonly stubborn: number;
 
     constructor(adventurious: number, attractive: number, clever: number,
         creative: number, cultured: number, empathetic: number,

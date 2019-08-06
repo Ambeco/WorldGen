@@ -1,40 +1,31 @@
-﻿import { ContinentStub } from "./ContinentStub.js";
-import { Random } from "../../Util/Random.js";
+﻿import { Random, RandomState, mergeStateWithCoordinate } from "../../Util/Random.js";
+import { Coordinate } from "../../Universal/Coordinate.js";
 import { Setting } from "../../Universal/Setting/Setting.js";
-import { Race } from "../../Universal/Setting/Race.js";
-import { NumberRange } from "../../Util/NumberRange.js";
-import { LAYER_RACE_RERANDOM_STDDEV_RATIO, LAYER_SIZE_RERANDOM_STDDEV_RATIO } from "../../Universal/Configuration.js";
-import { LayerBase } from "../LayerBase.js";
-import { LayerStub, LayerEnum } from "../LayerStub.js";
-import { getBiggestValue, sumValues } from "../../Util/Distribution.js";
-import { Layer } from "../Layer.js";
+import { ContinentDetails } from "../B_continent/ContinentDetails.js";
+import { ContinentHeader, generateContinentHeader } from "../B_continent/ContinentHeaders.js";
 
-export class World extends LayerBase<ContinentStub> {
-    get layer() { return LayerEnum.World; }
+export class World {
+    readonly name: string;
+    readonly randomState: RandomState;
+    readonly setting: Setting;
 
     constructor(setting: Setting, rng: Random) {
-        super(World.generateWorldStub(setting, rng), setting.approxContinentPopulation, rng);
+        this.setting = setting;
+        this.name = setting.generateWorldName(rng);
+
+        this.randomState = rng.getState();
     }
 
-    private static generateWorldStub(setting: Setting, rng: Random): LayerStub {
-        const primaryRace: [Race, number] = getBiggestValue(setting.raceCounts);
-        const discardableResizer = rng.randomizeAndSplitRange(new NumberRange(0, setting.approxWorldSize), setting.approxContinentCount, LAYER_SIZE_RERANDOM_STDDEV_RATIO);
-        const counts = rng.rerandomMapValues(setting.raceCounts, setting.approxWorldPopulation, LAYER_RACE_RERANDOM_STDDEV_RATIO);
-        const result: LayerStub = {
-            layer: LayerEnum.World,
-            name: primaryRace[0].generateName(rng),
-            randomState: rng.getState(),
-            setting: setting,
-            location: new NumberRange(0, discardableResizer[setting.approxContinentCount - 1].max),
-            population: sumValues(counts),
-            raceCounts: counts,
-            people: [],
-            generateFullData(): Layer { throw new Error("Stub"); }
-        };
-        return result;
+    public normalizeContinentCoordinate(approxCoordinate: Coordinate): Coordinate {
+        const avgContinentWidth = this.setting.avgContinentWidth;
+        const normX = Math.round(approxCoordinate.x / avgContinentWidth) * avgContinentWidth;
+        const normY = Math.round(approxCoordinate.y / avgContinentWidth) * avgContinentWidth;
+        return new Coordinate(normX, normY);
     }
 
-    protected generateSubLayerStub(locationDistribution: NumberRange, raceDistributions: Map<Race, number>, rng: Random): ContinentStub {
-        return new ContinentStub(this.setting, locationDistribution, raceDistributions, rng);
+    public generateContinentHeader(approxCoordinate: Coordinate): ContinentHeader {
+        const normCoordinate: Coordinate = this.normalizeContinentCoordinate(approxCoordinate);
+        const rng = new Random(mergeStateWithCoordinate(this.randomState, normCoordinate));
+        return generateContinentHeader(this.setting, normCoordinate, rng);
     }
 }

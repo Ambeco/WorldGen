@@ -1,36 +1,39 @@
 ﻿import { Race } from "./Race.js";
+import { Random } from "../../Util/Random";
+
+export type Meters = number & { __metersBrand: any };
+export function Meters(i: number): Meters { return i as Meters; }
+
+export type SqMeters = number & { __sqMetersBrand: any };
+export function SqMeters(i: number): SqMeters { return i as SqMeters; }
+
+export type ContinentHeightPercent = number & { __continentHeightPercentBrand: any };
+export function ContinentHeightPercent(i: number): ContinentHeightPercent { return i as ContinentHeightPercent; }
 
 export class Setting {
-    public readonly name: string;
-    public readonly races: Race[];
-    public readonly raceCounts: Map<Race, number>;
+    readonly name: string;
+    readonly races: Race[];
+    readonly raceCounts: Map<Race, number>;
 
-    public get approxContinentCount() { return 3; }
-    public get approxCountryCount() { return 10; }
-    public get approxRegionCount() { return 3; }
-    public get approxCityCount() { return 10; }
-    public get approxNeighborhoodCount() { return 13; }
-    public get approxStreetCount() { return 7; }
-    public get approxBuildingCount() { return 15; }
+    //https://www.google.com/search?q=hadley+cells&rlz=1C1CHBF_enUS795US795&oq=hadley+cell&aqs=chrome.0.69i59j69i57j69i60j0l3.1850j0j4&sourceid=chrome&ie=UTF-8
+    //Hadley Cells drive rainfall and tradewinds
+    public get hadleyCellDistance(): Meters { return Meters(this.avgContinentWidth * 2); }
+    //Distance between hottest continents and Coldest continents
+    public get equatorToPoleDistance(): Meters { return Meters(this.avgContinentWidth * 8); }
+    public get maxContinentElevation(): Meters { return Meters(4500); }
+    public get minContinentElevation(): Meters { return Meters(-6000); }
+    public get maxMountainRangeHeight(): Meters { return Meters(8000); }
+    public get minMountainHeight(): Meters { return Meters(600); }
+    public get oceanLevelPercent(): ContinentHeightPercent { return ContinentHeightPercent(.7); }
+    
+    public get avgContinentArea(): SqMeters { return SqMeters(184826732000); } //washington state in m^2
+    public get avgContinentAreaRatio(): number { return 6; } //how much bigger one continent can be than another
+    public get avgContinentWidth(): Meters { return Meters(Math.sqrt(this.avgContinentArea)); }
 
-    public get approxWorldPopulation(): number { return this.approxContinentPopulation * this.approxContinentCount; } // default is 1'228'500
-    public get approxContinentPopulation(): number { return this.approxCountryPopulation * this.approxCountryCount; }
-    public get approxCountryPopulation(): number { return this.approxRegionPopulation * this.approxRegionCount; }
-    public get approxRegionPopulation(): number { return this.approxCityPopulation * this.approxCityCount; }
-    public get approxCityPopulation(): number { return this.approxNeighborhoodPopulation * this.approxNeighborhoodCount; }
-    public get approxNeighborhoodPopulation(): number { return this.approxStreetPopulation * this.approxStreetCount; }
-    public get approxStreetPopulation(): number { return this.approxBuildingPopulation * this.approxBuildingCount; }
-    public get approxBuildingPopulation(): number { return 3; }
-
-    // sublayers may not fill 100% of parent. Namely, continents don't cover the whole world. There's also Oceans.
-    public get approxWorldSize() { return 1969000000; } //earth in miles
-    public get approxContinentSize() { return 9540000; } //north america in sq mi
-    public get approxCountrySize() { return this.approxCountryPopulation / this.approxContinentPopulation * this.approxContinentSize; } //default is 954'000 sq mi
-    public get approxRegionSize() { return this.approxRegionPopulation / this.approxCountryPopulation * this.approxCountrySize; } //default is 318'000 sq mi
-    public get approxCitySize() { return 84; } //seattle in sq mi
-    public get approxNeighborhoodSize() { return this.approxNeighborhoodPopulation / this.approxCityPopulation * this.approxCitySize; } //6.146 sq mi
-    public get approxStreetSize() { return this.approxStreetPopulation / this.approxNeighborhoodPopulation * this.approxNeighborhoodSize; } //616'359 sq ft
-    public get approxBuildingSize() { return 5.552686e-5; } //my apartment size
+    public generateWorldName(rng: Random) {
+        const race = rng.nextWeightedKey(this.raceCounts);
+        return race.generateName(rng);
+    }
 
     constructor(name: string, races: Race[], raceCounts: Map<Race, number>) {
         this.name = name;

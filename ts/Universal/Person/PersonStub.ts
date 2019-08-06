@@ -1,10 +1,9 @@
-﻿import { Relationship } from "./Relationship.js";
-import { Random } from "../../Util/Random.js";
-import { Race } from "../Setting/Race.js";
+﻿import { Random } from "../../Util/Random.js";
+import { Race, FameLevelEnum } from "../Setting/Race.js";
 import { PersonalityTraits } from "./PersonalityTraits.js";
 import { JobCategory } from "../Setting/Job.js";
 import { Gender } from "./Gender.js";
-import { LayerEnum } from "../../Layers/LayerStub.js";
+import { Setting } from "../Setting/Setting";
 
 export enum AgeCategory {
     Baby, //0
@@ -19,19 +18,20 @@ export enum AgeCategory {
 }
 
 export class PersonStub {
-    public readonly location: number; //0.0-1.0 
-    public readonly firstName: string;
-    public readonly familyName: string;
-    public readonly race: Race;
-    public readonly gender: Gender;
-    public readonly age: number;
-    public readonly ageCategory: AgeCategory;
-    public readonly jobName: string;
-    public readonly jobCategory: JobCategory;
-    public readonly fame: LayerEnum; //0-100. Roughly: Home is 10+. Street is 20+. Neighborhood is 40+. City is 60+. Country is 80+. Continent is 90+. World is 100.
+    readonly setting: Setting; //0.0-1.0 
+    readonly location: number; //0.0-1.0 
+    readonly firstName: string;
+    readonly familyName: string;
+    readonly race: Race;
+    readonly gender: Gender;
+    readonly age: number;
+    readonly ageCategory: AgeCategory;
+    readonly jobName: string;
+    readonly jobCategory: JobCategory;
+    readonly fame: FameLevelEnum;
     readonly traits: PersonalityTraits;
 
-    constructor(location: number, race: Race, fame: LayerEnum, rng: Random) {
+    constructor(setting: Setting, location: number, race: Race, fame: FameLevelEnum, rng: Random) {
         this.location = location;
         this.firstName = race.generateName(rng);
         this.familyName = race.generateName(rng);

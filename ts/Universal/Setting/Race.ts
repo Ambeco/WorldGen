@@ -2,7 +2,10 @@
 import { toTitleCase } from "../../Util/casing.js";
 import { PersonalityTraits } from "../Person/PersonalityTraits.js";
 import { AgeCategory } from "../Person/PersonStub.js";
-import { LayerEnum } from "../../Layers/LayerStub.js";
+
+export enum FameLevelEnum {
+    World, Continent, Country, City, Town, Neighborhood, Family
+}
 
 export interface AgeMaximums {
     baby: number;
@@ -26,7 +29,7 @@ export interface Race {
     readonly ageCategoryMaximums: AgeMaximums;
 
     generateName(rng: Random): string; //My name is 'Steve'
-    generateAge(fame: LayerEnum, rng: Random): number; 
+    generateAge(fame: FameLevelEnum, rng: Random): number; 
     getAgeCategory(age: number): AgeCategory;
     toString(): string; // America
 }
@@ -38,12 +41,12 @@ export function generateNameFn(syllables: String[], syllableDistribution: number
     return toTitleCase(result);
 } 
 
-export function generateAgeFn(ageCategoryMaximums: AgeMaximums, fame: LayerEnum, rng: Random): number {
+export function generateAgeFn(ageCategoryMaximums: AgeMaximums, fame: FameLevelEnum, rng: Random): number {
     const deathRate = 1.5 / ageCategoryMaximums.elder;
     const rawAge = rng.nextGeometric(deathRate);
-    if (fame == LayerEnum.World || fame == LayerEnum.Continent) {
+    if (fame == FameLevelEnum.World || fame == FameLevelEnum.Continent) {
         return rawAge % (ageCategoryMaximums.elder - ageCategoryMaximums.adult) + ageCategoryMaximums.adult;
-    } else if (fame != LayerEnum.Building) {
+    } else if (fame != FameLevelEnum.Family) {
         return rawAge % (ageCategoryMaximums.elder - ageCategoryMaximums.teenager) + ageCategoryMaximums.teenager;
     } else {
         return rawAge % ageCategoryMaximums.elder;

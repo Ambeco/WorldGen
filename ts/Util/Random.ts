@@ -1,10 +1,33 @@
 ﻿import { NumberRange } from "./NumberRange.js";
 import { logBase } from "./Distribution.js";
+import { Coordinate } from "../Universal/Coordinate";
+
+const mask: number = 0xffffffff;
 
 export interface RandomState {
     readonly m_w: number;
     readonly m_z: number;
 }
+
+export function combine(first: RandomState, hash: number): RandomState {
+    let w: number = (hash + 0x9e3779b9 + (first.m_w << 6) + (first.m_w >> 2)) && mask;
+    let z: number = (hash + 0x9e3779b9 + (first.m_z << 6) + (first.m_z >> 2)) && mask;
+    return { m_w: w, m_z: z };
+}
+
+export function randomStatefromString(str: string): RandomState {
+    let res: RandomState = { m_w: 0, m_z: 987654321 };
+    const len: number = str.length;
+    for (let i = 0; i < len; i++) {
+        res = combine(res, str.charCodeAt(i));
+    }
+    return res;
+}
+
+export function mergeStateWithCoordinate(before: RandomState, coord: Coordinate): RandomState {
+    return combine(combine(before, coord.x), coord.y);
+}
+
 export class Random {
     private m_w: number;
     private m_z: number;
@@ -14,16 +37,6 @@ export class Random {
         this.m_z = state.m_z;
     }
 
-    static fromString(str: string): Random {
-        let res:number = 0;
-        const len: number = str.length;
-        for (let i = 0; i < len; i++) {
-            res = res * 31 + str.charCodeAt(i);
-            res = res & res;
-        }
-        return new Random({ m_w: res, m_z: 987654321 });
-    }
-
     getState(): RandomState {
         return { m_w: this.m_w, m_z: this.m_z };
     }
@@ -31,7 +44,6 @@ export class Random {
     // Returns number between 0 (inclusive) and 1.0 (exclusive),
     // just like Math.random().
     nextPercent(): number {
-        const mask: number = 0xffffffff;
         this.m_z = (36969 * (this.m_z & 65535) + (this.m_z >> 16)) & mask;
         this.m_w = (18000 * (this.m_w & 65535) + (this.m_w >> 16)) & mask;
         let result = ((this.m_z << 16) + this.m_w) & mask;

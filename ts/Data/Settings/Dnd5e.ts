@@ -1,11 +1,10 @@
-﻿import { Race, generateNameFn, generateAgeFn, getAgeCategoryFn } from "../../Universal/Setting/Race.js";
+﻿import { Race, generateNameFn, generateAgeFn, getAgeCategoryFn, FameLevelEnum } from "../../Universal/Setting/Race.js";
 import { Setting } from "../../Universal/Setting/Setting.js";
 import { orcSyllables, orcSyllableDistribution } from "../NameGen/OrcNameGen.js";
 import { humanSyllables, humanSyllableDistribution } from "../NameGen/HumanNameGen.js";
 import { Random } from "../../Util/Random.js";
 import { PersonalityTraits } from "../../Universal/Person/PersonalityTraits.js";
 import { AgeCategory } from "../../Universal/Person/PersonStub.js";
-import { LayerEnum } from "../../Layers/LayerStub.js";
 
 
 const dragonborn: Race = {
@@ -29,7 +28,7 @@ const dragonborn: Race = {
     nationalism: 0.1,
     generateName: function (rng: Random) { return generateNameFn(orcSyllables, orcSyllableDistribution, rng); },
     ageCategoryMaximums: { baby: 0, toddler: 1, child: 3, teenager: 13, youngAdult: 25, adult: 39, middleAge: 49, senior: 69, elder: 85 },
-    generateAge: function (fame: LayerEnum, rng: Random) { return generateAgeFn(this.ageCategoryMaximums, fame, rng); },
+    generateAge: function (fame: FameLevelEnum, rng: Random) { return generateAgeFn(this.ageCategoryMaximums, fame, rng); },
     getAgeCategory: function (age: number) { return getAgeCategoryFn(age, this.ageCategoryMaximums); },
     toString(): string { return "Dragonborn"; },
 };
@@ -55,7 +54,7 @@ const dwarf: Race = {
     nationalism: 0.1,
     generateName: function (rng: Random) { return generateNameFn(orcSyllables, orcSyllableDistribution, rng); },
     ageCategoryMaximums: { baby: 1, toddler: 4, child: 13, teenager: 22, youngAdult: 49, adult: 99, middleAge: 199, senior: 299, elder: 400 },
-    generateAge: function (fame: LayerEnum, rng: Random) { return generateAgeFn(this.ageCategoryMaximums, fame, rng); },
+    generateAge: function (fame: FameLevelEnum, rng: Random) { return generateAgeFn(this.ageCategoryMaximums, fame, rng); },
     getAgeCategory: function (age: number) { return getAgeCategoryFn(age, this.ageCategoryMaximums); },
     toString(): string { return "Dwarf"; },
 };
@@ -81,7 +80,7 @@ const elf: Race = {
     nationalism: 0.1,
     generateName: function (rng: Random) { return generateNameFn(humanSyllables, humanSyllableDistribution, rng); },
     ageCategoryMaximums: { baby: 1, toddler: 4, child: 13, teenager: 22, youngAdult: 99, adult: 235, middleAge: 369, senior: 559, elder: 750 },
-    generateAge: function (fame: LayerEnum, rng: Random) { return generateAgeFn(this.ageCategoryMaximums, fame, rng); },
+    generateAge: function (fame: FameLevelEnum, rng: Random) { return generateAgeFn(this.ageCategoryMaximums, fame, rng); },
     getAgeCategory: function (age: number) { return getAgeCategoryFn(age, this.ageCategoryMaximums); },
     toString(): string { return "Elf"; },
 };
@@ -107,7 +106,7 @@ const gnome: Race = {
     nationalism: 0.1,
     generateName: function (rng: Random) { return generateNameFn(humanSyllables, humanSyllableDistribution, rng); },
     ageCategoryMaximums: { baby: 1, toddler: 4, child: 13, teenager: 22, youngAdult: 39, adult: 125, middleAge: 250, senior: 375, elder: 500 },
-    generateAge: function (fame: LayerEnum, rng: Random) { return generateAgeFn(this.ageCategoryMaximums, fame, rng); },
+    generateAge: function (fame: FameLevelEnum, rng: Random) { return generateAgeFn(this.ageCategoryMaximums, fame, rng); },
     getAgeCategory: function (age: number) { return getAgeCategoryFn(age, this.ageCategoryMaximums); },
     toString(): string { return "Gnome"; },
 };
@@ -133,7 +132,7 @@ const halfElf: Race = {
     nationalism: 0.1,
     generateName: function (rng: Random) { return generateNameFn(humanSyllables, humanSyllableDistribution, rng); },
     ageCategoryMaximums: { baby: 1, toddler: 4, child: 12, teenager: 17, youngAdult: 24, adult: 49, middleAge: 79, senior: 139, elder: 180 },
-    generateAge: function (fame: LayerEnum, rng: Random) { return generateAgeFn(this.ageCategoryMaximums, fame, rng); },
+    generateAge: function (fame: FameLevelEnum, rng: Random) { return generateAgeFn(this.ageCategoryMaximums, fame, rng); },
     getAgeCategory: function (age: number) { return getAgeCategoryFn(age, this.ageCategoryMaximums); },
     toString(): string { return "Half-Elf"; },
 };
@@ -159,7 +158,7 @@ const halfOrc: Race = {
     nationalism: 0.1,
     generateName: function (rng: Random) { return generateNameFn(orcSyllables, orcSyllableDistribution, rng); },
     ageCategoryMaximums: { baby: 1, toddler: 3, child: 7, teenager: 14, youngAdult: 24, adult: 36, middleAge: 49, senior: 69, elder: 80 },
-    generateAge: function (fame: LayerEnum, rng: Random) { return generateAgeFn(this.ageCategoryMaximums, fame, rng); },
+    generateAge: function (fame: FameLevelEnum, rng: Random) { return generateAgeFn(this.ageCategoryMaximums, fame, rng); },
     getAgeCategory: function (age: number) { return getAgeCategoryFn(age, this.ageCategoryMaximums); },
     toString(): string { return "Half-Orc"; },
 };
@@ -185,7 +184,7 @@ const halfling: Race = {
     nationalism: 0.1,
     generateName: function (rng: Random) { return generateNameFn(humanSyllables, humanSyllableDistribution, rng); },
     ageCategoryMaximums: { baby: 1, toddler: 4, child: 12, teenager: 17, youngAdult: 25, adult: 49, middleAge: 85, senior: 129, elder: 170 },
-    generateAge: function (fame: LayerEnum, rng: Random) { return generateAgeFn(this.ageCategoryMaximums, fame, rng); },
+    generateAge: function (fame: FameLevelEnum, rng: Random) { return generateAgeFn(this.ageCategoryMaximums, fame, rng); },
     getAgeCategory: function (age: number) { return getAgeCategoryFn(age, this.ageCategoryMaximums); },
     toString(): string { return "Halfling"; },
 };
@@ -211,7 +210,7 @@ const human: Race = {
     nationalism: 0.1,
     generateName: function (rng: Random) { return generateNameFn(humanSyllables, humanSyllableDistribution, rng); },
     ageCategoryMaximums: { baby: 1, toddler: 4, child: 12, teenager: 17, youngAdult: 24, adult: 39, middleAge: 59, senior: 79, elder: 105 },
-    generateAge: function (fame: LayerEnum, rng: Random) { return generateAgeFn(this.ageCategoryMaximums, fame, rng); },
+    generateAge: function (fame: FameLevelEnum, rng: Random) { return generateAgeFn(this.ageCategoryMaximums, fame, rng); },
     getAgeCategory: function (age: number) { return getAgeCategoryFn(age, this.ageCategoryMaximums); },
     toString(): string { return "Human"; },
 };
@@ -237,7 +236,7 @@ const tiefling: Race = {
     nationalism: 0.1,
     generateName: function (rng: Random) { return generateNameFn(orcSyllables, orcSyllableDistribution, rng); },
     ageCategoryMaximums: { baby: 1, toddler: 4, child: 12, teenager: 17, youngAdult: 24, adult: 42, middleAge: 65, senior: 89, elder: 115 },
-    generateAge: function (fame: LayerEnum, rng: Random) { return generateAgeFn(this.ageCategoryMaximums, fame, rng); },
+    generateAge: function (fame: FameLevelEnum, rng: Random) { return generateAgeFn(this.ageCategoryMaximums, fame, rng); },
     getAgeCategory: function (age: number) { return getAgeCategoryFn(age, this.ageCategoryMaximums); },
     toString(): string { return "Tiefling"; },
 };
